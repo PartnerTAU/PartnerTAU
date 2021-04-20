@@ -6,6 +6,7 @@ import whatsapp from '../../images/whatsapp.png'
 
 /*Check*/
 /*Check*/
+/*check*/
 const customStyles = {
     content : {
       top                   : '50%',
