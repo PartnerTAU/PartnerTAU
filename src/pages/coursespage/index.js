@@ -5,6 +5,7 @@ import Modal from 'react-modal';
 import whatsapp from '../../images/whatsapp.png'
 
 /*Check*/
+/*Check*/
 const customStyles = {
     content : {
       top                   : '50%',
