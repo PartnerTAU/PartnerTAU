@@ -4,8 +4,8 @@ import {Route, Redirect, useHistory} from 'react-router-dom'
 import Modal from 'react-modal';
 import whatsapp from '../../images/whatsapp.png'
 
-
-const customStyles = {
+/*Request accepted Modal Style*/ 
+const RequestAcceptedStyle = {
     content : {
       top                   : '50%',
       left                  : '50%',
@@ -20,7 +20,8 @@ const customStyles = {
     }
   };
 
-  const customStyles1 = {
+  /*Whatsapp Modal Style*/
+  const WhatsappStyle = {
     content : {
       top                   : '50%',
       left                  : '50%',
@@ -41,15 +42,15 @@ function Courses() {
   const [coursenumber,SetNumberCourse] = useState("");
 
   useEffect(() => {
-        if (localStorage.getItem("coursnamber")){
-          SetNumberCourse(localStorage.getItem("coursnamber"));
-          if (!localStorage.getItem("coursname")){
+        if (localStorage.getItem("coursenumber")){
+          SetNumberCourse(localStorage.getItem("coursenumber"));
+          if (!localStorage.getItem("coursename")){
               SetNameCourse("");
           }
         }
-        if (localStorage.getItem("coursname")){
-          SetNameCourse(localStorage.getItem("coursname"));
-          if (!localStorage.getItem("coursnamber")){
+        if (localStorage.getItem("coursename")){
+          SetNameCourse(localStorage.getItem("coursename"));
+          if (!localStorage.getItem("coursenumber")){
             SetNumberCourse("");
         }
         }
@@ -100,28 +101,28 @@ function Courses() {
       <div className="line">
         <div className="box">
           <div style={{fontSize: '32px'}}>מציאת שותפים</div>
-          <div><input type ="text"></input>  גודל קבוצה מבוקש</div>
-          <div><input type ="text"></input>  גודל קבוצה נוכחי</div>
+          <div><input className="inputclass" type ="text"></input>  גודל קבוצה מבוקש</div>
+          <div><input className="inputclass" type ="text"></input>  גודל קבוצה נוכחי</div>
           <button onClick={() => {openModal()}} className="button button1">הגש בקשה</button>
         </div>
         <div className="box">
           <div style={{fontSize: '32px'}}>החלפת קבוצה</div>
-          <div><input type ="text"></input>  מספר קבוצה מבוקש</div>
-          <div><input type ="text"></input>  מספר קבוצה נוכחי</div>
+          <div><input className="inputclass" type ="text"></input>  מספר קבוצה מבוקש</div>
+          <div><input className="inputclass" type ="text"></input>  מספר קבוצה נוכחי</div>
           <button onClick={() => {openModal()}} className="button button1">הגש בקשה</button>
         </div>
         <div className="box">
           <div style={{fontSize: '32px'}}>החלפת קורס</div>
-          <div><input type ="text"></input>  מספר קורס מבוקש</div>
+          <div><input className="inputclass" type ="text"></input>  מספר קורס מבוקש</div>
           <div>או</div>
-          <div><input type ="text"></input>  שם קורס מבוקש</div>
+          <div><input className="inputclass" type ="text"></input>  שם קורס מבוקש</div>
           <button onClick={() => {openModal()}} className="button button1">הגש בקשה</button>
         </div>
       </div>
       <Modal
           isOpen={modalIsOpen}
           onRequestClose={closeModal}
-          style={customStyles}
+          style={RequestAcceptedStyle}
           contentLabel="Example Modal"
         >
         <div className="Modal">
@@ -134,7 +135,7 @@ function Courses() {
         <Modal
           isOpen={modal1IsOpen}
           onRequestClose={closeModal1}
-          style={customStyles1}
+          style={WhatsappStyle}
           contentLabel="Example Modal"
         >
         <div className="Modal2">

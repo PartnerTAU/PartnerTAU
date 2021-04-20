@@ -38,10 +38,10 @@ function Login({props}) {
       <div className="login">
         <p staly={{ marginBottom: "30px" }}>PartnerTAU ברוכים הבאים לאתר</p>
         <div>
-          <input onChange={(w) =>{setUsernameInput(w.target.value)}} type="text"></input>שם משתמש
+          <input className="inputclass" onChange={(w) =>{setUsernameInput(w.target.value)}} type="text"></input>שם משתמש
         </div>
         <div>
-          <input type="password" style={{ marginBottom: "30px" }}></input>סיסמה
+          <input className="inputclass" type="password" style={{ marginBottom: "30px" }}></input>סיסמה
         </div>
         <div className="Row">
           <button className="button button1" onClick={()=>{Redirect('Password')}}>שכחתי סיסמה</button>

@@ -3,6 +3,8 @@ import '../../App.css';
 import {Route, Redirect, useHistory} from 'react-router-dom'
 import Modal from 'react-modal';
 
+
+/* Forgot password modal style*/
 const customStyles = {
     content : {
       top                   : '50%',
@@ -46,7 +48,7 @@ function Password() {
       <div className="login" >
         <p staly={{marginBottom: '30px'}}>איפוס סיסמה </p>
         <div className="col" >    
-            <div><input type ="text"></input>Email</div>
+            <div><input className="inputclass" type ="text"></input>Email</div>
         </div>
       </div>
       <button onClick={()=>{openModal()}} className="button button1">אפס סיסמא</button>

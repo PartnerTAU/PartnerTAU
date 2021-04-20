@@ -29,9 +29,10 @@ function Home() {
         <p staly={{marginBottom: '30px'}}>PartnerTAU ברוכים הבאים לאתר</p>
         <div className="col" >
           <div className="row" >
-              <div><input onChange={(namecours) =>{SetNameCourse(namecours.target.value)}} type ="text"></input>שם קורס</div>
+              <div><input className="inputclass" onChange={(namecours) =>{SetNameCourse(namecours.target.value)}} type ="text"></input>שם קורס</div>
               <div style={{marginLeft: '25px'}}>או</div>
               <div><input 
+              className="inputclass"
               onChange={(numbercours) =>{SetnumberCourse(numbercours.target.value)}} 
               type = "text"
               maxlength="8" 
@@ -39,7 +40,7 @@ function Home() {
                 if (!/[0-9]/.test(event.key)) {
                   event.preventDefault();
                 }
-              }}></input>מספר קורס</div>
+              }}></input >מספר קורס</div>
             </div>
 
             <div><select name="Semester" id="semester" border="50">

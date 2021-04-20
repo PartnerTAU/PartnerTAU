@@ -7,7 +7,8 @@ import { loginConfirmed } from "../../utils/subjects/loginSubject/loginSubject";
 
 import Modal from "react-modal";
 
-const customStyles = {
+/*Sign in modal style*/
+const SignInStyle = {
   content: {
     top: "50%",
     left: "50%",
@@ -20,7 +21,8 @@ const customStyles = {
   },
 };
 
-const customStyles2 = {
+/*About modal style*/
+const AboutStyle = {
   content: {
     top: "50%",
     left: "50%",
@@ -35,8 +37,8 @@ const customStyles2 = {
   },
 };
 
-
-const customStyles1 = {
+/*Contact modal style*/
+const ContactStyle = {
   content: {
     top: "50%",
     left: "50%",
@@ -162,7 +164,7 @@ function NavBar() {
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
-        style={customStyles}
+        style={SignInStyle}
         contentLabel="Example Modal"
       >
         <button className="buttonclose button1" onClick={closeModal}>X</button>
@@ -171,7 +173,7 @@ function NavBar() {
       <Modal 
           isOpen={modal1IsOpen}
           onRequestClose={closeModal1}
-          style={customStyles1}
+          style={ContactStyle}
           contentLabel="Example Modal"
         >
         <div className="Modal">
@@ -179,19 +181,19 @@ function NavBar() {
             <div style={{fontSize: "30px"}}>צור קשר</div>
             <div style={{ marginBottom: "20px" }}></div>
             <div className="row" style={{width: '100%'}}>
-              <div><input type ="text2"></input></div>
+              <div><input className="ContactInput" type ="text"></input></div>
               <div>שם מלא</div>
             </div>
             <div className="row" style={{width: '100%'}}>
-              <div><input type ="text2"></input></div>
+              <div><input className="ContactInput" type ="text"></input></div>
               <div>כתובת מייל</div>
             </div>
             <div className="row" style={{width: '100%'}}>
-              <div><input type ="text2"></input></div>
+              <div><input className="ContactInput" type ="text"></input></div>
               <div>נושא</div>
             </div>
             <div className="row" style={{width: '100%'}}>
-              <div><textarea type ="text2" style={{width: '130px'}}></textarea></div>
+              <div><textarea className="ContactInput" type ="text" style={{width: '130px'}}></textarea></div>
               <div>גוף ההודעה</div>
             </div>
             <div style={{ marginBottom: "20px" }}></div>
@@ -205,7 +207,7 @@ function NavBar() {
       <Modal 
           isOpen={modal2IsOpen}
           onRequestClose={closeModal2}
-          style={customStyles2}
+          style={AboutStyle}
           contentLabel="Example Modal"
         >
         <div className="Modal">

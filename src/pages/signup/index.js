@@ -3,6 +3,7 @@ import '../../App.css';
 import {Route, Redirect, useHistory} from 'react-router-dom'
 import Modal from 'react-modal';
 
+/*Signed up successfully modal style*/
 const customStyles = {
     content : {
       top                   : '50%',
@@ -46,10 +47,10 @@ function SignUp() {
       <div className="login" >
         <p staly={{marginBottom: '30px'}}>PartnerTAU ברוכים הבאים להרשמה לאתר</p>
         <div className="col" >
-            <div><input type ="text"></input>שם פרטי</div>
-            <div><input type ="text"></input>שם משפחה</div>      
-            <div><input type ="text"></input>Email</div>
-            <div><input type ="password"></input>סיסמה</div>
+            <div><input className="inputclass" type ="text"></input>שם פרטי</div>
+            <div><input className="inputclass" type ="text"></input>שם משפחה</div>      
+            <div><input className="inputclass" type ="text"></input>Email</div>
+            <div><input className="inputclass" type ="password"></input>סיסמה</div>
         </div>
       </div>
       <button onClick={()=>{openModal()}} className="button button1">הירשם</button>
