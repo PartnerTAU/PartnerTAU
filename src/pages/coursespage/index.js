@@ -4,7 +4,7 @@ import {Route, Redirect, useHistory} from 'react-router-dom'
 import Modal from 'react-modal';
 import whatsapp from '../../images/whatsapp.png'
 
-
+/*Check*/
 const customStyles = {
     content : {
       top                   : '50%',
