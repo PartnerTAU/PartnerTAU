@@ -48,7 +48,7 @@ function Password() {
       <div className="login" >
         <p staly={{marginBottom: '30px'}}>איפוס סיסמה </p>
         <div className="col" >    
-            <div><input className="inputclass" type ="text"></input>Email</div>
+            <div><input className="inputclass" type ="email" style={{width: '160px'}}></input>Email</div>
         </div>
       </div>
       <button onClick={()=>{openModal()}} className="button button1">אפס סיסמא</button>

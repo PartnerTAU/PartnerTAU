@@ -49,8 +49,8 @@ function SignUp() {
         <div className="col" >
             <div><input className="inputclass" type ="text"></input>שם פרטי</div>
             <div><input className="inputclass" type ="text"></input>שם משפחה</div>      
-            <div><input className="inputclass" type ="text"></input>Email</div>
-            <div><input className="inputclass" type ="password"></input>סיסמה</div>
+            <div><input className="inputclass" type ="email" style={{width: '160px'}}></input>Email</div>
+            <div><input className="inputclass" type ="password" maxLength = "10"></input>סיסמה</div>
         </div>
       </div>
       <button onClick={()=>{openModal()}} className="button button1">הירשם</button>

@@ -101,19 +101,27 @@ function Courses() {
       <div className="line">
         <div className="box">
           <div style={{fontSize: '32px'}}>מציאת שותפים</div>
-          <div><input className="inputclass" type ="text"></input>  גודל קבוצה מבוקש</div>
-          <div><input className="inputclass" type ="text"></input>  גודל קבוצה נוכחי</div>
+          <div><input className="inputclass" type ="number" min="1"></input>  גודל קבוצה מבוקש</div>
+          <div><input className="inputclass" type ="number" min="1"></input>  גודל קבוצה נוכחי</div>
           <button onClick={() => {openModal()}} className="button button1">הגש בקשה</button>
         </div>
         <div className="box">
           <div style={{fontSize: '32px'}}>החלפת קבוצה</div>
-          <div><input className="inputclass" type ="text"></input>  מספר קבוצה מבוקש</div>
-          <div><input className="inputclass" type ="text"></input>  מספר קבוצה נוכחי</div>
+          <div><input className="inputclass" type ="number" min="0"></input>  מספר קבוצה מבוקש</div>
+          <div><input className="inputclass" type ="number" min="0"></input>  מספר קבוצה נוכחי</div>
           <button onClick={() => {openModal()}} className="button button1">הגש בקשה</button>
         </div>
         <div className="box">
           <div style={{fontSize: '32px'}}>החלפת קורס</div>
-          <div><input className="inputclass" type ="text"></input>  מספר קורס מבוקש</div>
+          <div><input className="inputclass" type ="text"
+                maxlength="8" 
+                onKeyPress={(event) => {
+                  if (!/[0-9]/.test(event.key)) {
+                    event.preventDefault();
+                  }
+                }
+              }
+          ></input>  מספר קורס מבוקש</div>
           <div>או</div>
           <div><input className="inputclass" type ="text"></input>  שם קורס מבוקש</div>
           <button onClick={() => {openModal()}} className="button button1">הגש בקשה</button>
@@ -128,7 +136,7 @@ function Courses() {
         <div className="Modal">
         <div>בקשתך התקבלה</div>
         <div style={{marginBottom: "15px" }}></div>
-        <button className="button button1" onClick={closeModal}>close</button>
+        <button className="button button1" onClick={closeModal}>סגור</button>
       
         </div>
         </Modal>
