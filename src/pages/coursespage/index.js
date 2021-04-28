@@ -5,7 +5,6 @@ import Modal from 'react-modal';
 import whatsapp from '../../images/whatsapp.png'
 import { FaBeer } from 'react-icons/fa';
 
-/*check*/
 /*Request accepted Modal Style*/ 
 const RequestAcceptedStyle = {
     content : {
