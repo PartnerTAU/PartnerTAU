@@ -3,7 +3,9 @@ import '../../App.css';
 import {Route, Redirect, useHistory} from 'react-router-dom'
 import Modal from 'react-modal';
 import whatsapp from '../../images/whatsapp.png'
+import { FaBeer } from 'react-icons/fa';
 
+/*check*/
 /*Request accepted Modal Style*/ 
 const RequestAcceptedStyle = {
     content : {
@@ -86,7 +88,17 @@ function Courses() {
         }}/>
   }
 
+  function copyURI(evt) {
+    evt.preventDefault();
+    navigator.clipboard.writeText(evt.target.getAttribute('href')).then(() => {
+      /* clipboard successfully set */
+    }, () => {
+      /* clipboard write failed */
+    });
+}
+  
   return (
+
     <div className="Home">
       <div className="line">
         <div style={{fontSize: '14px'}}>מעודכן לתשפ"א</div>
@@ -147,10 +159,10 @@ function Courses() {
           contentLabel="Example Modal"
         >
         <div className="Modal2">
-        <div>https://chat.whatsapp.com/H5B0nQWQ3DE7FTeDRIPB2h</div>
+        <a href="https://chat.whatsapp.com/H5B0nQWQ3DE7FTeDRIPB2h" rel="noopener noreferrer" target="_blank">Join Whatsapp Group</a>
+        {/* <div> onClick="https://chat.whatsapp.com/H5B0nQWQ3DE7FTeDRIPB2h"</div> */}
         <div style={{marginBottom: "15px" }}></div>
         <button className="button button1" onClick={closeModal1}>סגור</button>
-      
         </div>
         </Modal>
 
