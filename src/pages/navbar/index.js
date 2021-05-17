@@ -4,6 +4,8 @@ import "../../App.css";
 import { Route, Redirect, useHistory } from "react-router-dom";
 import Login from "../loginpage";
 import { loginConfirmed } from "../../utils/subjects/loginSubject/loginSubject";
+import { useForm } from "react-hook-form";
+import {SignOut } from "../../functions/users";
 
 import Modal from "react-modal";
 
@@ -72,6 +74,9 @@ function NavBar() {
   const [buttonString, setButtonString] = useState("");
   const [username, setUsername] = useState("");
 
+  const { register, handleSubmit } = useForm();
+
+
   function openModal() {
     setIsOpen(true);
   }
@@ -107,10 +112,17 @@ function NavBar() {
     );
   }
 
+  // const onSubmit = async (data) => {
+  //   var reponse = await SignOut();
+  //   console.log(reponse);
+  //   signOut();
+  // };
+
   function signOut() {
     if (localStorage.getItem("user")) {
       //Connected
       localStorage.removeItem("user");
+      localStorage.removeItem("token");
       setUsername("");
       Redirect("Home");
     }

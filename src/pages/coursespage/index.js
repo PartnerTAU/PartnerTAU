@@ -3,7 +3,11 @@ import '../../App.css';
 import {Route, Redirect, useHistory} from 'react-router-dom'
 import Modal from 'react-modal';
 import whatsapp from '../../images/whatsapp.png'
-import { FaBeer } from 'react-icons/fa';
+import {CreatePartnerRequest} from '../../functions/serverfunction'
+import {CreateCourseRequest} from '../../functions/serverfunction'
+import {CreateGroupRequest} from '../../functions/serverfunction'
+
+
 
 /*Request accepted Modal Style*/ 
 const RequestAcceptedStyle = {
@@ -41,6 +45,15 @@ function Courses() {
 
   const [coursename,SetNameCourse] = useState("");
   const [coursenumber,SetNumberCourse] = useState("");
+  const [grpcount,Setgrpcount] = useState("");
+  const [reqgrpcount,Setreqgrpcount] = useState("");
+  const [partnerresponse,Setpartnerresponse] = useState("");
+  const [reqcourseid,Setreqcourseid] = useState("");
+  const [courseresponse,Setcourseresponse] = useState("");
+  const [grp,Setgrp] = useState("");
+  const [reqgrp,Setreqgrp] = useState("");
+  const [groupresponse,Setgroupresponse] = useState("");
+
 
   useEffect(() => {
         if (localStorage.getItem("coursenumber")){
@@ -59,20 +72,74 @@ function Courses() {
 
 
   const history = useHistory();
-  const [modalIsOpen,setIsOpen] = useState(false);
+  const [partnermodalIsOpen,partnersetIsOpen] = useState(false);
+  const [coursemodalIsOpen,coursesetIsOpen] = useState(false);
+  const [groupmodalIsOpen,groupsetIsOpen] = useState(false);
   const [modal1IsOpen,setIsOpen1] = useState(false);
 
-  function openModal(){
-    setIsOpen(true);
+  async function OnClickPartner (){
+    //lets oprate function from function page
+    let response = await CreatePartnerRequest(grpcount, reqgrpcount);
+    if (response && response == true){
+      Setpartnerresponse("הוגש בהצלחה")
+    }
+    else{
+      Setpartnerresponse("טעות בהזנת הבקשה. אנא נסה שנית")
+    }
+    partnersetIsOpen(true);
 }
+
+async function OnClickCourse (){
+  //lets oprate function from function page
+  let response = await CreateCourseRequest(reqcourseid);
+  if (response && response == true){
+    Setcourseresponse("הוגש בהצלחה")
+  }
+  else{
+    Setcourseresponse("טעות בהזנת הבקשה. אנא נסה שנית")
+  }
+  coursesetIsOpen(true);
+}
+
+async function OnClickGroup (){
+  //lets oprate function from function page
+  let response = await CreateGroupRequest(grp, reqgrp);
+  if (response && response == true){
+    Setgroupresponse("הוגש בהצלחה")
+  }
+  else{
+    Setgroupresponse("טעות בהזנת הבקשה. אנא נסה שנית")
+  }
+  groupsetIsOpen(true);
+}
+
+  function openpartnerModal(){
+    partnersetIsOpen(true);
+  }
+
+  function opencourseModal(){
+    coursesetIsOpen(true);
+  }
+
+  function opengroupModal(){
+    groupsetIsOpen(true);
+  }
+
 
   function openModal1(){
     setIsOpen1(true);
   }
 
+  function closepartnerModal(){
+    partnersetIsOpen(false);
+  }
 
-  function closeModal(){
-    setIsOpen(false);
+  function closecourseModal(){
+    coursesetIsOpen(false);
+  }
+
+  function closegroupModal(){
+    groupsetIsOpen(false);
   }
 
   function closeModal1(){
@@ -86,15 +153,6 @@ function Courses() {
       pathname:'/'+page
         }}/>
   }
-
-  function copyURI(evt) {
-    evt.preventDefault();
-    navigator.clipboard.writeText(evt.target.getAttribute('href')).then(() => {
-      /* clipboard successfully set */
-    }, () => {
-      /* clipboard write failed */
-    });
-}
   
   return (
 
@@ -112,19 +170,19 @@ function Courses() {
       <div className="line">
         <div className="box">
           <div style={{fontSize: '32px'}}>מציאת שותפים</div>
-          <div><input className="inputclass" type ="number" min="1"></input>  גודל קבוצה מבוקש</div>
-          <div><input className="inputclass" type ="number" min="1"></input>  גודל קבוצה נוכחי</div>
-          <button onClick={() => {openModal()}} className="button button1">הגש בקשה</button>
+          <div><input className="inputclass" value = {reqgrpcount} type ="text" pattern="\d+" onChange = {(e) => {Setreqgrpcount(e.target.value)}}></input>  גודל קבוצה מבוקש</div>
+          <div><input className="inputclass" value = {grpcount} type ="text" pattern="\d*" onChange = {(e) => {Setgrpcount(e.target.value)}}></input>  גודל קבוצה נוכחי</div>
+          <button onClick={() => OnClickPartner()} className="button button1">הגש בקשה</button>
         </div>
         <div className="box">
           <div style={{fontSize: '32px'}}>החלפת קבוצה</div>
-          <div><input className="inputclass" type ="number" min="0"></input>  מספר קבוצה מבוקש</div>
-          <div><input className="inputclass" type ="number" min="0"></input>  מספר קבוצה נוכחי</div>
-          <button onClick={() => {openModal()}} className="button button1">הגש בקשה</button>
+          <div><input className="inputclass" value = {reqgrp} type ="text" onChange = {(e) => {Setreqgrp(e.target.value)}}></input>  מספר קבוצה מבוקש</div>
+          <div><input className="inputclass" value = {grp} type ="text" onChange = {(e) => {Setgrp(e.target.value)}}></input>  מספר קבוצה נוכחי</div>
+          <button onClick={() => OnClickGroup()} className="button button1">הגש בקשה</button>
         </div>
         <div className="box">
           <div style={{fontSize: '32px'}}>החלפת קורס</div>
-          <div><input className="inputclass" type ="text"
+          <div><input className="inputclass" value = {reqcourseid} onChange = {(e) => {Setreqcourseid(e.target.value)}} type ="text"
                 maxlength="8" 
                 onKeyPress={(event) => {
                   if (!/[0-9]/.test(event.key)) {
@@ -132,25 +190,51 @@ function Courses() {
                   }
                 }
               }
-          ></input>  מספר קורס מבוקש</div>
+          ></input >  מספר קורס מבוקש</div>
           <div>או</div>
           <div><input className="inputclass" type ="text"></input>  שם קורס מבוקש</div>
-          <button onClick={() => {openModal()}} className="button button1">הגש בקשה</button>
+          <button onClick={() => OnClickCourse()} className="button button1">הגש בקשה</button>
         </div>
       </div>
       <Modal
-          isOpen={modalIsOpen}
-          onRequestClose={closeModal}
+          isOpen={partnermodalIsOpen}
+          onRequestClose={closepartnerModal}
           style={RequestAcceptedStyle}
           contentLabel="Example Modal"
         >
         <div className="Modal">
-        <div>בקשתך התקבלה</div>
+        <div>{partnerresponse}</div>
         <div style={{marginBottom: "15px" }}></div>
-        <button className="button button1" onClick={closeModal}>סגור</button>
-      
+        <button className="button button1" onClick={() => closepartnerModal()}>סגור</button>
         </div>
         </Modal>
+
+        <Modal
+          isOpen={coursemodalIsOpen}
+          onRequestClose={closecourseModal}
+          style={RequestAcceptedStyle}
+          contentLabel="Example Modal"
+        >
+        <div className="Modal">
+        <div>{courseresponse}</div>
+        <div style={{marginBottom: "15px" }}></div>
+        <button className="button button1" onClick={() => closecourseModal()}>סגור</button>
+        </div>
+        </Modal>
+
+        <Modal
+          isOpen={groupmodalIsOpen}
+          onRequestClose={closegroupModal}
+          style={RequestAcceptedStyle}
+          contentLabel="Example Modal"
+        >
+        <div className="Modal">
+        <div>{groupresponse}</div>
+        <div style={{marginBottom: "15px" }}></div>
+        <button className="button button1" onClick={() => closegroupModal()}>סגור</button>
+        </div>
+        </Modal>
+
         <Modal
           isOpen={modal1IsOpen}
           onRequestClose={closeModal1}
