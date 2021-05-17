@@ -11,8 +11,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
-//check
-
 function authLogic(req, res, next) {
   try {
     security
