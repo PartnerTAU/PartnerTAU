@@ -1,7 +1,7 @@
 const mysql = require('mysql')
 const util = require('util');
 
-
+//check
 //This class intializing mysql credantials, nothing you need to know but you must provide exact details
 //leave host and port as//make sure port is 3306,  make sure username / passsword nad dbname is correct
 
