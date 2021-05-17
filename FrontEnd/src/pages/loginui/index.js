@@ -2,10 +2,10 @@ import { React, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { login, createUser } from "../../functions/users";
 
-function SignUpui() {
+function Loginui() {
   const { register, handleSubmit } = useForm();
   const onSubmit = async (data) => {
-    var reponse = await createUser(data);
+    var reponse = await login(data);
     console.log(reponse);
   };
 
@@ -48,4 +48,4 @@ function SignUpui() {
   );
 }
 
-export default SignUpui;
+export default Loginui;
