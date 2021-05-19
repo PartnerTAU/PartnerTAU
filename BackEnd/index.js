@@ -37,13 +37,18 @@ app.post("/Home", async (req, res) => {
       req.body.username,
       req.body.password
     );//firebase query for username/password
-
+    // && user.emailVerified
     if (user) {
-      if (user.user) {
+      if (user.user && user.user.emailVerified) {
         //User exists and pasword is correrct
         const token = security.sign(user.user.uid);
         res.send(token);
-      } else {
+      } 
+      else if (user.user  && !user.user.emailVerified){
+        res.send(user.user.emailVerified);
+      }
+      else {
+        // res.send(user.user.emailVerified);
         res.send(400);
       }
     } else {
@@ -53,6 +58,26 @@ app.post("/Home", async (req, res) => {
   }
 });
 
+// app.post("/checkemail", async (req, res) => {
+//   if (req.body && req.body.username && req.body.password) {
+//     const user = await auth.signInWithEmailAndPassword(
+//       req.body.username,
+//       req.body.password
+//     );//firebase query for username/password
+//     // && user.emailVerified
+//     if (user) {
+//       if (user.user  && user.user.emailVerified) {
+//         //User exists and pasword is correrct
+//         res.send(200);
+//       } else {
+//         res.send(300);
+//       }
+//     } else {
+//       //client error
+//       res.send(400);
+//     }
+//   }
+// });
 
 
 

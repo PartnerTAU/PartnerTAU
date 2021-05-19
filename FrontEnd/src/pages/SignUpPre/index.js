@@ -59,7 +59,7 @@ function SignUpPre() {
         // correctMail = false;
       }
       if (passFInput == passSInput && !worngEmailModalIsOpen){
-        var reponse = await createUser(data);
+        var reponse = createUser(data);
         console.log(reponse);
       }
       openModal()
@@ -111,33 +111,31 @@ function SignUpPre() {
       <div className="login" >
         <p staly={{marginBottom: '30px'}}>PartnerTAU ברוכים הבאים להרשמה לאתר</p>
         <div className="col" >
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="row" style={{width: '100%'}}>
-              <input className="inputclass" type ="text"></input>
-              <div>שם פרטי</div>
-            </div>
-            <div className="row" style={{width: '100%'}}>
-            <input className="inputclass" type ="text"></input>
-              <div>שם משפחה</div>
+        <form onSubmit={handleSubmit(onSubmit)} >
+            <div className="row" style={{width: '100%' }} >
+              <input className="inputclass" type ="text" style={{width: '190px'}}></input>
+              <div>שם משתמש</div>
             </div>
 
             <div className="row" style={{width: '100%'}}>
-              <input {...register("username")} className="inputclass" type ="email" required="true"  onChange={handleEmailChange} ></input>
+              <input {...register("username")} className="inputclass" type ="email" required="true"  onChange={handleEmailChange} style={{width: '190px'}}></input>
               <div>מייל</div>
             </div>
 
             <div className="row" style={{width: '100%'}}>
             <input id="passF" {...register("password")} className="inputclass" type ="password" maxLength = "10"  required="true"  
-            onChange={handlePassFChange} ></input>
+            onChange={handlePassFChange} style={{width: '190px'}} ></input>
               <div>סיסמה</div>
             </div>
             <div className="row" style={{width: '100%'}}>
             <input id="passS" className="inputclass" type ="password" maxLength = "10" required="true"
-            onChange={handlePassSChange} ></input>
+            onChange={handlePassSChange} style={{width: '190px'}}></input>
               <div>אימות סיסמה</div>
             </div>
-
-            <button type="submit" className="button button1">הירשם</button>
+            <div style={{display: 'flex', justifyContent: 'center', marginTop: '30px'}}>
+              <button type="submit" className="button button1">הירשם</button>
+            </div>
+            
         </form>
         </div>
       </div>
@@ -148,7 +146,7 @@ function SignUpPre() {
           contentLabel="Example Modal"
         >
         <div className="Modal">
-            <div>נרשמת בהצלחה</div>
+            <div>נשלח מייל אימות</div>
             <button className="button button1" onClick={()=>{Redirect('Home')}}>חזור לדף הבית</button>
         </div>
         </Modal>
