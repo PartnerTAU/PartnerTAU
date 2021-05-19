@@ -78,11 +78,14 @@ app.post("/Signup", (req, res) => {
   if (req.body && req.body.username && req.body.password) {
     auth
       .createUserWithEmailAndPassword(req.body.username, req.body.password)
-      .then((resp) => {
-        res.send(resp);
+      .then(user => {
+        auth.currentUser.sendEmailVerification(null)
+        .then(function(){
+
+        })
       })
-      .catch((err) => {
-        res.send(err);
+      .catch(function(eroor) {
+        
       });
   } else {
     res.send(400);
