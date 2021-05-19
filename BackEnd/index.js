@@ -58,6 +58,22 @@ app.post("/Home", async (req, res) => {
   }
 });
 
+//option 2 for async/await handling, add async to function and we using await
+app.post("/Password", async (req, res) => {
+  if (req.body && req.body.mail) {
+    auth
+      .sendPasswordResetEmail(req.body.mail)
+      .then( function() {
+        res.send(req.body.mail)
+      }
+      )
+      .catch( function(error){
+        res.send(400);
+      }
+      );
+  }
+});
+
 // app.post("/checkemail", async (req, res) => {
 //   if (req.body && req.body.username && req.body.password) {
 //     const user = await auth.signInWithEmailAndPassword(

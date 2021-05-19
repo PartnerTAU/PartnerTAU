@@ -3,6 +3,7 @@ import '../../App.css';
 import {Route, Redirect, useHistory} from 'react-router-dom'
 import Modal from 'react-modal';
 import { useForm } from "react-hook-form";
+import { ResetPass } from "../../functions/users";
 
 
 
@@ -43,29 +44,14 @@ function Password() {
 
   function closeModal(){
     setIsOpen(false);
+    Redirect('Home');
   }
 
   const { register, handleSubmit } = useForm();
   const onSubmit = async (data) => {
-    // var endEmail = userEmail.split("@")[1];
-    // var correctMail= "mail.tau.ac.il";
-    // if (endEmail.localeCompare("mail.tau.ac.il") == 0){
-    //   // setCorrectMail(true);
-    //   worngEmailModalIsOpen = false;
-    //   // correctMail = true;
-    // }
-    // else{
-    //   // setCorrectMail(false);
-    //   worngEmailModalIsOpen = true;
-    //   // correctMail = false;
-    // }
-    // if (passFInput == passSInput && !worngEmailModalIsOpen){
-    //   var reponse = createUser(data);
-    //   console.log(reponse);
-    // }
-    openModal()
-    // var reponse = await createUser(data);
-    // console.log(reponse);
+    var reponse = ResetPass(data);
+    console.log(reponse.data);
+    openModal();
   };
 
   return (
@@ -74,9 +60,9 @@ function Password() {
         <p staly={{marginBottom: '30px'}}>איפוס סיסמה </p>
         <div className="col" > 
         <form onSubmit={handleSubmit(onSubmit)} >
-          <div><input className="inputclass" type ="email" style={{width: '160px'}}></input>Email</div>
+          <div><input className="inputclass" {...register("mail")} type ="email" style={{width: '160px'}}></input>Email</div>
           <div style={{display:'flex', justifyContent:'center', marginTop:'30px'}}>
-          <button type='submit' {...register("email")} className="button button1">אפס סיסמא</button>
+          <button type='submit' className="button button1">אפס סיסמא</button>
           </div>
         </form>   
         </div>
