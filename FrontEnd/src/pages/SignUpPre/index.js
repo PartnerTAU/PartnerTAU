@@ -91,29 +91,30 @@ function SignUpPre() {
       setPassSInput(evt.target.value);
     }
 
-  function Redirect(page){
-    history.push("/"+page);
-    return <Redirect    to={{
-      pathname:'/'+page
-        }}/>
-  }
+
+    function Redirect(page){
+      history.push("/"+page);
+      return <Redirect    to={{
+        pathname:'/'+page
+          }}/>
+    }
   
-  function openModal(){
-    setIsOpen(passFInput == passSInput && IsUserEmail && IsPassF && IsPassS && !worngEmailModalIsOpen);
-    setErrorModalIsOpen(passFInput != passSInput && IsUserEmail && IsPassF && IsPassS);
-    setWorngEmailModalIsOpen(worngEmailModalIsOpen);
-  }
+    function openModal(){
+      setIsOpen(passFInput == passSInput && IsUserEmail && IsPassF && IsPassS && !worngEmailModalIsOpen);
+      setErrorModalIsOpen(passFInput != passSInput && IsUserEmail && IsPassF && IsPassS);
+      setWorngEmailModalIsOpen(worngEmailModalIsOpen);
+    }
 
 
-  function closeModal(){
-    setIsOpen(false);
-    setErrorModalIsOpen(false);
-    setWorngEmailModalIsOpen(false);
+    function closeModal(){
+      setIsOpen(false);
+      setErrorModalIsOpen(false);
+      setWorngEmailModalIsOpen(false);
 
-    // IsSetUserEmail(false);
-    // IsSetPassF(false);
-    // IsSetPassS(false);
-  }
+      // IsSetUserEmail(false);
+      // IsSetPassF(false);
+      // IsSetPassS(false);
+    }
 
   return (
     <div className="Home">
@@ -122,7 +123,7 @@ function SignUpPre() {
         <div className="col" >
         <form onSubmit={handleSubmit(onSubmit)} >
             <div className="row" style={{width: '100%' }} >
-              <input className="inputclass" type ="text" style={{width: '190px'}}></input>
+              <input className="inputclass" type ="text" style={{width: '190px'}} ></input>
               <div>שם משתמש</div>
             </div>
 
@@ -177,7 +178,7 @@ function SignUpPre() {
           contentLabel="Example Modal"
         >
         <div className="Modal3">
-            <div>כתובת מייל לא אונברסטאית</div>
+            <div>כתובת מייל לא אוניברסטאית</div>
             <button className="button button1" onClick={closeModal}>נסה שוב</button>
         </div>
         </Modal>

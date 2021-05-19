@@ -180,6 +180,16 @@ app.post("/Signup", (req, res) => {
   }
 });
 
+app.post("/Signup", (req, res) => {
+  if (auth.currentUser){
+    auth.currentUser.updateProfile({
+      displayName: req.body.userName
+    }).then(function(){
+    }).catch(function() {
+    });
+  }
+});
+
 //authLogic is middlware, we use authlogic for funtions that only auth users can use
 app.get("/getCourses", authLogic, async (req, res) => {
   var x = await courseRepository.GetCourseList(req.decodedToken);

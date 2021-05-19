@@ -30,6 +30,7 @@ export const  createUser = async (params) =>{
     return resp;
 }
 
+
 export const  ResetPass = async (params) =>{
     //option 2 for async/await handling
     const resp = await axios.post('http://localhost:3001/Password', params);
