@@ -37,9 +37,9 @@ app.post("/Home", async (req, res) => {
       req.body.username,
       req.body.password
     );//firebase query for username/password
-
+    // && user.emailVerified
     if (user) {
-      if (user.user) {
+      if (user.user  && user.user.emailVerified) {
         //User exists and pasword is correrct
         const token = security.sign(user.user.uid);
         res.send(token);
