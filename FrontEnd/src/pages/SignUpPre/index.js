@@ -71,7 +71,7 @@ function SignUpPre() {
         }
         console.log(reponse);
       }
-      // openModal()
+      openModal()
       // var reponse = await createUser(data);
       // console.log(reponse);
     };
