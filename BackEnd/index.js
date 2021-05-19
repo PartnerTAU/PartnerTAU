@@ -68,7 +68,7 @@ app.post("/Password", async (req, res) => {
       }
       )
       .catch( function(error){
-        res.send(400);
+        res.send(false);
       }
       );
   }

@@ -49,9 +49,14 @@ function Password() {
 
   const { register, handleSubmit } = useForm();
   const onSubmit = async (data) => {
-    var reponse = ResetPass(data);
-    console.log(reponse.data);
-    openModal();
+    var reponse = await ResetPass(data);
+    if (reponse.data != false){
+      console.log(reponse.data);
+      openModal();
+    }
+    else{
+      alert("Email not found!");
+    }
   };
 
   return (
