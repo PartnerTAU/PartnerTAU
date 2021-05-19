@@ -30,6 +30,18 @@
   bottom: 40px;
 }
 
+.Modal3 {
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  background-color: #d3f1ef;
+  font-weight: bold;
+  font-family: Calibri;
+  font-size: 30px;
+  flex-direction: column;
+}
+
 .Modal2{
 display:flex;
 justify-content: center;

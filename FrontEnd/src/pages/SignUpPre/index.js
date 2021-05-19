@@ -176,7 +176,7 @@ function SignUpPre() {
           style={customStyles}
           contentLabel="Example Modal"
         >
-        <div className="Modal">
+        <div className="Modal3">
             <div>כתובת מייל לא אונברסטאית</div>
             <button className="button button1" onClick={closeModal}>נסה שוב</button>
         </div>
