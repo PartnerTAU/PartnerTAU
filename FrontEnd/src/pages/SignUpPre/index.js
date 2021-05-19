@@ -59,10 +59,19 @@ function SignUpPre() {
         // correctMail = false;
       }
       if (passFInput == passSInput && !worngEmailModalIsOpen){
-        var reponse = createUser(data);
+        var reponse = await createUser(data);
+        if (reponse.data == "EmailSend"){
+          openModal()
+          return;
+        }
+        if (reponse.data == "InUse"){
+          alert("כתובת המייל נמצאת בשימוש");
+          Redirect('Home');
+          return;
+        }
         console.log(reponse);
       }
-      openModal()
+      // openModal()
       // var reponse = await createUser(data);
       // console.log(reponse);
     };

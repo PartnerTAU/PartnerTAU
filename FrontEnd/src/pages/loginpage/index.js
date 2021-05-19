@@ -26,12 +26,42 @@ function Login({props}) {
     var reponse = await login(data);
     // console.log(reponse);
     console.log(reponse.data);
-    if (reponse.data != false){
-      Log();
+    if (reponse.data == "WrongPass"){
+      alert("Wrong Password!");
+    }
+    else if(reponse.data == "NoUser"){
+      alert("User not Found!");
     }
     else{
-      alert("Please Verify Your Email!");
+      if (reponse.data != false){
+        Log();
+      }
+      else{
+        alert("Please Verify Your Email!");
+      }
     }
+    // if (reponse.data != "WrongPass"){
+    //   if (reponse.data != false){
+    //     Log();
+    //   }
+    //   else{
+    //     alert("Please Verify Your Email!");
+    //   }
+    // }
+    // else{
+    //   alert("Wrong Password!");
+    // }
+    // if (reponse.data != false){
+    //   if (reponse.data != "WrongPass"){
+    //     Log();
+    //   }
+    //   else{
+    //     alert("Wrong Password!");
+    //   }
+    // }
+    // else{
+    //   alert("Please Verify Your Email!");
+    // }
   };
 
   const [usernameInput,setUsernameInput] = useState("");

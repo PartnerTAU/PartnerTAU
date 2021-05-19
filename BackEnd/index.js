@@ -36,25 +36,65 @@ app.post("/Home", async (req, res) => {
     const user = await auth.signInWithEmailAndPassword(
       req.body.username,
       req.body.password
-    );//firebase query for username/password
-    // && user.emailVerified
-    if (user) {
-      if (user.user && user.user.emailVerified) {
+    )
+    //firebase query for username/password
+    // if (user) {
+    //   if (user.user && user.user.emailVerified) {
+    //     //User exists and pasword is correrct
+    //     const token = security.sign(user.user.uid);
+    //     res.send(token);
+    //   } 
+    //   else if (user.user  && !user.user.emailVerified){
+    //     res.send(user.user.emailVerified);
+    //   }
+    //   else {
+    //     // res.send(user.user.emailVerified);
+    //     res.send(400);
+    //   }
+    // } else {
+    //   switch(error.code){
+    //     case 'auth/wrong-password':
+    //       res.send("WrongPass");
+    //       break;
+    //     case 'auth/wrong-email':
+    //         res.send("WrongPass");
+    //         break;
+    //     default:
+    //       console.log(error.message);
+    //       break;
+    //   }
+    //   // res.send(400);
+    // }
+    .then( user => {
+      // if(user){
+        if (user.user && user.user.emailVerified) {
         //User exists and pasword is correrct
-        const token = security.sign(user.user.uid);
-        res.send(token);
-      } 
-      else if (user.user  && !user.user.emailVerified){
-        res.send(user.user.emailVerified);
-      }
-      else {
+          const token = security.sign(user.user.uid);
+          res.send(token);
+        } 
+        else if (user.user  && !user.user.emailVerified){
+          res.send(user.user.emailVerified);
+        }
+        else {
         // res.send(user.user.emailVerified);
-        res.send(400);
-      }
-    } else {
-      //client error
-      res.send(400);
+         res.send(400);
+        }
+      // }
     }
+    )
+    .catch( error => {
+      switch(error.code){
+        case 'auth/wrong-password':
+          res.send("WrongPass");
+          break;
+        case 'auth/user-not-found':
+          res.send("NoUser");
+          break;
+        default:
+          console.log(error.message);
+          break;
+      }
+    });
   }
 });
 
@@ -122,11 +162,18 @@ app.post("/Signup", (req, res) => {
       .then(user => {
         auth.currentUser.sendEmailVerification(null)
         .then(function(){
-
+          res.send("EmailSend");
         })
       })
-      .catch(function(eroor) {
-        
+      .catch( error => {
+        switch(error.code){
+          case 'auth/email-already-in-use':
+            res.send("InUse");
+            break;
+          default:
+            console.log(error.message);
+            break;
+        }      
       });
   } else {
     res.send(400);
