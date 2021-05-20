@@ -99,8 +99,8 @@ function Login({props}) {
         <p staly={{ marginBottom: "30px" }}>PartnerTAU ברוכים הבאים לאתר</p>
         <form onSubmit={handleSubmit(onSubmit)}>
         <div className="row" style={{width: '100%'}}>
-          <div><input className="inputclass" {...register("username")} onChange={(w) =>{setUsernameInput(w.target.value)}} style={{ width: "200px" }} required="true" type="mail"></input></div>
-          <div>שם משתמש</div>
+          <div><input className="inputclass"  {...register("username")} onChange={(w) =>{setUsernameInput(w.target.value)}} style={{ width: "200px" }} required="true" minLength="6" type="mail"></input></div>
+          <div>מייל</div>
         </div>
         <div className="row" style={{width: '100%'}}>
           <div><input className="inputclass" type="password" required="true" {...register("password")} style={{ marginBottom: "30px", width: "200px" }}></input></div>

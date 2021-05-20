@@ -128,12 +128,12 @@ function SignUpPre() {
             </div>
 
             <div className="row" style={{width: '100%'}}>
-              <input {...register("username")} className="inputclass" type ="email" required="true"  onChange={handleEmailChange} style={{width: '190px'}}></input>
+              <input {...register("username")} className="inputclass" type ="email" required="true" placeholder="כתובת מייל אוניברסיטאית" onChange={handleEmailChange} style={{width: '190px'}}></input>
               <div>מייל</div>
             </div>
 
             <div className="row" style={{width: '100%'}}>
-            <input id="passF" {...register("password")} className="inputclass" type ="password" maxLength = "10"  required="true"  
+            <input id="passF" {...register("password")} className="inputclass" type ="password" minLength="6" required="true"  
             onChange={handlePassFChange} style={{width: '190px'}} ></input>
               <div>סיסמה</div>
             </div>

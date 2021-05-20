@@ -189,8 +189,9 @@ function NavBar() {
           contentLabel="Example Modal"
         >
         <div className="Modal">
-          <div className="Modal2"> 
-            <div style={{fontSize: "30px"}}>צור קשר</div>
+          <div className="Modal2">
+            <form>
+            <div style={{fontSize: "30px",display:"flex", justifyContent:"center"}}>צור קשר</div>
             <div style={{ marginBottom: "20px" }}></div>
             <div className="row" style={{width: '100%'}}>
               <div><input className="ContactInput" type ="text"></input></div>
@@ -209,10 +210,12 @@ function NavBar() {
               <div>גוף ההודעה</div>
             </div>
             <div style={{ marginBottom: "20px" }}></div>
-            <div style={{flexDirection: "row"}}>
-              <button className="button button1" onClick={closeModal1}>שלח</button>
+            <div style={{display:"flex"}}>
+              <button className="button button1" type="submit" onClick={closeModal1}>שלח</button>
               <button className="button button1" onClick={closeModal1}>סגור</button>
+              <button className="button button1" type="reset">מחק</button>
             </div>
+            </form>
           </div>
         </div> 
         </Modal>
