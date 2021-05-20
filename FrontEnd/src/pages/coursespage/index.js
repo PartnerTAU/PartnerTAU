@@ -6,6 +6,7 @@ import whatsapp from '../../images/whatsapp.png'
 import {CreatePartnerRequest} from '../../functions/serverfunction'
 import {CreateCourseRequest} from '../../functions/serverfunction'
 import {CreateGroupRequest} from '../../functions/serverfunction'
+import {useLocation } from "react-router-dom";
 
 
 
@@ -43,6 +44,11 @@ const RequestAcceptedStyle = {
 
 function Courses() {
 
+  const [semester, SetSemester] = useState("");
+  const [course, SetCourse] = useState("");
+
+  const location = useLocation();
+  
   const [coursename,SetNameCourse] = useState("");
   const [coursenumber,SetNumberCourse] = useState("");
   const [grpcount,Setgrpcount] = useState("");
@@ -56,6 +62,10 @@ function Courses() {
 
 
   useEffect(() => {
+      console.log(location.state);
+      SetSemester(location.state.semester);
+      SetCourse(location.state.course);
+
         if (localStorage.getItem("coursenumber")){
           SetNumberCourse(localStorage.getItem("coursenumber"));
           if (!localStorage.getItem("coursename")){
@@ -79,38 +89,53 @@ function Courses() {
 
   async function OnClickPartner (){
     //lets oprate function from function page
-    let response = await CreatePartnerRequest(grpcount, reqgrpcount);
-    if (response && response == true){
-      Setpartnerresponse("הוגש בהצלחה")
+    let response = await CreatePartnerRequest(grpcount, reqgrpcount, course, semester);
+    if (response.errormsg){
+      alert(response.errormsg);
     }
     else{
-      Setpartnerresponse("טעות בהזנת הבקשה. אנא נסה שנית")
+      if (response && response == true){
+        Setpartnerresponse("הוגש בהצלחה")
+      }
+      else{
+        Setpartnerresponse("טעות בהזנת הבקשה. אנא נסה שנית")
+      }
+      partnersetIsOpen(true);
     }
-    partnersetIsOpen(true);
 }
 
 async function OnClickCourse (){
   //lets oprate function from function page
-  let response = await CreateCourseRequest(reqcourseid);
-  if (response && response == true){
-    Setcourseresponse("הוגש בהצלחה")
+  let response = await CreateCourseRequest(reqcourseid, course, semester);
+  if (response.errormsg){
+    alert(response.errormsg);
   }
   else{
-    Setcourseresponse("טעות בהזנת הבקשה. אנא נסה שנית")
+    if (response && response == true){
+      Setcourseresponse("הוגש בהצלחה")
+    }
+    else{
+      Setcourseresponse("טעות בהזנת הבקשה. אנא נסה שנית")
+    }
+    coursesetIsOpen(true);
   }
-  coursesetIsOpen(true);
 }
 
 async function OnClickGroup (){
   //lets oprate function from function page
-  let response = await CreateGroupRequest(grp, reqgrp);
-  if (response && response == true){
-    Setgroupresponse("הוגש בהצלחה")
+  let response = await CreateGroupRequest(grp, reqgrp, course, semester);
+  if (response.errormsg){
+    alert(response.errormsg);
   }
   else{
-    Setgroupresponse("טעות בהזנת הבקשה. אנא נסה שנית")
+    if (response && response == true){
+      Setgroupresponse("הוגש בהצלחה")
+    }
+    else{
+      Setgroupresponse("טעות בהזנת הבקשה. אנא נסה שנית")
+    }
+    groupsetIsOpen(true);
   }
-  groupsetIsOpen(true);
 }
 
   function openpartnerModal(){
@@ -165,7 +190,7 @@ async function OnClickGroup (){
          <div>
            <button onClick={() => {openModal1()}} className="whatsappbutton"><img className="whatsapp" alt="whatsapp" src={whatsapp}  /></button>
          </div>
-        <div>סמסטר א</div>
+        {semester == "A" ? "סמסטר א" : "סמסטר ב"}
       </div>
       <div className="line">
         <div className="box">

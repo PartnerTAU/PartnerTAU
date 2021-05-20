@@ -8,19 +8,24 @@ function Home() {
 
   const [coursename,SetNameCourse] = useState("");
   const [coursenumber,SetnumberCourse] = useState("");
-  const [semester,SetSemester] = useState("");
+  const [semester,SetSemester] = useState("A");
   const history = useHistory();
 
   function Redirect(page){	
-    localStorage.setItem("coursename", coursename);
+    /*localStorage.setItem("coursename", coursename);
     localStorage.setItem("coursenumber", coursenumber);
-    localStorage.setItem("semester", semester);
+    localStorage.setItem("semester", semester);*/
 
-    loginConfirmed.subjectTrigger();
-    history.push("/"+page);
-    return <Redirect    to={{
-      pathname:'/'+page
-        }}/>
+    if (coursename === "" && coursenumber == ""){
+      alert("illegal parameters");
+    }
+    else{
+      loginConfirmed.subjectTrigger();
+      history.push("/"+page, {semester : semester, course: coursename==="" ? coursenumber : coursename});
+      return <Redirect    to={{
+        pathname:'/'+page
+          }}/>
+      }
   }
 
   return (
@@ -35,17 +40,18 @@ function Home() {
               className="inputclass"
               onChange={(numbercours) =>{SetnumberCourse(numbercours.target.value)}} 
               type = "text"
-              maxlength="8" 
+              pattern = "^[0-9]{8}"
+              /*maxlength="8" 
               onKeyPress={(event) => {
                 if (!/[0-9]/.test(event.key)) {
                   event.preventDefault();
                 }
-              }}></input >מספר קורס</div>
+              }}*/></input >מספר קורס</div>
             </div>
 
-            <div><select name="Semester" id="semester" border="50">
-            <option value="Semester A">סמסטר א</option>
-            <option value="Semester B">סמסטר ב</option>
+            <div><select name="Semester" id="semester" border="50" onChange={(semester) =>{SetSemester(semester.target.value)}}>
+            <option value="A">סמסטר א</option>
+            <option value="B">סמסטר ב</option>
             </select>
             <label for="Semester" style={{marginLeft: '20px'}}>סמסטר</label></div>
         </div>
