@@ -26,7 +26,7 @@ const CreatePartnerRequest = async (request,tokenDecoded) =>{
         /*var exec  = await mysqlConnection("insert into partner_request (user,courseid,semester,group,count,done) values (?,?,?,?,?,?)"
         , [tokenDecoded.data, request.courseId, ,request.requestedCourseId,false]);*/
         var exec  = await mysqlConnection("insert into partnertau.partner_request (user,courseid,semester,grp,count,done) values (?,?,?,?,?,?)"
-        , ["cohav", 1, "a", "01", request.body.reqgrpcount - request.body.grpcount, false]);
+        , [tokenDecoded, request.body.course, request.body.semester, "01", request.body.reqgrpcount - request.body.grpcount, false]);
         let courses =  [];
         if(exec.affectedRows > 0)
         {
@@ -47,7 +47,7 @@ const CreateCourseRequest = async (request,tokenDecoded) =>{
         /*var exec  = await mysqlConnection("insert into partner_request (user,courseid,semester,group,count,done) values (?,?,?,?,?,?)"
         , [tokenDecoded.data, request.courseId, ,request.requestedCourseId,false]);*/
         var exec  = await mysqlConnection("insert into partnertau.course_request (user,courseid,semester,req_courseid,done) values (?,?,?,?,?)"
-        , ["cohav", 1, "a", request.body.reqcourseid, false]);
+        , [tokenDecoded, request.body.course, request.body.semester, request.body.reqcourseid, false]);
         let courses =  [];
         if(exec.affectedRows > 0)
         {
@@ -68,7 +68,7 @@ const CreateGroupRequest = async (request,tokenDecoded) =>{
         /*var exec  = await mysqlConnection("insert into partner_request (user,courseid,semester,group,count,done) values (?,?,?,?,?,?)"
         , [tokenDecoded.data, request.courseId, ,request.requestedCourseId,false]);*/
         var exec  = await mysqlConnection("insert into partnertau.group_request (user,courseid,semester,grp,req_grp,done) values (?,?,?,?,?,?)"
-        , ["cohav", 1, "a", request.body.grp, request.body.reqgrp, false]);
+        , [tokenDecoded, request.body.course, request.body.semester, request.body.grp, request.body.reqgrp, false]);
         let courses =  [];
         if(exec.affectedRows > 0)
         {

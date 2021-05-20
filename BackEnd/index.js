@@ -210,8 +210,8 @@ app.get("/GetActiveRequestedByUserId",authLogic, async (req, res) => {
 });
 
 //option 2 for async/await handling, add async to function and we using await
-app.post("/PartnerRequest",/*authLogic,*/ async (req, res) => {
-  const response = await courseRepository.CreatePartnerRequest(req, null)
+app.post("/PartnerRequest", authLogic, async (req, res) => {
+  const response = await courseRepository.CreatePartnerRequest(req, req.decodedToken)
   if (response){
     res.send(response);
   }
@@ -220,8 +220,8 @@ app.post("/PartnerRequest",/*authLogic,*/ async (req, res) => {
   }
 });
 
-app.post("/CourseRequest",/*authLogic,*/ async (req, res) => {
-  const response = await courseRepository.CreateCourseRequest(req, null)
+app.post("/CourseRequest", authLogic, async (req, res) => {
+  const response = await courseRepository.CreateCourseRequest(req, req.decodedToken)
   if (response){
     res.send(response);
   }
@@ -230,8 +230,8 @@ app.post("/CourseRequest",/*authLogic,*/ async (req, res) => {
   }
 });
 
-app.post("/GroupRequest",/*authLogic,*/ async (req, res) => {
-  const response = await courseRepository.CreateGroupRequest(req, null)
+app.post("/GroupRequest", authLogic, async (req, res) => {
+  const response = await courseRepository.CreateGroupRequest(req, req.decodedToken)
   if (response){
     res.send(response);
   }
