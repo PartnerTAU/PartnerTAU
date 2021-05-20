@@ -162,33 +162,22 @@ app.post("/Signup", (req, res) => {
       .then(user => {
         auth.currentUser.sendEmailVerification(null)
         .then(function(){
-          res.send("EmailSend");
+          auth.currentUser.updateProfile({displayName: req.body.displayname})
+          .then(function() {
+          })
+          .catch(function(error) {
+          });
         })
+
       })
-      .catch( error => {
-        switch(error.code){
-          case 'auth/email-already-in-use':
-            res.send("InUse");
-            break;
-          default:
-            console.log(error.message);
-            break;
-        }      
+      .catch(function(eroor) {
+        
       });
   } else {
     res.send(400);
   }
 });
 
-app.post("/Signup", (req, res) => {
-  if (auth.currentUser){
-    auth.currentUser.updateProfile({
-      displayName: req.body.userName
-    }).then(function(){
-    }).catch(function() {
-    });
-  }
-});
 
 //authLogic is middlware, we use authlogic for funtions that only auth users can use
 app.get("/getCourses", authLogic, async (req, res) => {
