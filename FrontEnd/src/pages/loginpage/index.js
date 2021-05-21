@@ -26,6 +26,7 @@ function Login({props}) {
     var reponse = await login(data);
     // console.log(reponse);
     console.log(reponse.data);
+    console.log(reponse.data.Name);
     if (reponse.data == "WrongPass"){
       alert("Wrong Password!");
     }

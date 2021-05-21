@@ -143,7 +143,7 @@ function SignUpPre() {
               <div>אימות סיסמה</div>
             </div>
             <div style={{display: 'flex', justifyContent: 'center', marginTop: '30px'}}>
-              <button type="submit" className="button button1">הירשם</button>
+              <button type="submit" className="button button1" onClick={openModal}>הירשם</button>
             </div>
             
         </form>

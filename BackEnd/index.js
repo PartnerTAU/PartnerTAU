@@ -70,6 +70,7 @@ app.post("/Home", async (req, res) => {
         if (user.user && user.user.emailVerified) {
         //User exists and pasword is correrct
           const token = security.sign(user.user.uid);
+          // res.send({Token: token, Name: user.user.displayName});
           res.send(token);
         } 
         else if (user.user  && !user.user.emailVerified){
