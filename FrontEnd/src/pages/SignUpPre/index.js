@@ -37,18 +37,15 @@ function SignUpPre() {
     const [passSInput,setPassSInput] = useState("");
     const [userEmail,setUserEmail] = useState("");
     const [IsUserEmail,IsSetUserEmail] = useState(false);
+    const [IsUserName,IsSetUserName] = useState(false);
     const [IsPassF,IsSetPassF] = useState(false);
     const [IsPassS,IsSetPassS] = useState(false);
-
-
-    // const [correctMail, setCorrectMail] = useState("false");
-    // var correctMail = false;
 
 
     const onSubmit = async (data) => {
       var endEmail = userEmail.split("@")[1];
       var correctMail= "mail.tau.ac.il";
-      if (endEmail.localeCompare("mail.tau.ac.il") == 0){
+      if (endEmail.localeCompare(correctMail) == 0){
         // setCorrectMail(true);
         worngEmailModalIsOpen = false;
         // correctMail = true;
@@ -58,8 +55,9 @@ function SignUpPre() {
         worngEmailModalIsOpen = true;
         // correctMail = false;
       }
-      if (passFInput == passSInput && !worngEmailModalIsOpen){
+      if (passFInput == passSInput && !worngEmailModalIsOpen && IsUserName){
         var reponse = await createUser(data);
+        console.log(reponse.data);
         if (reponse.data == "EmailSend"){
           openModal()
           return;
@@ -69,26 +67,28 @@ function SignUpPre() {
           Redirect('Home');
           return;
         }
-        console.log(reponse);
       }
       openModal()
       // var reponse = await createUser(data);
-      // console.log(reponse);
     };
 
+    function handleNameChange(evt){
+      IsSetUserName(evt.target.required && evt.target.value != '');
+    }
+
     function handleEmailChange(evt){
-      IsSetUserEmail(evt.target.required);
       setUserEmail(evt.target.value);
+      IsSetUserEmail(evt.target.required && evt.target.value != '');
     }
 
     function handlePassFChange(evt){
-      IsSetPassF(evt.target.required);
       setPassFInput(evt.target.value);
+      IsSetPassF(evt.target.required && evt.target.value != '');
     }
 
     function handlePassSChange(evt){
-      IsSetPassS(evt.target.required);
       setPassSInput(evt.target.value);
+      IsSetPassS(evt.target.required && evt.target.value != '');
     }
 
 
@@ -100,8 +100,8 @@ function SignUpPre() {
     }
   
     function openModal(){
-      setIsOpen(passFInput == passSInput && IsUserEmail && IsPassF && IsPassS && !worngEmailModalIsOpen);
-      setErrorModalIsOpen(passFInput != passSInput && IsUserEmail && IsPassF && IsPassS);
+      setIsOpen(passFInput == passSInput && IsUserEmail && IsPassF && IsPassS && !worngEmailModalIsOpen && IsUserName);
+      setErrorModalIsOpen(passFInput != passSInput && IsUserEmail && IsPassF && IsPassS && IsUserName);
       setWorngEmailModalIsOpen(worngEmailModalIsOpen);
     }
 
@@ -110,7 +110,6 @@ function SignUpPre() {
       setIsOpen(false);
       setErrorModalIsOpen(false);
       setWorngEmailModalIsOpen(false);
-
       // IsSetUserEmail(false);
       // IsSetPassF(false);
       // IsSetPassS(false);
@@ -123,7 +122,7 @@ function SignUpPre() {
         <div className="col" >
         <form onSubmit={handleSubmit(onSubmit)} >
             <div className="row" style={{width: '100%' }} >
-              <input className="inputclass" type ="text" style={{width: '190px'}} ></input>
+              <input className="inputclass" {...register("privatename")} type ="text" required="true" onChange={handleNameChange} style={{width: '190px'}} ></input>
               <div>שם משתמש</div>
             </div>
 
@@ -143,7 +142,8 @@ function SignUpPre() {
               <div>אימות סיסמה</div>
             </div>
             <div style={{display: 'flex', justifyContent: 'center', marginTop: '30px'}}>
-              <button type="submit" className="button button1" onClick={openModal}>הירשם</button>
+              {/* <button type="submit" className="button button1" onClick={openModal}>הירשם</button> */}
+              <button type="submit" className="button button1">הירשם</button>
             </div>
             
         </form>

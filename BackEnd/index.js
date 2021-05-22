@@ -71,7 +71,8 @@ app.post("/Home", async (req, res) => {
         //User exists and pasword is correrct
           const token = security.sign(user.user.uid);
           // res.send({Token: token, Name: user.user.displayName});
-          res.send(token);
+          res.send({Token: token, Name: user.user.displayName});
+          // res.send(token);
         } 
         else if (user.user  && !user.user.emailVerified){
           res.send(user.user.emailVerified);
@@ -163,17 +164,25 @@ app.post("/Signup", (req, res) => {
       .then(user => {
         auth.currentUser.sendEmailVerification(null)
         .then(function(){
-          auth.currentUser.updateProfile({displayName: req.body.displayname})
+          auth.currentUser.updateProfile({displayName: req.body.privatename})
           .then(function() {
+            res.send("EmailSend");
           })
           .catch(function(error) {
           });
         })
 
       })
-      .catch(function(eroor) {
-        
-      });
+      .catch( error => {
+          switch(error.code){
+            case 'auth/email-already-in-use':
+              res.send("InUse");
+              break;
+            default:
+              console.log(error.message);
+              break;
+          }
+        });
   } else {
     res.send(400);
   }

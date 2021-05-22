@@ -65,7 +65,7 @@ function Password() {
         <p staly={{marginBottom: '30px'}}>איפוס סיסמה </p>
         <div className="col" > 
         <form onSubmit={handleSubmit(onSubmit)} >
-          <div><input className="inputclass" {...register("mail")} type ="email" style={{width: '160px'}}></input>Email</div>
+          <div><input className="inputclass" {...register("mail")} type ="email" required="true" style={{width: '160px'}}></input>Email</div>
           <div style={{display:'flex', justifyContent:'center', marginTop:'30px'}}>
           <button type='submit' className="button button1">אפס סיסמא</button>
           </div>

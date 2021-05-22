@@ -7,6 +7,9 @@ import { login, createUser } from "../../functions/users";
 
 function Login({props}) {
 
+  var userName = "";
+
+
   const { register, handleSubmit } = useForm();
   // const onSubmit = async (data) => {
   //   var reponse = await checkemail(data);
@@ -25,7 +28,7 @@ function Login({props}) {
   const onSubmit = async (data) => {
     var reponse = await login(data);
     // console.log(reponse);
-    console.log(reponse.data);
+    // console.log(reponse.data);
     console.log(reponse.data.Name);
     if (reponse.data == "WrongPass"){
       alert("Wrong Password!");
@@ -35,6 +38,8 @@ function Login({props}) {
     }
     else{
       if (reponse.data != false){
+        // console.log(reponse.data.Name);
+        userName = reponse.data.Name;
         Log();
       }
       else{
@@ -89,9 +94,11 @@ function Login({props}) {
       //Connected
       localStorage.removeItem("user");
     } else {
-      localStorage.setItem("user", usernameInput);
+      // localStorage.setItem("user", usernameInput);
+      localStorage.setItem("user", userName);
     }
     loginConfirmed.subjectTrigger();
+    Redirect('Home');
   }
 
   return (
