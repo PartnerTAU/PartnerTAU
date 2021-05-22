@@ -1,14 +1,16 @@
 import { React, useEffect, useState } from "react";
 import "../../App.css";
-import { Route, Redirect, useHistory } from "react-router-dom";
+import { Route, Redirect, useHistory, withRouter } from "react-router-dom";
 import { loginConfirmed } from "../../utils/subjects/loginSubject/loginSubject";
 import { useForm } from "react-hook-form";
 import { login, createUser } from "../../functions/users";
+import swal from 'sweetalert';
+// import swal from '@sweetalert/with-react'
+
 
 function Login({props}) {
 
   var userName = "";
-
 
   const { register, handleSubmit } = useForm();
   // const onSubmit = async (data) => {
@@ -29,12 +31,35 @@ function Login({props}) {
     var reponse = await login(data);
     // console.log(reponse);
     // console.log(reponse.data);
-    console.log(reponse.data.Name);
+    // console.log(reponse.data.Name);
     if (reponse.data == "WrongPass"){
-      alert("Wrong Password!");
+      // swal("Wrong Password!", "Close");
+      swal({
+        title: "Error!",
+        text: "Wrong Password!",
+        icon: "warning",
+        dangerMode: true,
+        className: "bodyAlert",
+        button:{
+          text: "close",
+          className: "button1"
+        }
+      })
+      // alert("Wrong Password!");
     }
     else if(reponse.data == "NoUser"){
-      alert("User not Found!");
+      swal({
+        title: "Error!",
+        text: "User not Found!",
+        icon: "warning",
+        dangerMode: true,
+        className: "bodyAlert",
+        button:{
+          text: "close",
+          className: "button1"
+        }
+      })
+      // alert("User not Found!");
     }
     else{
       if (reponse.data != false){
@@ -43,7 +68,18 @@ function Login({props}) {
         Log();
       }
       else{
-        alert("Please Verify Your Email!");
+        swal({
+          title: "Error!",
+          text: "Please Verify Your Email!!",
+          icon: "warning",
+          dangerMode: true,
+          className: "bodyAlert",
+          button:{
+            text: "close",
+            className: "button1"
+          }
+        })
+        // alert("Please Verify Your Email!");
       }
     }
     // if (reponse.data != "WrongPass"){
