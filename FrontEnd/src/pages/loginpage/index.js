@@ -31,12 +31,12 @@ function Login({props}) {
     var reponse = await login(data);
     // console.log(reponse);
     // console.log(reponse.data);
-    // console.log(reponse.data.Name);
+   // console.log(reponse.data.Name);
     if (reponse.data == "WrongPass"){
       // swal("Wrong Password!", "Close");
       swal({
         title: "Error!",
-        text: "Wrong Password!",
+        text: "סיסמא/ שם משתמש שגויים",
         icon: "warning",
         dangerMode: true,
         className: "bodyAlert",
@@ -50,7 +50,7 @@ function Login({props}) {
     else if(reponse.data == "NoUser"){
       swal({
         title: "Error!",
-        text: "User not Found!",
+        text: "המשתמש לא נמצא",
         icon: "warning",
         dangerMode: true,
         className: "bodyAlert",
@@ -63,14 +63,15 @@ function Login({props}) {
     }
     else{
       if (reponse.data != false){
-        // console.log(reponse.data.Name);
+        console.log(reponse.data.Name);
         userName = reponse.data.Name;
+        setUsernameInput(userName);
         Log();
       }
       else{
         swal({
           title: "Error!",
-          text: "Please Verify Your Email!!",
+          text: "כתובת המייל טרם אושרה",
           icon: "warning",
           dangerMode: true,
           className: "bodyAlert",
@@ -143,7 +144,7 @@ function Login({props}) {
         <p staly={{ marginBottom: "30px" }}>PartnerTAU ברוכים הבאים לאתר</p>
         <form onSubmit={handleSubmit(onSubmit)}>
         <div className="row" style={{width: '100%'}}>
-          <div><input className="inputclass"  {...register("username")} onChange={(w) =>{setUsernameInput(w.target.value)}} style={{ width: "200px" }} required="true" minLength="6" type="mail"></input></div>
+          <div><input className="inputclass"  {...register("username")} style={{ width: "200px" }} required="true" minLength="6" type="mail"></input></div>
           <div>מייל</div>
         </div>
         <div className="row" style={{width: '100%'}}>

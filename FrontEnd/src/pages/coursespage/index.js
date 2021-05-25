@@ -7,6 +7,7 @@ import {CreatePartnerRequest} from '../../functions/serverfunction'
 import {CreateCourseRequest} from '../../functions/serverfunction'
 import {CreateGroupRequest} from '../../functions/serverfunction'
 import {useLocation } from "react-router-dom";
+import swal from 'sweetalert';
 
 
 
@@ -92,7 +93,18 @@ function Courses() {
     //lets oprate function from function page
     let response = await CreatePartnerRequest(grpcount, reqgrpcount, grpnum, coursenumber, semester);
     if (response.errormsg){
-      alert(response.errormsg);
+      //alert(response.errormsg);
+      swal({
+        title: "Error!",
+        text: "יש להתחבר למערכת טרם יצירת בקשה חדשה",
+        icon: "warning",
+        dangerMode: true,
+        className: "bodyAlert",
+        button:{
+          text: "סגור",
+          className: "button1"
+        }
+      })
     }
     else{
       if (response && response == true){
