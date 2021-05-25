@@ -155,6 +155,49 @@ const GetActiveRequestedByUserId = async (id) =>{
 }
 
 
+const GetCourseListAutoComnplete = async (text) =>{
+    try{
+        //An example how to call sql query
+        //you must create async finction and use await, otherwise,  you'll get null as an answer
+        var exec  = await mysqlConnection("select * from  courseautocomplete where course like ? limit 5"
+        ,  ['%' + text + '%']);
+
+        let answer =[];
+       
+        if(exec.length == 0)
+        {
+            var exec  = await mysqlConnection("select * from  courseautocomplete where number like ? limit 5"
+            ,  ['%' + text + '%']);
+        }
+
+        if(exec.length > 0 )
+        {
+           
+                exec.forEach(a => {
+
+                   
+                    answer.push({
+                        id : a.id,
+                        course : a.course,
+                        number : a.number,
+                    })
+
+
+
+                })
+
+        }
+       
+        return answer;
+    }
+    catch(e){
+        return null;
+    }
+   
+
+
+}
+
 
 
 
@@ -164,5 +207,6 @@ module.exports ={
     CreateCourseRequest : CreateCourseRequest,
     CreateGroupRequest : CreateGroupRequest,
     GetActiveRequestedByUserId : GetActiveRequestedByUserId,
-    MarkRequestAsResolved : MarkRequestAsResolved
+    MarkRequestAsResolved : MarkRequestAsResolved,
+    GetCourseListAutoComnplete : GetCourseListAutoComnplete
 }

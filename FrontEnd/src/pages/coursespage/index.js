@@ -64,8 +64,8 @@ function Courses() {
   useEffect(() => {
       console.log(location.state);
       SetSemester(location.state.semester);
-      SetCourse(location.state.course);
-
+      SetNameCourse(location.state.item.course);
+      SetNumberCourse(location.state.item.number);
         if (localStorage.getItem("coursenumber")){
           SetNumberCourse(localStorage.getItem("coursenumber"));
           if (!localStorage.getItem("coursename")){

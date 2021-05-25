@@ -250,6 +250,16 @@ app.post("/GroupRequest", authLogic, async (req, res) => {
   }
 });
 
+app.get("/GetCourseAutoComplete", async (req, res) => {
+  const response = await courseRepository.GetCourseListAutoComnplete(req.query.text)
+  if (response){
+    res.send(response);
+  }
+  else{
+    res.send(404);
+  }
+});
+
 app.listen(3001, () => {
   console.log(`Server is running on port ${3001}.`);
 });
