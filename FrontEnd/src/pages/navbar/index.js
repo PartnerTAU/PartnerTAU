@@ -34,8 +34,8 @@ const AboutStyle = {
     position: "fixed",
     transform: "translate(-50%, -50%)",
     backgroundColor: "#d3f1ef",
-    width: "800px",
-    height: "200px",
+    width: "1000px",
+    height: "600px",
   },
 };
 
@@ -69,7 +69,7 @@ function NavBar() {
   const history = useHistory();
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modal1IsOpen, setIsOpen1] = useState(false);
-  const [modal2IsOpen, setIsOpen2] = useState(false);
+  const [modal2IsOpen, setIsOpen2] = useState(true);
 
   const [buttonString, setButtonString] = useState("");
   const [username, setUsername] = useState("");
@@ -229,6 +229,17 @@ function NavBar() {
           <div className="Modal2"> 
             <div>,הוא כלי עזר להחלפת קורסים או קבוצות בקורסים PartnerTau</div>
             <div>.מציאת שותפים לתרגילי בית וגישה לקבוצות ווצאפ של הקורסים</div>
+            <div style={{ marginBottom: "30px" }}></div>
+            <div>?אז איך מוצאים התאמה</div>
+
+            <div>.א. יש לחפש את הקורס אליו אתם רשומים באמצעות שם או מספר הקורס</div>
+            <div>אם יש כזו whatsapp-ב. בעמוד הקורס תוכלו למצוא קישור לקבוצת ה</div>
+            <div>.וכן אופציות להגיש בקשה למציאת שותפים, החלפת קבוצה והחלפת קורס</div>
+            <div>.ג. הגישו את הבקשה בה אתם מעוניינים (לאחר שהתחברתם למערכת)</div>
+            <div>.ד. כעת תורנו לעבוד על למצוא התאמה עבורכם</div> 
+            <div>.ברגע שתמצא התאמה יישלח אליכם מייל המציין זאת ואופציית הצ׳אט תפתח</div>
+            <div>.ה. במידה וההתאמה מוצלחת תוכלו לסגור את הטיפול בבקשה</div>
+            <div>!בהצלחה</div>
             <div style={{ marginBottom: "30px" }}></div>
             <div>.שימו לב: המערכת הינה כלי עזר בלבד</div>
             <div>.כל פעולה אל מול האוניברסיטה מתבצעת בכלים שהיא מספקת ואין לה קשר לאתר זה</div>

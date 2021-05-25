@@ -45,7 +45,7 @@ const RequestAcceptedStyle = {
 function Courses() {
 
   const [semester, SetSemester] = useState("");
-  const [course, SetCourse] = useState("");
+  //const [course, SetCourse] = useState("");
 
   const location = useLocation();
   
@@ -89,13 +89,13 @@ function Courses() {
 
   async function OnClickPartner (){
     //lets oprate function from function page
-    let response = await CreatePartnerRequest(grpcount, reqgrpcount, course, semester);
+    let response = await CreatePartnerRequest(grpcount, reqgrpcount, coursenumber, semester);
     if (response.errormsg){
       alert(response.errormsg);
     }
     else{
       if (response && response == true){
-        Setpartnerresponse("הוגש בהצלחה")
+        Setpartnerresponse("בקשתך הוגשה בהצלחה!\nאנחנו נעבוד על למצוא התאמה עבורך.\n ברגע שתמצא התאמה יישלח אליך מייל המציין זאת ואופציית הצ׳אט תפתח תחת רשומת הבקשה.")
       }
       else{
         Setpartnerresponse("טעות בהזנת הבקשה. אנא נסה שנית")
@@ -106,13 +106,13 @@ function Courses() {
 
 async function OnClickCourse (){
   //lets oprate function from function page
-  let response = await CreateCourseRequest(reqcourseid, course, semester);
+  let response = await CreateCourseRequest(reqcourseid, coursenumber, semester);
   if (response.errormsg){
     alert(response.errormsg);
   }
   else{
     if (response && response == true){
-      Setcourseresponse("הוגש בהצלחה")
+      Setcourseresponse("הוגש בהצלחהבקשתך הוגשה בהצלחה!\nאנחנו נעבוד על למצוא התאמה עבורך.\n ברגע שתמצא התאמה יישלח אליך מייל המציין זאת ואופציית הצ׳אט תפתח תחת רשומת הבקשה.")
     }
     else{
       Setcourseresponse("טעות בהזנת הבקשה. אנא נסה שנית")
@@ -123,13 +123,13 @@ async function OnClickCourse (){
 
 async function OnClickGroup (){
   //lets oprate function from function page
-  let response = await CreateGroupRequest(grp, reqgrp, course, semester);
+  let response = await CreateGroupRequest(grp, reqgrp, coursenumber, semester);
   if (response.errormsg){
     alert(response.errormsg);
   }
   else{
     if (response && response == true){
-      Setgroupresponse("הוגש בהצלחה")
+      Setgroupresponse("הוגש בהצלחהבקשתך הוגשה בהצלחה!\nאנחנו נעבוד על למצוא התאמה עבורך.\n ברגע שתמצא התאמה יישלח אליך מייל המציין זאת ואופציית הצ׳אט תפתח תחת רשומת הבקשה.")
     }
     else{
       Setgroupresponse("טעות בהזנת הבקשה. אנא נסה שנית")

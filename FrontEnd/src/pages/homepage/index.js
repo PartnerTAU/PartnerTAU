@@ -2,6 +2,7 @@ import {React,useEffect, useState} from 'react';
 import '../../App.css';
 import {Route, Redirect, useHistory} from 'react-router-dom';
 import { loginConfirmed } from "../../utils/subjects/loginSubject/loginSubject";
+import { GetCourseAutoComplete } from "../../functions/serverfunction";
 
 
 function Home() {
