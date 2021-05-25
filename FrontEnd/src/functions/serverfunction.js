@@ -1,18 +1,17 @@
 import axios from "axios";
 
-axios.defaults.headers.common["Authorization"] =
-  "Bearer " +
-  (localStorage.getItem("token") ? localStorage.getItem("token") : "");
+axios.defaults.headers.common["Authorization"] = "Bearer " + (localStorage.getItem("token") ? localStorage.getItem("token") : "");
 
 export const CreatePartnerRequest = async (grpcount, reqgrpcount, grpnum, course, semester) => {
   let data = {
     grpcount: Number(grpcount),
     reqgrpcount: Number(reqgrpcount),
     grpnum: grpnum,
-    course: Number(course),
+    course: course,
     semester: semester,
   };
   if (localStorage.getItem("token")) {
+    axios.defaults.headers.common["Authorization"] = "Bearer " + (localStorage.getItem("token") ? localStorage.getItem("token") : "");
     return axios
       .post("http://localhost:3001/PartnerRequest", data)
       .then(function (response) {
@@ -28,11 +27,12 @@ export const CreatePartnerRequest = async (grpcount, reqgrpcount, grpnum, course
 
 export const CreateCourseRequest = async (reqcourseid, course, semester) => {
   let data = {
-    reqcourseid: Number(reqcourseid),
-    course: Number(course),
+    reqcourseid: course,
+    course: course,
     semester: semester,
   };
   if (localStorage.getItem("token")) {
+    axios.defaults.headers.common["Authorization"] = "Bearer " + (localStorage.getItem("token") ? localStorage.getItem("token") : "");
     return axios
       .post("http://localhost:3001/CourseRequest", data)
       .then(function (response) {
@@ -50,10 +50,11 @@ export const CreateGroupRequest = async (grp, reqgrp, course, semester) => {
   let data = {
     grp: grp,
     reqgrp: reqgrp,
-    course: Number(course),
+    course: course,
     semester: semester,
   };
   if (localStorage.getItem("token")) {
+    axios.defaults.headers.common["Authorization"] = "Bearer " + (localStorage.getItem("token") ? localStorage.getItem("token") : "");
     return axios
       .post("http://localhost:3001/GroupRequest", data)
       .then(function (response) {
@@ -69,6 +70,7 @@ export const CreateGroupRequest = async (grp, reqgrp, course, semester) => {
 
 export const GetCourseAutoComplete = async (text) => {
   if (localStorage.getItem("token")) {
+    axios.defaults.headers.common["Authorization"] = "Bearer " + (localStorage.getItem("token") ? localStorage.getItem("token") : "");
     return axios
       .get("http://localhost:3001/GetCourseAutoComplete", {
         params: {
