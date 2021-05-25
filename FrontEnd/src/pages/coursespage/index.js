@@ -56,6 +56,7 @@ function Courses() {
   const [partnerresponse,Setpartnerresponse] = useState("");
   const [reqcourseid,Setreqcourseid] = useState("");
   const [courseresponse,Setcourseresponse] = useState("");
+  const [grpnum,SetgrpNum] = useState("");
   const [grp,Setgrp] = useState("");
   const [reqgrp,Setreqgrp] = useState("");
   const [groupresponse,Setgroupresponse] = useState("");
@@ -89,13 +90,13 @@ function Courses() {
 
   async function OnClickPartner (){
     //lets oprate function from function page
-    let response = await CreatePartnerRequest(grpcount, reqgrpcount, coursenumber, semester);
+    let response = await CreatePartnerRequest(grpcount, reqgrpcount, grpnum, coursenumber, semester);
     if (response.errormsg){
       alert(response.errormsg);
     }
     else{
       if (response && response == true){
-        Setpartnerresponse("בקשתך הוגשה בהצלחה!\nאנחנו נעבוד על למצוא התאמה עבורך.\n ברגע שתמצא התאמה יישלח אליך מייל המציין זאת ואופציית הצ׳אט תפתח תחת רשומת הבקשה.")
+        Setpartnerresponse("בקשתך הוגשה בהצלחה!\nאנחנו נעבוד על מציאת התאמה עבורך.\n ברגע שתמצא התאמה יישלח אליך מייל המציין זאת ואופציית הצ׳אט תפתח תחת רשומת הבקשה")
       }
       else{
         Setpartnerresponse("טעות בהזנת הבקשה. אנא נסה שנית")
@@ -112,7 +113,7 @@ async function OnClickCourse (){
   }
   else{
     if (response && response == true){
-      Setcourseresponse("הוגש בהצלחהבקשתך הוגשה בהצלחה!\nאנחנו נעבוד על למצוא התאמה עבורך.\n ברגע שתמצא התאמה יישלח אליך מייל המציין זאת ואופציית הצ׳אט תפתח תחת רשומת הבקשה.")
+      Setcourseresponse("בקשתך הוגשה בהצלחה!\nאנחנו נעבוד על מציאת התאמה עבורך.\n ברגע שתמצא התאמה יישלח אליך מייל המציין זאת ואופציית הצ׳אט תפתח תחת רשומת הבקשה")
     }
     else{
       Setcourseresponse("טעות בהזנת הבקשה. אנא נסה שנית")
@@ -129,7 +130,7 @@ async function OnClickGroup (){
   }
   else{
     if (response && response == true){
-      Setgroupresponse("הוגש בהצלחהבקשתך הוגשה בהצלחה!\nאנחנו נעבוד על למצוא התאמה עבורך.\n ברגע שתמצא התאמה יישלח אליך מייל המציין זאת ואופציית הצ׳אט תפתח תחת רשומת הבקשה.")
+      Setgroupresponse("בקשתך הוגשה בהצלחה!\nאנחנו נעבוד על מציאת התאמה עבורך.\n ברגע שתמצא התאמה יישלח אליך מייל המציין זאת ואופציית הצ׳אט תפתח תחת רשומת הבקשה")
     }
     else{
       Setgroupresponse("טעות בהזנת הבקשה. אנא נסה שנית")
@@ -193,10 +194,27 @@ async function OnClickGroup (){
         {semester == "A" ? "סמסטר א" : "סמסטר ב"}
       </div>
       <div className="line">
-        <div className="box">
+      <div className="box">
+            <div style={{fontSize: '32px'}}>החלפת קורס</div>
+            <div style={{fontSize: '16px'}}>בהנחה ואתם רשומים לקורס לעיל </div>
+            <div><input className="inputclass" value = {reqcourseid} onChange = {(e) => {Setreqcourseid(e.target.value)}} type ="text"
+                  maxlength="8" 
+                  onKeyPress={(event) => {
+                    if (!/[0-9]/.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }
+                }
+            ></input >  מספר קורס מבוקש</div>
+            <div>או</div>
+            <div><input className="inputclass" type ="text"></input>  שם קורס מבוקש</div>
+            <button onClick={() => OnClickCourse()} className="button button1">הגש בקשה</button>
+          </div>
+        <div className="box2">
           <div style={{fontSize: '32px'}}>מציאת שותפים</div>
           <div><input className="inputclass" value = {reqgrpcount} type ="text" pattern="\d+" onChange = {(e) => {Setreqgrpcount(e.target.value)}}></input>  גודל קבוצה מבוקש</div>
           <div><input className="inputclass" value = {grpcount} type ="text" pattern="\d*" onChange = {(e) => {Setgrpcount(e.target.value)}}></input>  גודל קבוצה נוכחי</div>
+          <div><input className="inputclass" value = {grpnum} type ="text" pattern="\d*" onChange = {(e) => {SetgrpNum(e.target.value)}}></input> מספר קבוצה (במידה ורלוונטי)</div>
           <button onClick={() => OnClickPartner()} className="button button1">הגש בקשה</button>
         </div>
         <div className="box">
@@ -205,21 +223,6 @@ async function OnClickGroup (){
           <div><input className="inputclass" value = {grp} type ="text" onChange = {(e) => {Setgrp(e.target.value)}}></input>  מספר קבוצה נוכחי</div>
           <button onClick={() => OnClickGroup()} className="button button1">הגש בקשה</button>
         </div>
-        <div className="box">
-          <div style={{fontSize: '32px'}}>החלפת קורס</div>
-          <div><input className="inputclass" value = {reqcourseid} onChange = {(e) => {Setreqcourseid(e.target.value)}} type ="text"
-                maxlength="8" 
-                onKeyPress={(event) => {
-                  if (!/[0-9]/.test(event.key)) {
-                    event.preventDefault();
-                  }
-                }
-              }
-          ></input >  מספר קורס מבוקש</div>
-          <div>או</div>
-          <div><input className="inputclass" type ="text"></input>  שם קורס מבוקש</div>
-          <button onClick={() => OnClickCourse()} className="button button1">הגש בקשה</button>
-        </div>
       </div>
       <Modal
           isOpen={partnermodalIsOpen}
@@ -227,7 +230,7 @@ async function OnClickGroup (){
           style={RequestAcceptedStyle}
           contentLabel="Example Modal"
         >
-        <div className="Modal">
+        <div className="ModalReq">
         <div>{partnerresponse}</div>
         <div style={{marginBottom: "15px" }}></div>
         <button className="button button1" onClick={() => closepartnerModal()}>סגור</button>
@@ -240,7 +243,7 @@ async function OnClickGroup (){
           style={RequestAcceptedStyle}
           contentLabel="Example Modal"
         >
-        <div className="Modal">
+        <div className="ModalReq">
         <div>{courseresponse}</div>
         <div style={{marginBottom: "15px" }}></div>
         <button className="button button1" onClick={() => closecourseModal()}>סגור</button>
@@ -253,7 +256,7 @@ async function OnClickGroup (){
           style={RequestAcceptedStyle}
           contentLabel="Example Modal"
         >
-        <div className="Modal">
+        <div className="ModalReq">
         <div>{groupresponse}</div>
         <div style={{marginBottom: "15px" }}></div>
         <button className="button button1" onClick={() => closegroupModal()}>סגור</button>

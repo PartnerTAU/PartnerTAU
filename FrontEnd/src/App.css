@@ -14,6 +14,24 @@
   cursor: pointer;
 }
 
+.ModalReq {
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  text-align: right;
+  position: absolute;
+  background-color: #d3f1ef;
+  font-weight: bold;
+  font-family: Calibri;
+  font-size: 16px;
+  flex-direction: column;
+  top: 40px;
+  left: 40px;
+  right: 40px;
+  bottom: 40px;
+}
+
 .Modal {
   display:flex;
   justify-content: center;
@@ -98,6 +116,26 @@ bottom: 40px;
   background-color: #26f5ee;
   color: white;
   border: 2px solid #184947;
+}
+
+.box2{
+  color: #2d504e;
+  background-color: #d3f1ef;
+  font-weight: bold;
+  font-family: Calibri;
+  font-size: 23px;
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  margin: 10px; 
+  border-radius: 8px;
+  position: relative;
+  border-style: solid;
+  width: 500px; 
+  height: 330px;
+  border-width:2px;
+  border-color: #2d504e;
 }
 
 body {

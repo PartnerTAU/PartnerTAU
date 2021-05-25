@@ -4,16 +4,12 @@ axios.defaults.headers.common["Authorization"] =
   "Bearer " +
   (localStorage.getItem("token") ? localStorage.getItem("token") : "");
 
-export const CreatePartnerRequest = async (
-  grpcount,
-  reqgrpcount,
-  semester,
-  course
-) => {
+export const CreatePartnerRequest = async (grpcount, reqgrpcount, grpnum, course, semester) => {
   let data = {
     grpcount: Number(grpcount),
     reqgrpcount: Number(reqgrpcount),
-    course: course,
+    grpnum: grpnum,
+    course: Number(course),
     semester: semester,
   };
   if (localStorage.getItem("token")) {
@@ -33,7 +29,7 @@ export const CreatePartnerRequest = async (
 export const CreateCourseRequest = async (reqcourseid, course, semester) => {
   let data = {
     reqcourseid: Number(reqcourseid),
-    course: course,
+    course: Number(course),
     semester: semester,
   };
   if (localStorage.getItem("token")) {
@@ -54,7 +50,7 @@ export const CreateGroupRequest = async (grp, reqgrp, course, semester) => {
   let data = {
     grp: grp,
     reqgrp: reqgrp,
-    course: course,
+    course: Number(course),
     semester: semester,
   };
   if (localStorage.getItem("token")) {

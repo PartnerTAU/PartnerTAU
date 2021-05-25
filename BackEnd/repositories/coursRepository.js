@@ -19,14 +19,14 @@ const GetCourseList = async (userId) =>{
 
 }
 
-const CreatePartnerRequest = async (request,tokenDecoded) =>{
+const CreatePartnerRequest = async (request, tokenDecoded) =>{
     try{
         //An example how to call sql query
         //you must create async finction and use await, otherwise,  you'll get null as an answer
         /*var exec  = await mysqlConnection("insert into partner_request (user,courseid,semester,group,count,done) values (?,?,?,?,?,?)"
         , [tokenDecoded.data, request.courseId, ,request.requestedCourseId,false]);*/
         var exec  = await mysqlConnection("insert into partnertau.partner_request (user,courseid,semester,grp,count,done) values (?,?,?,?,?,?)"
-        , [tokenDecoded, request.body.course, request.body.semester, "01", request.body.reqgrpcount - request.body.grpcount, false]);
+        , [tokenDecoded.data, request.body.course, request.body.semester, request.body.grpnum, request.body.reqgrpcount - request.body.grpcount, false]);
         let courses =  [];
         if(exec.affectedRows > 0)
         {
@@ -40,14 +40,15 @@ const CreatePartnerRequest = async (request,tokenDecoded) =>{
     }
 }
 
-const CreateCourseRequest = async (request,tokenDecoded) =>{
+const CreateCourseRequest = async (request, tokenDecoded) =>{
     try{
         //An example how to call sql query
         //you must create async finction and use await, otherwise,  you'll get null as an answer
         /*var exec  = await mysqlConnection("insert into partner_request (user,courseid,semester,group,count,done) values (?,?,?,?,?,?)"
         , [tokenDecoded.data, request.courseId, ,request.requestedCourseId,false]);*/
+        var x = 7;
         var exec  = await mysqlConnection("insert into partnertau.course_request (user,courseid,semester,req_courseid,done) values (?,?,?,?,?)"
-        , [tokenDecoded, request.body.course, request.body.semester, request.body.reqcourseid, false]);
+        , [tokenDecoded.data, request.body.course, request.body.semester, request.body.reqcourseid, false]);
         let courses =  [];
         if(exec.affectedRows > 0)
         {
@@ -61,14 +62,14 @@ const CreateCourseRequest = async (request,tokenDecoded) =>{
     }
 }
 
-const CreateGroupRequest = async (request,tokenDecoded) =>{
+const CreateGroupRequest = async (request, tokenDecoded) =>{
     try{
         //An example how to call sql query
         //you must create async finction and use await, otherwise,  you'll get null as an answer
         /*var exec  = await mysqlConnection("insert into partner_request (user,courseid,semester,group,count,done) values (?,?,?,?,?,?)"
         , [tokenDecoded.data, request.courseId, ,request.requestedCourseId,false]);*/
         var exec  = await mysqlConnection("insert into partnertau.group_request (user,courseid,semester,grp,req_grp,done) values (?,?,?,?,?,?)"
-        , [tokenDecoded, request.body.course, request.body.semester, request.body.grp, request.body.reqgrp, false]);
+        , [tokenDecoded.data, request.body.course, request.body.semester, request.body.grp, request.body.reqgrp, false]);
         let courses =  [];
         if(exec.affectedRows > 0)
         {
@@ -159,7 +160,7 @@ const GetCourseListAutoComnplete = async (text) =>{
     try{
         //An example how to call sql query
         //you must create async finction and use await, otherwise,  you'll get null as an answer
-        var exec  = await mysqlConnection("select * from  courseautocomplete where course like ? limit 5"
+        var exec  = await mysqlConnection("select * from  courseautocomplete where name like ? limit 5"
         ,  ['%' + text + '%']);
 
         let answer =[];
@@ -178,7 +179,7 @@ const GetCourseListAutoComnplete = async (text) =>{
                    
                     answer.push({
                         id : a.id,
-                        course : a.course,
+                        course : a.name,
                         number : a.number,
                     })
 
