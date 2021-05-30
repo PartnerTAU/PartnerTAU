@@ -13,6 +13,13 @@ import Password from './pages/password';
 import Home from './pages/homepage'
 import SignUpPre from './pages/SignUpPre';
 import Login from './pages/loginpage'
+import axios from 'axios'
+
+//Add auth header for each request
+axios.interceptors.request.use((request) =>{
+  request.headers["Authorization"] = "Bearer " + (localStorage.getItem("token") ? localStorage.getItem("token") : "");
+  return request
+})
 
 
 function App() {
