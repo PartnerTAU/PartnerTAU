@@ -198,11 +198,11 @@ async function OnClickGroup (){
   return (
 
     <div className="Home">
-      <div className="line">
+      <div className="line" style={{width: "90%"}}>
         <div style={{fontSize: '14px'}}>מעודכן לתשפ"א</div>
         <div>קורס {coursename}: {coursenumber}</div>
       </div>
-      <div className="line">
+      <div className="line" style={{width: "90%"}}>
          {/* <div>
            <button onClick={() => {openModal1()}} className="whatsappbutton"><img className="whatsapp" alt="whatsapp" src={whatsapp}  /></button>
          </div> */}
