@@ -139,9 +139,8 @@ function Login({props}) {
   }
 
   return (
-    <div className="Home">
-      <div className="login">
-        <p staly={{ marginBottom: "30px" }}>PartnerTAU ברוכים הבאים לאתר</p>
+    <div className="Home" >
+        <p style={{ fontSize: "45px", fontWeight:"bold" }}>PartnerTAU ברוכים הבאים לאתר</p>
         <form onSubmit={handleSubmit(onSubmit)}>
         <div className="row" style={{width: '100%'}}>
           <div><input className="inputclass"  {...register("username")} style={{ width: "200px" }} required="true" minLength="6" type="mail"></input></div>
@@ -151,15 +150,16 @@ function Login({props}) {
           <div><input className="inputclass" type="password" required="true" {...register("password")} style={{ marginBottom: "30px", width: "200px" }}></input></div>
           <div>סיסמה</div>
         </div>
+        <br></br>
         {/* <button type="submit" className="button button1" onClick={Log}>submit</button> */}
-        <div className="Row">
+        <div className="line">
           <button type="submit" className="button button1">התחבר</button>
           <button className="button button1" onClick={()=>{Redirect('Password')}} style={{marginLeft:'10px'}}>שכחתי סיסמה</button>
           <button className="button button1" onClick={()=>{Redirect('Signup')}} style={{marginLeft:'10px'}}>הירשם</button>
         </div>
         </form>
+        
       </div>
-    </div>
   );
 }
 

@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import {SignOut } from "../../functions/users";
 
 import Modal from "react-modal";
+import { merge } from "rxjs";
 
 /*Sign in modal style*/
 const SignInStyle = {
@@ -34,8 +35,8 @@ const AboutStyle = {
     position: "fixed",
     transform: "translate(-50%, -50%)",
     backgroundColor: "#d3f1ef",
-    width: "1000px",
-    height: "600px",
+    width: "70%",
+    height: "70%"
   },
 };
 
@@ -50,8 +51,8 @@ const ContactStyle = {
     position: "fixed",
     transform: "translate(-50%, -50%)",
     backgroundColor: "#d3f1ef",
-    width: "400px",
-    height: "300px",
+    width: "30%",
+    height: "45%",
   },
 };
 
@@ -69,7 +70,7 @@ function NavBar() {
   const history = useHistory();
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modal1IsOpen, setIsOpen1] = useState(false);
-  const [modal2IsOpen, setIsOpen2] = useState(true);
+  const [modal2IsOpen, setIsOpen2] = useState(false);
 
   const [buttonString, setButtonString] = useState("");
   const [username, setUsername] = useState("");
@@ -161,7 +162,14 @@ function NavBar() {
           </button>
         </div>
         <div className="row">
-          <div>{username && username != "" ? username : ""}</div>
+          !
+          <p>
+            <apan>שלום</apan>
+            <span> </span>
+            <span>{username && username != "" ? username : ""} </span>
+          </p>
+          
+          
           <button onClick={openModal1} className="button button1">
             צור קשר
           </button>
@@ -188,64 +196,79 @@ function NavBar() {
           style={ContactStyle}
           contentLabel="Example Modal"
         >
-        <div className="Modal">
-          <div className="Modal2">
-            <form>
-            <div style={{fontSize: "30px",display:"flex", justifyContent:"center"}}>צור קשר</div>
-            <div style={{ marginBottom: "20px" }}></div>
-            <div className="row" style={{width: '100%'}}>
-              <div><input className="ContactInput" type ="text"></input></div>
-              <div>שם מלא</div>
+  
+          <form>
+            <p style={{textAlign:"center",fontSize: "30px", fontWeight:"bold", color:"#1b3d3c"}}>צור קשר</p>
+            <br></br>
+            <div className="line" style={{width: '100%'}}>
+              <input className="ContactInput" type ="text" style={{width: '70%'}}></input>
+              <p>שם מלא</p>
             </div>
-            <div className="row" style={{width: '100%'}}>
-              <div><input className="ContactInput" type ="text"></input></div>
-              <div>כתובת מייל</div>
+            <div className="line" style={{width: '100%'}}>
+              <input className="ContactInput" type ="text" style={{width: '70%'}}></input>
+              <p>כתובת מייל</p>
             </div>
-            <div className="row" style={{width: '100%'}}>
-              <div><input className="ContactInput" type ="text"></input></div>
-              <div>נושא</div>
+            <div className="line" style={{width: '100%'}} >
+              <input className="ContactInput" type ="text" style={{width: '70%'}}></input>
+              <p>נושא</p>
             </div>
-            <div className="row" style={{width: '100%'}}>
-              <div><textarea className="ContactInput" type ="text" style={{width: '130px'}}></textarea></div>
-              <div>גוף ההודעה</div>
+            <div className="line" style={{width: '100%'}}>
+              <textarea className="ContactInput" type ="text" style={{width: '70%', height:"40px"}}></textarea>
+              <p>גוף ההודעה</p>
             </div>
-            <div style={{ marginBottom: "20px" }}></div>
-            <div style={{display:"flex"}}>
+            <br></br>
+             
+            <div className="line" style={{ justifyContent:"center"}}>
               <button className="button button1" type="submit" onClick={closeModal1}>שלח</button>
               <button className="button button1" onClick={closeModal1}>סגור</button>
-              <button className="button button1" type="reset">מחק</button>
+              <button className="button button1" type="reset">אפס</button>
+
             </div>
-            </form>
-          </div>
-        </div> 
-        </Modal>
+          </form>
+
+      </Modal>
       <Modal 
           isOpen={modal2IsOpen}
           onRequestClose={closeModal2}
           style={AboutStyle}
           contentLabel="Example Modal"
         >
-        <div className="Modal">
-          <div className="Modal2"> 
-            <div>,הוא כלי עזר להחלפת קורסים או קבוצות בקורסים PartnerTau</div>
-            <div>.מציאת שותפים לתרגילי בית וגישה לקבוצות ווצאפ של הקורסים</div>
-            <div style={{ marginBottom: "30px" }}></div>
-            <div>?אז איך מוצאים התאמה</div>
+        <div>
+            <p  style={{textAlign:"center",fontSize: "30px", fontWeight:"bold", color:"#1b3d3c"}}>
+              ,הוא כלי עזר להחלפת קורסים או קבוצות בקורסים PartnerTau
+              <br></br>
+              .מציאת שותפים לתרגילי בית וגישה לקבוצות ווצאפ של הקורסים 
+            </p>
 
-            <div>.א. יש לחפש את הקורס אליו אתם רשומים באמצעות שם או מספר הקורס</div>
-            <div>אם יש כזו whatsapp-ב. בעמוד הקורס תוכלו למצוא קישור לקבוצת ה</div>
-            <div>.וכן אופציות להגיש בקשה למציאת שותפים, החלפת קבוצה והחלפת קורס</div>
-            <div>.ג. הגישו את הבקשה בה אתם מעוניינים (לאחר שהתחברתם למערכת)</div>
-            <div>.ד. כעת תורנו לעבוד על למצוא התאמה עבורכם</div> 
-            <div>.ברגע שתמצא התאמה יישלח אליכם מייל המציין זאת ואופציית הצ׳אט תפתח</div>
-            <div>.ה. במידה וההתאמה מוצלחת תוכלו לסגור את הטיפול בבקשה</div>
-            <div>!בהצלחה</div>
-            <div style={{ marginBottom: "30px" }}></div>
-            <div>.שימו לב: המערכת הינה כלי עזר בלבד</div>
-            <div>.כל פעולה אל מול האוניברסיטה מתבצעת בכלים שהיא מספקת ואין לה קשר לאתר זה</div>
-            <div style={{ marginBottom: "10px" }}></div>
-            <button className="button button1" onClick={closeModal2}>סגור</button>
-          </div>
+            <p style={{textAlign:"end", fontSize: "25px"}} >?אז איך מוצאים התאמה</p>
+
+
+            <p style={{textAlign:"end", fontSize: "20px"}} >
+              .א. יש לחפש את הקורס אליו אתם רשומים באמצעות שם או מספר הקורס
+              <br></br><br></br>
+              .אם יש כזו וכן אופציות להגיש בקשה למציאת שותפים, החלפת קבוצה והחלפת קורס whatsapp-ב. בעמוד הקורס תוכלו למצוא קישור לקבוצת ה
+              <br></br><br></br>
+              .ג. הגישו את הבקשה בה אתם מעוניינים (לאחר שהתחברתם למערכת)
+              <br></br><br></br>
+              .ד. כעת תורנו לעבוד על למצוא התאמה עבורכם
+              .ברגע שתמצא התאמה יישלח אליכם מייל המציין זאת ואופציית הצ׳אט תפתח
+              <br></br><br></br>
+              .ה. במידה וההתאמה מוצלחת תוכלו לסגור את הטיפול בבקשה
+            </p>
+
+            <p style={{ textAlign:"center", fontSize: "25px" }}>!בהצלחה</p>
+            <p style={{textAlign:"end", fontSize: "20px"}} >
+              <span style={{fontWeight:"bold", color:"#1b3d3c" }}>
+               שימו לב:
+              </span>
+              <span> </span>
+             המערכת הינה כלי עזר בלבד
+            <br></br>
+            .כל פעולה אל מול האוניברסיטה מתבצעת בכלים שהיא מספקת ואין לה קשר לאתר זה
+            </p>
+            
+            <button style={{display:"flex", justifyContent:"flex-start"}} className="button button1" onClick={closeModal2}>סגור</button>
+
         </div> 
         </Modal>
     </div>

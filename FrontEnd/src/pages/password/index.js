@@ -61,16 +61,14 @@ function Password() {
 
   return (
     <div className="Home">
-      <div className="login" >
-        <p staly={{marginBottom: '30px'}}>איפוס סיסמה </p>
+        <p style={{ fontSize: "45px", fontWeight:"bold" }}>איפוס סיסמה </p>
         <div className="col" > 
         <form onSubmit={handleSubmit(onSubmit)} >
-          <div><input className="inputclass" {...register("mail")} type ="email" required="true" style={{width: '160px'}}></input>Email</div>
+          <div><input className="inputclass" {...register("mail")} type ="email" required="true" style={{width: '160px'}}></input>מייל</div>
           <div style={{display:'flex', justifyContent:'center', marginTop:'30px'}}>
           <button type='submit' className="button button1">אפס סיסמא</button>
           </div>
         </form>   
-        </div>
       </div>
       <Modal
           isOpen={modalIsOpen}

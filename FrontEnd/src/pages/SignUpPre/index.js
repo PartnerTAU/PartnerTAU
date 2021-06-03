@@ -7,7 +7,6 @@ import { createUser } from "../../functions/users";
 import ReactDOM from 'react-dom';
 
 
-/*Signed up successfully modal style*/
 const customStyles = {
     content : {
       top                   : '50%',
@@ -117,8 +116,8 @@ function SignUpPre() {
 
   return (
     <div className="Home">
-      <div className="login" >
-        <p staly={{marginBottom: '30px'}}>PartnerTAU ברוכים הבאים להרשמה לאתר</p>
+      <div >
+        <p style={{fontSize: "50px", fontWeight:"bold" }}>PartnerTAU ברוכים הבאים להרשמה לאתר</p>
         <div className="col" >
         <form onSubmit={handleSubmit(onSubmit)} >
             <div className="row" style={{width: '100%' }} >
@@ -143,7 +142,7 @@ function SignUpPre() {
             </div>
             <div style={{display: 'flex', justifyContent: 'center', marginTop: '30px'}}>
               {/* <button type="submit" className="button button1" onClick={openModal}>הירשם</button> */}
-              <button type="submit" className="button button1">הירשם</button>
+              <button type="submit" className="button button1" style={{fontSize:"30px"}}>הירשם</button>
             </div>
             
         </form>

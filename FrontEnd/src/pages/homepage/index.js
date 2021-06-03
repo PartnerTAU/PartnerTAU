@@ -3,6 +3,7 @@ import '../../App.css';
 import {Route, Redirect, useHistory} from 'react-router-dom';
 import { loginConfirmed } from "../../utils/subjects/loginSubject/loginSubject";
 import { GetCourseAutoComplete } from "../../functions/serverfunction";
+import swal from 'sweetalert';
 
 
 function Home() {
@@ -74,7 +75,17 @@ function Home() {
     localStorage.setItem("semester", semester);*/
 
     if (coursename === "" && coursenumber == "") {
-      alert("illegal parameters");
+      swal({
+        title: "Error!",
+        text: "הכנס מספר קורס או שם קורס",
+        icon: "warning",
+        dangerMode: true,
+        className: "bodyAlert",
+        button:{
+          text: "סגור",
+          className: "button1"
+        }
+      })
     } else {
       loginConfirmed.subjectTrigger();
       history.push("/" + page, {
@@ -93,20 +104,13 @@ function Home() {
 
   return (
     <div className="Home">
-      <div className="login">
-        <p style={{ marginBottom: "30px" }}>PartnerTAU ברוכים הבאים לאתר</p>
+
+        <p style={{ fontSize: "45px", fontWeight:"bold" }}>PartnerTAU ברוכים הבאים לאתר</p>
         <div className="col">
-          <div className="row">
+          <div className="line">
             <div className="col">
               <div>
-                <input
-                  className="inputclass"
-                  onChange={(e) => {
-                    getCoursesByTerm(e, "שם");
-                  }}
-                  value={coursename}
-                  type="text"
-                ></input>
+                <input className="inputclass" onChange={(e) => {getCoursesByTerm(e, "שם");}} value={coursename} type="text"></input>
                 שם קורס
               </div>
               <div>
@@ -133,22 +137,10 @@ function Home() {
             <div style={{ marginLeft: "25px" }}>או</div>
             <div className="col">
               <div>
-                <input
-                  className="inputclass"
-                  onChange={(e) => {
-                    getCoursesByTerm(e, "מספר");
-                  }}
-                  
+                <input className="inputclass" onChange={(e) => {getCoursesByTerm(e, "מספר");}} 
                   value={coursenumber}
                   type="text"
                   pattern="^[0-9]{8}"
-
-                  /*maxlength="8" 
-              onKeyPress={(event) => {
-                if (!/[0-9]/.test(event.key)) {
-                  event.preventDefault();
-                }
-              }}*/
                 ></input>
                 מספר קורס
               </div>
@@ -173,13 +165,9 @@ function Home() {
               </div>
             </div>
           </div>
-
+          <br></br>         
           <div>
-            <select
-              name="Semester"
-              id="semester"
-              border="50"
-              onChange={(semester) => {
+            <select className="custom-select" name="Semester" id="semester" border="50" onChange={(semester) => {
                 SetSemester(semester.target.value);
               }}
             >
@@ -191,15 +179,10 @@ function Home() {
             </label>
           </div>
         </div>
-      </div>
-      <button
-        onClick={() => {
-          Redirect("Courses");
-        }}
-        className="button button1"
-      >
-        חפש
-      </button>
+        <br></br>
+        <button onClick={() => {Redirect("Courses");}} className="button button1" style={{fontSize: "30px"}}>
+          חפש
+        </button>
     </div>
   );
 }
