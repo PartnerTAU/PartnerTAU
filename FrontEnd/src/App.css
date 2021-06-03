@@ -321,9 +321,10 @@ input[type=text] {
 input[type=text]:focus {
   border: 0px solid #555;
   height: 23px;
-   background-color: #72d8d554;
-   font-size: 25px;
+  background-color: #72d8d554;
+  font-size: 25px;
 }
+
 
 .custom-select {
   position: relative;
