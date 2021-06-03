@@ -213,7 +213,7 @@ function NavBar() {
             </ContactMailIcon>
           </IconButton>
           
-          <IconButton nClick={openModal2}>
+          <IconButton onClick={openModal2}>
           <InfoOutlinedIcon
               style={{color: grey[50], fontSize: 50, marginRight: 15, marginLeft:15}}>
             </InfoOutlinedIcon>
