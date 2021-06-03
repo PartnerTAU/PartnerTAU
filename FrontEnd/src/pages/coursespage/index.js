@@ -8,10 +8,13 @@ import {CreateCourseRequest} from '../../functions/serverfunction'
 import {CreateGroupRequest} from '../../functions/serverfunction'
 import {useLocation } from "react-router-dom";
 import swal from 'sweetalert';
+
 import WhatsAppIcon from '@material-ui/icons/WhatsApp';
 import IconButton from '@material-ui/core/IconButton';
 import { green } from '@material-ui/core/colors';
-
+import SyncOutlinedIcon from '@material-ui/icons/SyncOutlined';
+import GroupAddIcon from '@material-ui/icons/GroupAdd';
+import ScheduleIcon from '@material-ui/icons/Schedule';
 
 
 /*Request accepted Modal Style*/ 
@@ -216,7 +219,11 @@ async function OnClickGroup (){
       </div>
       <div className="line" style={{width: "90%"}}>
         <div className="box2">
-            <div style={{fontSize: '37px', fontWeight:"bold"}}>החלפת קורס</div>
+            <div style={{fontSize: '37px', fontWeight:"bold"}}>
+              <SyncOutlinedIcon
+                style={{fontSize: 50 , marginRight: 30}}>
+            </SyncOutlinedIcon>
+              החלפת קורס</div>
             <div style={{fontSize: '16px'}}>בהנחה ואתם רשומים לקורס לעיל </div>
             <div><input className="inputclass" value = {reqcourseid} onChange = {(e) => {Setreqcourseid(e.target.value)}} type ="text"
                   maxlength="8" 
@@ -232,14 +239,23 @@ async function OnClickGroup (){
             <button onClick={() => OnClickCourse()} className="button button1">הגש בקשה</button>
           </div>
         <div className="box3">
-          <div style={{fontSize: '39px', fontWeight:"bold"}}>מציאת שותפים</div>
+          <div style={{fontSize: '39px', fontWeight:"bold"}}>
+          <GroupAddIcon
+              style={{fontSize: 50 , marginRight: 30}}>
+          </GroupAddIcon>
+            מציאת שותפים</div>
           <div><input className="inputclass" value = {reqgrpcount} type ="text" pattern="\d+" onChange = {(e) => {Setreqgrpcount(e.target.value)}}></input>  גודל קבוצה מבוקש</div>
           <div><input className="inputclass" value = {grpcount} type ="text" pattern="\d*" onChange = {(e) => {Setgrpcount(e.target.value)}}></input>  גודל קבוצה נוכחי</div>
           <div><input className="inputclass" value = {grpnum} type ="text" pattern="\d*" onChange = {(e) => {SetgrpNum(e.target.value)}}></input> מספר קבוצה (במידה ורלוונטי)</div>
           <button onClick={() => OnClickPartner()} className="button button1">הגש בקשה</button>
         </div>
         <div className="box2">
-          <div style={{fontSize: '37px', fontWeight:"bold"}}>החלפת קבוצה</div>
+          <div style={{fontSize: '37px', fontWeight:"bold"}}>
+          <ScheduleIcon
+              style={{fontSize: 50 , marginRight: 30}}>
+          </ScheduleIcon>
+
+            החלפת קבוצה</div>
           <div><input className="inputclass" value = {reqgrp} type ="text" onChange = {(e) => {Setreqgrp(e.target.value)}}></input>  מספר קבוצה מבוקש</div>
           <div><input className="inputclass" value = {grp} type ="text" onChange = {(e) => {Setgrp(e.target.value)}}></input>  מספר קבוצה נוכחי</div>
           <button onClick={() => OnClickGroup()} className="button button1">הגש בקשה</button>

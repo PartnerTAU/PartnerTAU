@@ -6,6 +6,12 @@ import { useForm } from "react-hook-form";
 import { ResetPass } from "../../functions/users";
 
 
+import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import Input from '@material-ui/core/Input';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import MailIcon from '@material-ui/icons/Mail';
 
 /* Forgot password modal style*/
 const customStyles = {

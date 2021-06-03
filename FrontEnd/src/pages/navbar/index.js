@@ -7,6 +7,19 @@ import { loginConfirmed } from "../../utils/subjects/loginSubject/loginSubject";
 import { useForm } from "react-hook-form";
 import {SignOut } from "../../functions/users";
 
+import InfoIcon from '@material-ui/icons/Info';
+import IconButton from '@material-ui/core/IconButton';
+import { grey } from '@material-ui/core/colors';
+
+import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
+import ContactMailIcon from '@material-ui/icons/ContactMail';
+import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
+import ListIcon from '@material-ui/icons/List';
+import PersonOutlineOutlinedIcon from '@material-ui/icons/PersonOutlineOutlined';
+import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
+import { BottomNavigation } from '@material-ui/core';
+
+
 import Modal from "react-modal";
 import { merge } from "rxjs";
 
@@ -133,49 +146,85 @@ function NavBar() {
   return (
     <div className="Home">
       <div className="Top">
-        <div>
+        <p className="row">
           {username && username != "" ? (
-            <button onClick={signOut} className="button button1">
-              התנתק
-            </button>
+          <IconButton onClick={signOut}>
+            <PowerSettingsNewIcon
+              style={{color: grey[50], fontSize: 50, marginRight: 5, marginLeft:5}}>
+            </PowerSettingsNewIcon>
+          </IconButton>
+            // <button onClick={signOut} className="button button1">
+            //   התנתק
+            // </button>
           ) : (
-            <button onClick={openModal} className="button button1">
-              התחבר
-            </button>
+          <IconButton onClick={openModal}>
+            <PersonOutlineOutlinedIcon
+              style={{color: grey[50], fontSize: 50, marginRight: 5, marginLeft:5}}>
+            </PersonOutlineOutlinedIcon>
+          </IconButton>
+            // <button onClick={openModal} className="button button1">
+            //   התחבר
+            // </button>
           )}
 
-          <button
+          <IconButton onClick={() =>  Redirect("List")}>
+          <ListIcon
+              style={{color: grey[50], fontSize: 50, marginRight: 5, marginLeft:5}}>
+            </ListIcon>
+          </IconButton>
+  
+
+          {/* <button
             onClick={() => {
               Redirect("List");
             }}
             className="button button1"
           >
             רשימת הבקשות שלי
-          </button>
-          <button
+          </button> */}
+
+          <IconButton onClick={() =>  Redirect("Home")}>
+            <HomeOutlinedIcon
+              style={{color: grey[50], fontSize: 50, marginRight: 5, marginLeft:5}}>
+            </HomeOutlinedIcon>
+          </IconButton>
+
+          {/* <button
             onClick={() => {
               Redirect("Home");
             }}
             className="button button1"
           >
             דף הבית
-          </button>
-        </div>
+          </button> */}
+        </p>
         <div className="row">
           !
-          <p>
+          <p style={{marginRight: 30, color: "white"}}>
             <apan>שלום</apan>
             <span> </span>
             <span>{username && username != "" ? username : ""} </span>
           </p>
           
+
+          <IconButton onClick={openModal1}>
+            <ContactMailIcon
+              style={{color: grey[50], fontSize: 50,  marginRight: 15,marginLeft:15}}>
+            </ContactMailIcon>
+          </IconButton>
           
-          <button onClick={openModal1} className="button button1">
+          <IconButton nClick={openModal2}>
+          <InfoOutlinedIcon
+              style={{color: grey[50], fontSize: 50, marginRight: 15, marginLeft:15}}>
+            </InfoOutlinedIcon>
+          </IconButton>
+
+          {/* <button onClick={openModal1} className="button button1">
             צור קשר
           </button>
           <button onClick={openModal2} className="button button1">
             אודות
-          </button>
+          </button> */}
           
           <img src={logo} alt="Logo" />
         </div>
