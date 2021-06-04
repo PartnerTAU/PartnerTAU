@@ -140,7 +140,13 @@ function Home() {
                 <input className="inputclass" onChange={(e) => {getCoursesByTerm(e, "מספר");}} 
                   value={coursenumber}
                   type="text"
-                  pattern="^[0-9]{8}"
+                  maxlength="9" 
+                  onKeyPress={(event) => {
+                    if (!/[0-9,-]/.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }
+                }
                 ></input>
                 מספר קורס
               </div>

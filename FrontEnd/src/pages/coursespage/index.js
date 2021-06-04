@@ -246,9 +246,9 @@ async function OnClickGroup (){
               החלפת קורס</div>
             <div style={{fontSize: '16px'}}>בהנחה ואתם רשומים לקורס לעיל </div>
             <div><input className="inputclass" value = {reqcourseid} onChange = {(e) => {Setreqcourseid(e.target.value)}} type ="text"
-                  maxlength="8" 
+                  maxlength="9" 
                   onKeyPress={(event) => {
-                    if (!/[0-9]/.test(event.key)) {
+                    if (!/[0-9,-]/.test(event.key)) {
                       event.preventDefault();
                     }
                   }
@@ -264,9 +264,28 @@ async function OnClickGroup (){
               style={{fontSize: 50 , marginRight: 30}}>
           </GroupAddIcon>
             מציאת שותפים</div>
-          <div><input className="inputclass" value = {reqgrpcount} type ="text" pattern="\d+" onChange = {(e) => {Setreqgrpcount(e.target.value)}}></input>  גודל קבוצה מבוקש</div>
-          <div><input className="inputclass" value = {grpcount} type ="text" pattern="\d*" onChange = {(e) => {Setgrpcount(e.target.value)}}></input>  גודל קבוצה נוכחי</div>
-          <div><input className="inputclass" value = {grpnum} type ="text" pattern="\d*" onChange = {(e) => {SetgrpNum(e.target.value)}}></input> מספר קבוצה (במידה ורלוונטי)</div>
+          <div><input className="inputclass" value = {reqgrpcount} type ="text"
+          onKeyPress={(event) => {
+            if (!/[0-9]/.test(event.key)) {
+              event.preventDefault();
+            }
+        }
+        } onChange = {(e) => {Setreqgrpcount(e.target.value)}}></input>  גודל קבוצה מבוקש</div>
+          <div><input className="inputclass" value = {grpcount} type ="text" 
+          onKeyPress={(event) => {
+            if (!/[0-9]/.test(event.key)) {
+              event.preventDefault();
+            }
+        }
+        } onChange = {(e) => {Setgrpcount(e.target.value)}}></input>  גודל קבוצה נוכחי</div>
+          <div><input className="inputclass" value = {grpnum} type ="text"
+          maxlength="2"
+          onKeyPress={(event) => {
+          if (!/[0-9]/.test(event.key)) {
+            event.preventDefault();
+          }
+          }
+          }onChange = {(e) => {SetgrpNum(e.target.value)}}></input> מספר קבוצה (במידה ורלוונטי)</div>
           <button onClick={() => OnClickPartner()} className="button button1">הגש בקשה</button>
         </div>
         <div className="box2">
@@ -276,8 +295,22 @@ async function OnClickGroup (){
           </ScheduleIcon>
 
             החלפת קבוצה</div>
-          <div><input className="inputclass" value = {reqgrp} type ="text" onChange = {(e) => {Setreqgrp(e.target.value)}}></input>  מספר קבוצה מבוקש</div>
-          <div><input className="inputclass" value = {grp} type ="text" onChange = {(e) => {Setgrp(e.target.value)}}></input>  מספר קבוצה נוכחי</div>
+          <div><input className="inputclass" value = {reqgrp} type ="text"
+          maxlength="2"
+          onKeyPress={(event) => {
+          if (!/[0-9]/.test(event.key)) {
+            event.preventDefault();
+          }
+          }
+          } onChange = {(e) => {Setreqgrp(e.target.value)}}></input>  מספר קבוצה מבוקש</div>
+          <div><input className="inputclass" value = {grp} type ="text" 
+          maxlength="2"
+          onKeyPress={(event) => {
+          if (!/[0-9]/.test(event.key)) {
+            event.preventDefault();
+          }
+          }
+          }onChange = {(e) => {Setgrp(e.target.value)}}></input>  מספר קבוצה נוכחי</div>
           <button onClick={() => OnClickGroup()} className="button button1">הגש בקשה</button>
         </div>
       </div>
