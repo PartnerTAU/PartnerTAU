@@ -101,7 +101,7 @@ function Courses() {
     if (response.errormsg){
       //alert(response.errormsg);
       swal({
-        title: "Error!",
+        title: "שגיאה",
         text: "יש להתחבר למערכת טרם יצירת בקשה חדשה",
         icon: "warning",
         dangerMode: true,
@@ -127,7 +127,17 @@ async function OnClickCourse (){
   //lets oprate function from function page
   let response = await CreateCourseRequest(reqcourseid, coursenumber, coursename, semester);
   if (response.errormsg){
-    alert(response.errormsg);
+    swal({
+      title: "שגיאה",
+      text: "יש להתחבר למערכת טרם יצירת בקשה חדשה",
+      icon: "warning",
+      dangerMode: true,
+      className: "bodyAlert",
+      button:{
+        text: "סגור",
+        className: "button1"
+      }
+  })
   }
   else{
     if (response && response == true){
@@ -144,7 +154,17 @@ async function OnClickGroup (){
   //lets oprate function from function page
   let response = await CreateGroupRequest(grp, reqgrp, coursenumber, coursename, semester);
   if (response.errormsg){
-    alert(response.errormsg);
+    swal({
+      title: "שגיאה",
+      text: "יש להתחבר למערכת טרם יצירת בקשה חדשה",
+      icon: "warning",
+      dangerMode: true,
+      className: "bodyAlert",
+      button:{
+        text: "סגור",
+        className: "button1"
+      }
+  })
   }
   else{
     if (response && response == true){

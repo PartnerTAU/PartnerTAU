@@ -35,7 +35,7 @@ function Login({props}) {
     if (reponse.data == "WrongPass"){
       // swal("Wrong Password!", "Close");
       swal({
-        title: "Error!",
+        title: "שגיאה",
         text: "סיסמא/ שם משתמש שגויים",
         icon: "warning",
         dangerMode: true,
@@ -49,7 +49,7 @@ function Login({props}) {
     }
     else if(reponse.data == "NoUser"){
       swal({
-        title: "Error!",
+        title: "שגיאה",
         text: "המשתמש לא נמצא",
         icon: "warning",
         dangerMode: true,
@@ -70,7 +70,7 @@ function Login({props}) {
       }
       else{
         swal({
-          title: "Error!",
+          title: "שגיאה",
           text: "כתובת המייל טרם אושרה",
           icon: "warning",
           dangerMode: true,

@@ -3,6 +3,8 @@ import '../../App.css';
 import {Route, Redirect, useHistory} from 'react-router-dom'
 import {GetCourseRequests} from '../../functions/serverfunction'
 import { getOpenRequests } from '../../functions/courseRequest';
+import swal from 'sweetalert';
+
 
 function List() {
 
@@ -10,10 +12,24 @@ function List() {
   useEffect( async () => {
     setRequest((prevArray) => []);
     let x = await GetCourseRequests();
+    if(x.errormsg){
+      swal({
+        title: "שגיאה",
+        text: "יש להתחבר למערכת על מנת לצפות בבקשות שלך",
+        icon: "warning",
+        dangerMode: true,
+        className: "bodyAlert",
+        button:{
+          text: "סגור",
+          className: "button1"
+        }
+    })
+    }
+    else{
     x.map((item, k) => setRequest((oldArray) => [...oldArray, item]));
 
     //x.map( a =>  setRequest((oldArray) => [...oldArray, a]));
-
+    }
   }, []);
 
 

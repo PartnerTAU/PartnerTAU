@@ -76,7 +76,7 @@ function Home() {
 
     if (coursename === "" && coursenumber == "") {
       swal({
-        title: "Error!",
+        title: "שגיאה",
         text: "הכנס מספר קורס או שם קורס",
         icon: "warning",
         dangerMode: true,

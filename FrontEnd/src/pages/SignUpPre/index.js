@@ -109,7 +109,7 @@ function SignUpPre() {
         }
         if (reponse.data == "InUse"){
           swal({
-            title: "warning!",
+            title: "אזהרה",
             text:"כתובת המייל נמצאת בשימוש",
             icon: "warning",
             dangerMode: true,

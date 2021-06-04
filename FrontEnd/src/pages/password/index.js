@@ -4,6 +4,7 @@ import {Route, Redirect, useHistory} from 'react-router-dom'
 import Modal from 'react-modal';
 import { useForm } from "react-hook-form";
 import { ResetPass } from "../../functions/users";
+import swal from 'sweetalert';
 
 
 import FormControl from '@material-ui/core/FormControl';
@@ -61,7 +62,18 @@ function Password() {
       openModal();
     }
     else{
-      alert("Email not found!");
+      swal({
+        title: "שגיאה",
+        text: "כתובת המייל לא נמצאה במערכת",
+        icon: "warning",
+        dangerMode: true,
+        className: "bodyAlert",
+        button:{
+          text: "סגור",
+          className: "button1"
+        }
+    })
+      //alert("Email not found!");
     }
   };
 
