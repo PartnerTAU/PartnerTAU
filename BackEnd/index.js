@@ -263,3 +263,12 @@ app.get("/GetCourseAutoComplete", async (req, res) => {
 app.listen(3001, () => {
   console.log(`Server is running on port ${3001}.`);
 });
+
+app.get("/getAllRequests", authLogic, async (req, res) => {
+  var x = await courseRepository.GetAllRequests(req.decodedToken);
+  if (x) {
+    res.send(x);
+  } else {
+    res.send(500);
+  }
+});

@@ -97,7 +97,7 @@ function Courses() {
 
   async function OnClickPartner (){
     //lets oprate function from function page
-    let response = await CreatePartnerRequest(grpcount, reqgrpcount, grpnum, coursenumber, semester);
+    let response = await CreatePartnerRequest(grpcount, reqgrpcount, grpnum, coursenumber, coursename, semester);
     if (response.errormsg){
       //alert(response.errormsg);
       swal({
@@ -125,7 +125,7 @@ function Courses() {
 
 async function OnClickCourse (){
   //lets oprate function from function page
-  let response = await CreateCourseRequest(reqcourseid, coursenumber, semester);
+  let response = await CreateCourseRequest(reqcourseid, coursenumber, coursename, semester);
   if (response.errormsg){
     alert(response.errormsg);
   }
@@ -142,7 +142,7 @@ async function OnClickCourse (){
 
 async function OnClickGroup (){
   //lets oprate function from function page
-  let response = await CreateGroupRequest(grp, reqgrp, coursenumber, semester);
+  let response = await CreateGroupRequest(grp, reqgrp, coursenumber, coursename, semester);
   if (response.errormsg){
     alert(response.errormsg);
   }

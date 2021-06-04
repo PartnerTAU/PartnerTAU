@@ -25,8 +25,8 @@ const CreatePartnerRequest = async (request, tokenDecoded) =>{
         //you must create async finction and use await, otherwise,  you'll get null as an answer
         /*var exec  = await mysqlConnection("insert into partner_request (user,courseid,semester,group,count,done) values (?,?,?,?,?,?)"
         , [tokenDecoded.data, request.courseId, ,request.requestedCourseId,false]);*/
-        var exec  = await mysqlConnection("insert into partnertau.partner_request (user,courseid,semester,grp,count,done) values (?,?,?,?,?,?)"
-        , [tokenDecoded.data, request.body.course, request.body.semester, request.body.grpnum, request.body.reqgrpcount - request.body.grpcount, false]);
+        var exec  = await mysqlConnection("insert into partnertau.partner_request (user,courseid,coursename,semester,grp,neededgroupsize,mygroupsize,done) values (?,?,?,?,?,?,?,?)"
+        , [tokenDecoded.data, request.body.coursenumber, request.body.coursename, request.body.semester, request.body.grpnum, request.body.reqgrpcount - request.body.grpcount, request.body.grpcount, false]);
         let courses =  [];
         if(exec.affectedRows > 0)
         {
@@ -47,8 +47,8 @@ const CreateCourseRequest = async (request, tokenDecoded) =>{
         /*var exec  = await mysqlConnection("insert into partner_request (user,courseid,semester,group,count,done) values (?,?,?,?,?,?)"
         , [tokenDecoded.data, request.courseId, ,request.requestedCourseId,false]);*/
         var x = 7;
-        var exec  = await mysqlConnection("insert into partnertau.course_request (user,courseid,semester,req_courseid,done) values (?,?,?,?,?)"
-        , [tokenDecoded.data, request.body.course, request.body.semester, request.body.reqcourseid, false]);
+        var exec  = await mysqlConnection("insert into partnertau.course_request (user,courseid,coursename,semester,req_courseid,done) values (?,?,?,?,?,?)"
+        , [tokenDecoded.data, request.body.coursenumber, request.body.coursename, request.body.semester, request.body.reqcourseid, false]);
         let courses =  [];
         if(exec.affectedRows > 0)
         {
@@ -68,8 +68,8 @@ const CreateGroupRequest = async (request, tokenDecoded) =>{
         //you must create async finction and use await, otherwise,  you'll get null as an answer
         /*var exec  = await mysqlConnection("insert into partner_request (user,courseid,semester,group,count,done) values (?,?,?,?,?,?)"
         , [tokenDecoded.data, request.courseId, ,request.requestedCourseId,false]);*/
-        var exec  = await mysqlConnection("insert into partnertau.group_request (user,courseid,semester,grp,req_grp,done) values (?,?,?,?,?,?)"
-        , [tokenDecoded.data, request.body.course, request.body.semester, request.body.grp, request.body.reqgrp, false]);
+        var exec  = await mysqlConnection("insert into partnertau.group_request (user,courseid,coursename,semester,grp,req_grp,done) values (?,?,?,?,?,?)"
+        , [tokenDecoded.data, request.body.coursenumber, request.body.coursename, request.body.semester, request.body.grp, request.body.reqgrp, false]);
         let courses =  [];
         if(exec.affectedRows > 0)
         {
@@ -83,6 +83,27 @@ const CreateGroupRequest = async (request, tokenDecoded) =>{
     }
 }
 
+
+const parseSemester =(semester) =>{
+    if(semester == "A"){
+        return "סמסטר א"
+    }
+    else if(semester == "B"){
+        return "סמסטר ב"
+    }
+    else if(semester == "C"){
+        return "סמסטר קיץ"
+    }
+}
+
+const parseStatus =(done) =>{
+    if(done == false){
+        return "טרם נמצאה התאמה"
+    }
+    else if(semester == true){
+        return "נמצאה התאמה"
+    }
+}
 
 const MarkRequestAsResolved = async (request,tokenDecoded) =>{
     try{
@@ -199,7 +220,54 @@ const GetCourseListAutoComnplete = async (text) =>{
 
 }
 
-
+const GetAllRequests = async (tokenDecoded) =>{
+    try{
+        var exec  = await mysqlConnection("select * from partnertau.partner_request where userID=?"
+        , [tokenDecoded.data]);
+        let requests =  [];
+        if(exec.length > 0){
+            exec.forEach(a => {
+                requests.push({
+                    courseNum: a.courseid,
+                    courseName: a.coursename,
+                    semester: parseSemester(a.semester),
+                    requestType: "מציאת שותפים",
+                    status: parseStatus(a.done)
+                })
+            })
+        }
+        var exec2  = await mysqlConnection("select * from partnertau.group_request where userID=?"
+        , [tokenDecoded.data]);
+        if(exec2.length > 0){
+            exec2.forEach(a => {
+                requests.push({
+                    courseNum: a.courseid,
+                    courseName: a.coursename,
+                    semester: parseSemester(a.semester),
+                    requestType: "החלפת קבוצה",
+                    status: parseStatus(a.done)
+                })
+            })
+        }
+        var exec1  = await mysqlConnection("select * from partnertau.course_request where userID=?"
+        , [tokenDecoded.data]);
+        if(exec1.length > 0){
+            exec1.forEach(a => {
+                requests.push({
+                    courseNum: a.courseid,
+                    courseName: a.coursename,
+                    semester: parseSemester(a.semester),
+                    requestType: "החלפת קורס",
+                    status: parseStatus(a.done)
+                })
+            })
+        }
+        return requests;
+    }
+    catch(e){
+        return [];
+    }
+}
 
 
 module.exports ={
@@ -209,5 +277,6 @@ module.exports ={
     CreateGroupRequest : CreateGroupRequest,
     GetActiveRequestedByUserId : GetActiveRequestedByUserId,
     MarkRequestAsResolved : MarkRequestAsResolved,
-    GetCourseListAutoComnplete : GetCourseListAutoComnplete
+    GetCourseListAutoComnplete : GetCourseListAutoComnplete,
+    GetAllRequests: GetAllRequests
 }
