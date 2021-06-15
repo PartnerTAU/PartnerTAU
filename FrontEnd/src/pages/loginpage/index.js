@@ -135,24 +135,24 @@ function Login({props}) {
       localStorage.setItem("user", userName);
     }
     loginConfirmed.subjectTrigger();
-    Redirect('Home');
+
   }
 
   return (
     <div className="Home" >
-        <p style={{ fontSize: "45px", fontWeight:"bold" }}>PartnerTAU ברוכים הבאים לאתר</p>
+        <p className="websiteTitle">PartnerTAU ברוכים הבאים לאתר</p>
         <form onSubmit={handleSubmit(onSubmit)}>
         <div className="row" style={{width: '100%'}}>
-          <div><input className="inputclass"  {...register("username")} style={{ width: "200px" }} required="true" minLength="6" type="mail"></input></div>
+          <div><input className="inputclass"  {...register("username")}  required="true" minLength="6" type="mail"></input></div>
           <div>מייל</div>
         </div>
         <div className="row" style={{width: '100%'}}>
-          <div><input className="inputclass" type="password" required="true" {...register("password")} style={{ marginBottom: "30px", width: "200px" }}></input></div>
+          <div><input className="inputclass" type="password" required="true" {...register("password")} ></input></div>
           <div>סיסמה</div>
         </div>
         <br></br>
         {/* <button type="submit" className="button button1" onClick={Log}>submit</button> */}
-        <div className="line">
+        <div className="row">
           <button type="submit" className="button button1">התחבר</button>
           <button className="button button1" onClick={()=>{Redirect('Password')}} style={{marginLeft:'10px'}}>שכחתי סיסמה</button>
           <button className="button button1" onClick={()=>{Redirect('Signup')}} style={{marginLeft:'10px'}}>הירשם</button>

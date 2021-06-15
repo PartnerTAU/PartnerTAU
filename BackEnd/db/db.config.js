@@ -5,14 +5,15 @@ const util = require('util');
 //leave host and port as//make sure port is 3306,  make sure username / passsword nad dbname is correct
 
 var mysqlConnection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '1234567',
-    port: 3306,
+    host: 'db-mysql-nyc1-10638-do-user-9337719-0.b.db.ondigitalocean.com',
+    user: 'TSACH',
+    password: 'ri7en2pu727npm4z',
+    port: 25060,
     database: 'partnertau',
     multipleStatements: true,
     insecureAuth: true,
 })
+
 
 
 const query = util.promisify(mysqlConnection.query).bind(mysqlConnection);

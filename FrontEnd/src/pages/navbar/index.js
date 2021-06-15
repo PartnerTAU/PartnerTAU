@@ -1,5 +1,8 @@
 import logo from "../../images/logo.png";
 import { React, useEffect, useState } from "react";
+import Tooltip from '@material-ui/core/Tooltip';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
+
 import "../../App.css";
 import { Route, Redirect, useHistory } from "react-router-dom";
 import Login from "../loginpage";
@@ -12,18 +15,16 @@ import IconButton from '@material-ui/core/IconButton';
 import { grey } from '@material-ui/core/colors';
 
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
-import ContactMailIcon from '@material-ui/icons/ContactMail';
 import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
 import ListIcon from '@material-ui/icons/List';
 import PersonOutlineOutlinedIcon from '@material-ui/icons/PersonOutlineOutlined';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
-import { BottomNavigation } from '@material-ui/core';
-
+import MailOutlineRoundedIcon from '@material-ui/icons/MailOutlineRounded';
+import Grid from '@material-ui/core/Grid';
 
 import Modal from "react-modal";
 import { merge } from "rxjs";
 
-/*Sign in modal style*/
 const SignInStyle = {
   content: {
     top: "50%",
@@ -37,7 +38,6 @@ const SignInStyle = {
   },
 };
 
-/*About modal style*/
 const AboutStyle = {
   content: {
     top: "50%",
@@ -53,7 +53,6 @@ const AboutStyle = {
   },
 };
 
-/*Contact modal style*/
 const ContactStyle = {
   content: {
     top: "50%",
@@ -64,8 +63,8 @@ const ContactStyle = {
     position: "fixed",
     transform: "translate(-50%, -50%)",
     backgroundColor: "#d3f1ef",
-    width: "30%",
-    height: "45%",
+    width: "50%",
+    // height: "45%",
   },
 };
 
@@ -78,6 +77,13 @@ function NavBar() {
         setIsOpen(false);
         setUsername(localStorage.getItem("user"));
       });
+
+      if(localStorage.getItem("user"))
+      {
+
+        setUsername(localStorage.getItem("user"));
+
+      }
   }, []);
 
   const history = useHistory();
@@ -141,93 +147,220 @@ function NavBar() {
       Redirect("Home");
     }
   }
+  const LightTooltip = withStyles((theme) => ({
+    tooltip: {
+      backgroundColor: '#d3f1ef',
+      color: 'black',
+      boxShadow: theme.shadows[1],
+      fontSize: 18,
+      fontFamily: 'Calibri'
+    },
+  }))(Tooltip);
+
+  const useStyles = makeStyles((theme) => ({
+    button_List:{
+      fontSize: 55,
+      color: grey[50],
+      marginRight: 5,
+      marginLeft: 5,
+      [theme.breakpoints.down(830)]:{
+        fontSize:50,
+        marginRight: 0,
+        marginLeft: 0,
+      },
+      [theme.breakpoints.down(741)]:{
+        fontSize:35,
+        marginRight: 0,
+        marginLeft: 0,
+      },
+      [theme.breakpoints.down(575)]:{
+        fontSize:25,
+        marginRight: 0,
+        marginLeft: 0,
+      },
+      [theme.breakpoints.down(501)]:{
+        fontSize:22,
+        marginRight: 0,
+        marginLeft: 0,
+      },
+      [theme.breakpoints.down(416)]:{
+        fontSize:17,
+        marginRight: 0,
+        marginLeft: 0,
+      },
+    },
+    button_LoginOut:{
+      fontSize: 45,
+      color: grey[50],
+      marginRight: 5,
+      marginLeft: 5,
+      [theme.breakpoints.down(830)]:{
+        fontSize:40,
+        marginRight: 0,
+        marginLeft: 0,
+      },
+      [theme.breakpoints.down(741)]:{
+        fontSize:30,
+        marginRight: 0,
+        marginLeft: 0,
+      },
+      [theme.breakpoints.down(575)]:{
+        fontSize:20,
+        marginRight: 0,
+        marginLeft: 0,
+      },
+      [theme.breakpoints.down(501)]:{
+        fontSize:17,
+        marginRight: 0,
+        marginLeft: 0,
+      },
+      [theme.breakpoints.down(416)]:{
+        fontSize:12,
+        marginRight: 0,
+        marginLeft: 0,
+      },
+    },
+    button_Hone:{
+      fontSize: 50,
+      color: grey[50],
+      marginRight: 5,
+      marginLeft: 5,
+      [theme.breakpoints.down(830)]:{
+        fontSize:45,
+        marginRight: 0,
+        marginLeft: 0,
+      },
+      [theme.breakpoints.down(741)]:{
+        fontSize:35,
+        marginRight: 0,
+        marginLeft: 0,
+      },
+      [theme.breakpoints.down(575)]:{
+        fontSize:25,
+        marginRight: 0,
+        marginLeft: 0,
+      },
+      [theme.breakpoints.down(501)]:{
+        fontSize:22,
+        marginRight: 0,
+        marginLeft: 0,
+      },
+      [theme.breakpoints.down(416)]:{
+        fontSize:17,
+        marginRight: 0,
+        marginLeft: 0,
+      },
+    },
+    button_InfoContact:{
+      fontSize: 40,
+      color: grey[50],
+      marginRight: 5,
+      marginLeft: 5,
+      [theme.breakpoints.down(830)]:{
+        fontSize:35,
+        marginRight: 0,
+        marginLeft: 0,
+      },
+      [theme.breakpoints.down(741)]:{
+        fontSize:30,
+        marginRight: 0,
+        marginLeft: 0,
+      },
+      [theme.breakpoints.down(575)]:{
+        fontSize:20,
+        marginRight: 0,
+        marginLeft: 0,
+      },
+      [theme.breakpoints.down(501)]:{
+        fontSize:17,
+        marginRight: 0,
+        marginLeft: 0,
+      },
+      [theme.breakpoints.down(416)]:{
+        fontSize:12,
+        marginRight: 0,
+        marginLeft: 0,
+      },
+    },
+  }));
+
+  const classes = useStyles();
 
 
   return (
     <div className="Home">
       <div className="Top">
-        <p className="row">
-          {username && username != "" ? (
-          <IconButton onClick={signOut}>
-            <PowerSettingsNewIcon
-              style={{color: grey[50], fontSize: 50, marginRight: 5, marginLeft:5}}>
-            </PowerSettingsNewIcon>
-          </IconButton>
-            // <button onClick={signOut} className="button button1">
-            //   התנתק
-            // </button>
+      <Grid
+        container fixed
+        direction="row"
+        justify="flex-start"
+        alignItems="center"
+      >
+        {username && username != "" ? (
+          <LightTooltip title="התנתק" placement="bottom">
+            <IconButton onClick={signOut} >
+              <PowerSettingsNewIcon className={classes.button_LoginOut}>
+              </PowerSettingsNewIcon>
+            </IconButton>
+          </LightTooltip>
           ) : (
+          <LightTooltip title="התחבר" placement="bottom">
           <IconButton onClick={openModal}>
-            <PersonOutlineOutlinedIcon
-              style={{color: grey[50], fontSize: 50, marginRight: 5, marginLeft:5}}>
+            <PersonOutlineOutlinedIcon className={classes.button_LoginOut}>
             </PersonOutlineOutlinedIcon>
           </IconButton>
-            // <button onClick={openModal} className="button button1">
-            //   התחבר
-            // </button>
+          </LightTooltip>
           )}
 
-          <IconButton onClick={() =>  Redirect("List")}>
-          <ListIcon
-              style={{color: grey[50], fontSize: 50, marginRight: 5, marginLeft:5}}>
+          <LightTooltip title="רשימת הבקשות שלי" placement="bottom">
+            <IconButton onClick={() =>  Redirect("List")}>
+            <ListIcon className={classes.button_List}>
             </ListIcon>
-          </IconButton>
-  
+            </IconButton>
+          </LightTooltip>
 
-          {/* <button
-            onClick={() => {
-              Redirect("List");
-            }}
-            className="button button1"
-          >
-            רשימת הבקשות שלי
-          </button> */}
-
+          <LightTooltip title="דף בית" placement="bottom">
           <IconButton onClick={() =>  Redirect("Home")}>
-            <HomeOutlinedIcon
-              style={{color: grey[50], fontSize: 50, marginRight: 5, marginLeft:5}}>
+            <HomeOutlinedIcon className={classes.button_Hone}>
             </HomeOutlinedIcon>
           </IconButton>
+          </LightTooltip>
 
-          {/* <button
-            onClick={() => {
-              Redirect("Home");
-            }}
-            className="button button1"
-          >
-            דף הבית
-          </button> */}
-        </p>
-        <div className="row">
-          !
-          <p style={{marginRight: 30, color: "white"}}>
-            <apan>שלום</apan>
-            <span> </span>
-            <span>{username && username != "" ? username : ""} </span>
-          </p>
-          
+        </Grid>
 
-          <IconButton onClick={openModal1}>
-            <ContactMailIcon
-              style={{color: grey[50], fontSize: 50,  marginRight: 15,marginLeft:15}}>
-            </ContactMailIcon>
-          </IconButton>
-          
-          <IconButton onClick={openModal2}>
-          <InfoOutlinedIcon
-              style={{color: grey[50], fontSize: 50, marginRight: 15, marginLeft:15}}>
+        <Grid
+          container
+          direction="row"
+          justify="flex-end"
+          alignItems="center"        
+        >
+          <div className="row">
+            <p style={{color: "white"}}>
+            !
+            </p>
+            <p style={{marginRight: 15, color: "white"}}>
+              <apan>שלום</apan>
+              <span> </span>
+              <span>{username && username != "" ? username : ""} </span>
+            </p>
+          </div>
+
+          <LightTooltip title="צור קשר" placement="bottom">
+            <IconButton onClick={openModal1}>
+              <MailOutlineRoundedIcon className={classes.button_InfoContact}>              
+              </MailOutlineRoundedIcon>
+            </IconButton>
+          </LightTooltip>
+
+          <LightTooltip title="אודות" placement="bottom">
+            <IconButton onClick={openModal2}>
+            <InfoOutlinedIcon className={classes.button_InfoContact}>              
             </InfoOutlinedIcon>
-          </IconButton>
+            </IconButton>
+          </LightTooltip>
 
-          {/* <button onClick={openModal1} className="button button1">
-            צור קשר
-          </button>
-          <button onClick={openModal2} className="button button1">
-            אודות
-          </button> */}
-          
-          <img src={logo} alt="Logo" />
-        </div>
+          <img src={logo} alt="Logo" className="img"/>
+        </Grid>
       </div>
 
       <Modal
@@ -247,27 +380,27 @@ function NavBar() {
         >
   
           <form>
-            <p style={{textAlign:"center",fontSize: "30px", fontWeight:"bold", color:"#1b3d3c"}}>צור קשר</p>
+            <p className="abouttitle">צור קשר</p>
             <br></br>
-            <div className="line" style={{width: '100%'}}>
-              <input className="ContactInput" type ="text" style={{width: '70%'}}></input>
-              <p>שם מלא</p>
+            <div className="row" style={{width: '100%'}}>
+              <input className="ContactInput" type ="text" style={{width: '50%'}}></input>
+              <p className="abouttext">שם מלא</p>
             </div>
-            <div className="line" style={{width: '100%'}}>
-              <input className="ContactInput" type ="text" style={{width: '70%'}}></input>
-              <p>כתובת מייל</p>
+            <div className="row" style={{width: '100%'}}>
+              <input className="ContactInput" type ="text" style={{width: '50%'}}></input>
+              <p className="abouttext">כתובת מייל</p>
             </div>
-            <div className="line" style={{width: '100%'}} >
-              <input className="ContactInput" type ="text" style={{width: '70%'}}></input>
-              <p>נושא</p>
+            <div className="row" style={{width: '100%'}} >
+              <input className="ContactInput" type ="text" style={{width: '50%'}}></input>
+              <p className="abouttext">נושא</p>
             </div>
-            <div className="line" style={{width: '100%'}}>
-              <textarea className="ContactInput" type ="text" style={{width: '70%', height:"40px"}}></textarea>
-              <p>גוף ההודעה</p>
+            <div className="row" style={{width: '100%'}}>
+              <textarea className="ContactInput" type ="text" style={{width: '50%', height:"40px"}}></textarea>
+              <p className="abouttext">גוף ההודעה</p>
             </div>
             <br></br>
              
-            <div className="line" style={{ justifyContent:"center"}}>
+            <div className="row" style={{ justifyContent:"center"}}>
               <button className="button button1" type="submit" onClick={closeModal1}>שלח</button>
               <button className="button button1" onClick={closeModal1}>סגור</button>
               <button className="button button1" type="reset">אפס</button>
@@ -283,16 +416,16 @@ function NavBar() {
           contentLabel="Example Modal"
         >
         <div>
-            <p  style={{textAlign:"center",fontSize: "30px", fontWeight:"bold", color:"#1b3d3c"}}>
-              ,הוא כלי עזר להחלפת קורסים או קבוצות בקורסים PartnerTau
+            <p  className="abouttitle">
+              <span> PartnerTau </span>
               <br></br>
-              .מציאת שותפים לתרגילי בית וגישה לקבוצות ווצאפ של הקורסים 
+              הוא כלי עזר להחלפת קורסים, קבוצות בקורסים, מציאת שותפים לתרגילי בית וגישה לקבוצות ווצאפ של הקורסים 
             </p>
 
-            <p style={{textAlign:"end", fontSize: "25px"}} >?אז איך מוצאים התאמה</p>
+            <p className="abouttext" >?אז איך מוצאים התאמה</p>
 
 
-            <p style={{textAlign:"end", fontSize: "20px"}} >
+            <p className="abouttext" >
               .א. יש לחפש את הקורס אליו אתם רשומים באמצעות שם או מספר הקורס
               <br></br><br></br>
               .אם יש כזו וכן אופציות להגיש בקשה למציאת שותפים, החלפת קבוצה והחלפת קורס whatsapp-ב. בעמוד הקורס תוכלו למצוא קישור לקבוצת ה
@@ -305,9 +438,10 @@ function NavBar() {
               .ה. במידה וההתאמה מוצלחת תוכלו לסגור את הטיפול בבקשה
             </p>
 
-            <p style={{ textAlign:"center", fontSize: "25px" }}>!בהצלחה</p>
-            <p style={{textAlign:"end", fontSize: "20px"}} >
+            <p className="goodlack">!בהצלחה</p>
+            <p className="abouttext">
               <span style={{fontWeight:"bold", color:"#1b3d3c" }}>
+
                שימו לב:
               </span>
               <span> </span>

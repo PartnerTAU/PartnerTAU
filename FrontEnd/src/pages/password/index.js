@@ -79,7 +79,7 @@ function Password() {
 
   return (
     <div className="Home">
-        <p style={{ fontSize: "45px", fontWeight:"bold" }}>איפוס סיסמה </p>
+        <p className="websiteTitle">איפוס סיסמה </p>
         <div className="col" > 
         <form onSubmit={handleSubmit(onSubmit)} >
           <div><input className="inputclass" {...register("mail")} type ="email" required="true" style={{width: '160px'}}></input>מייל</div>

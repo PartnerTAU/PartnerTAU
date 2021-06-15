@@ -1,4 +1,6 @@
 const mysqlConnection = require('../db/db.config')
+const email = require("../email/emailRepo");
+const match = require("../repositories/matchRepository");
 
 const GetCourseList = async (userId) =>{
     try{
@@ -19,21 +21,23 @@ const GetCourseList = async (userId) =>{
 
 }
 
+
 const CreatePartnerRequest = async (request, tokenDecoded) =>{
     try{
         //An example how to call sql query
         //you must create async finction and use await, otherwise,  you'll get null as an answer
         /*var exec  = await mysqlConnection("insert into partner_request (user,courseid,semester,group,count,done) values (?,?,?,?,?,?)"
         , [tokenDecoded.data, request.courseId, ,request.requestedCourseId,false]);*/
-        var exec  = await mysqlConnection("insert into partnertau.partner_request (user,courseid,coursename,semester,grp,neededgroupsize,mygroupsize,done) values (?,?,?,?,?,?,?,?)"
-        , [tokenDecoded.data, request.body.coursenumber, request.body.coursename, request.body.semester, request.body.grpnum, request.body.reqgrpcount - request.body.grpcount, request.body.grpcount, false]);
+        var exec  = await mysqlConnection("insert into partnertau.partner_request (user,courseid,coursename,semester,grp,neededgroupsize,mygroupsize,done,status) values (?,?,?,?,?,?,?,?,?)"
+        , [tokenDecoded.data, request.body.coursenumber, request.body.coursename, request.body.semester, request.body.grpnum, request.body.reqgrpcount - request.body.grpcount, request.body.grpcount, false,'בחיפוש התאמה']);
         let courses =  [];
         if(exec.affectedRows > 0)
         {
-            return true
+            CheckForPartnerMatch(exec.insertId,tokenDecoded)
+
         }
        
-        return false;
+        return true
     }
     catch(e){
         return false;
@@ -42,20 +46,15 @@ const CreatePartnerRequest = async (request, tokenDecoded) =>{
 
 const CreateCourseRequest = async (request, tokenDecoded) =>{
     try{
-        //An example how to call sql query
-        //you must create async finction and use await, otherwise,  you'll get null as an answer
-        /*var exec  = await mysqlConnection("insert into partner_request (user,courseid,semester,group,count,done) values (?,?,?,?,?,?)"
-        , [tokenDecoded.data, request.courseId, ,request.requestedCourseId,false]);*/
-        var x = 7;
-        var exec  = await mysqlConnection("insert into partnertau.course_request (user,courseid,coursename,semester,req_courseid,done) values (?,?,?,?,?,?)"
-        , [tokenDecoded.data, request.body.coursenumber, request.body.coursename, request.body.semester, request.body.reqcourseid, false]);
+        var exec  = await mysqlConnection("insert into partnertau.course_request (user,offeredcoursename,offeredcoursenumber,semester,reqcoursenumber,reqcoursename,status,done) values (?,?,?,?,?,?,?,?)"
+        , [tokenDecoded.data, request.body.offeredcoursename, request.body.offeredcoursenumber, request.body.semester, request.body.reqcoursenumber,request.body.reqcoursename,'בחיפוש התאמה', false]);
         let courses =  [];
         if(exec.affectedRows > 0)
         {
-            return true
+            CheckForCourseMatch(exec.insertId,tokenDecoded)
         }
        
-        return false;
+        return true
     }
     catch(e){
         return false;
@@ -68,11 +67,60 @@ const CreateGroupRequest = async (request, tokenDecoded) =>{
         //you must create async finction and use await, otherwise,  you'll get null as an answer
         /*var exec  = await mysqlConnection("insert into partner_request (user,courseid,semester,group,count,done) values (?,?,?,?,?,?)"
         , [tokenDecoded.data, request.courseId, ,request.requestedCourseId,false]);*/
-        var exec  = await mysqlConnection("insert into partnertau.group_request (user,courseid,coursename,semester,grp,req_grp,done) values (?,?,?,?,?,?)"
-        , [tokenDecoded.data, request.body.coursenumber, request.body.coursename, request.body.semester, request.body.grp, request.body.reqgrp, false]);
+        var exec  = await mysqlConnection("insert into partnertau.group_request (user,courseid,coursename,semester,grp,req_grp,done,status) values (?,?,?,?,?,?,?,?)"
+        , [tokenDecoded.data, request.body.coursenumber, request.body.coursename, request.body.semester, request.body.grp, request.body.reqgrp, false,'בחיפוש התאמה']);
         let courses =  [];
         if(exec.affectedRows > 0)
         {
+            let id = exec.insertId
+             exec  = await mysqlConnection("select * from partnertau.group_request where id != ? and req_grp = ? and grp = ? and user != ? and done = ? and coursename = ? and semester = ?"
+            , [id, request.body.grp, request.body.reqgrp,tokenDecoded.data,false,request.body.coursename,request.body.semester]);
+            let cont = true;
+            if(exec && exec.length > 0)
+            {
+                
+                if(cont)
+                {
+
+
+                    try
+                    {
+
+                        let a =  exec.find(b => !b.matchId || b.matchId == 0)
+                        if(a)
+                        {
+                            if(cont)
+                            {
+                                const queryExec = await match.CheckIfMatchOnAirGroup(a.id)
+                                if((!queryExec || queryExec.length == 0))
+                                {
+                                    cont = false;
+                                    let matchForId = await match.InsertMatchGroup(a.id,id,a.user,tokenDecoded.data)
+                                    if(matchForId)
+                                    {
+                                         UpterGroupReqStatus(a.id,'נמצאה התאמה', matchForId.insertId)
+                                         UpterGroupReqStatus(id,'נמצאה התאמה', matchForId.insertId)
+                                        email.SendMatchEmail(a.user,tokenDecoded.data)
+                                    }
+                                    
+                                    
+    
+                                }
+                            }
+                        }
+                    }
+
+                    catch(e)
+                    {
+
+                    }
+                   
+                    
+                }
+               
+
+            }
+
             return true
         }
        
@@ -94,6 +142,172 @@ const parseSemester =(semester) =>{
     else if(semester == "C"){
         return "סמסטר קיץ"
     }
+}
+
+const CheckForPartnerMatch = async (id,tokenDecoded) => {
+    if(id > 0)
+        {
+            
+            try
+            {
+
+                let original =  await mysqlConnection("select * from partnertau.partner_request where id = ?", [id]);
+                let exec  = await mysqlConnection("select * from partnertau.partner_request where id != ? and mygroupsize = ? and neededgroupsize = ? and user != ? and done = ? and coursename = ? and semester = ?"
+                , [id, original[0].neededgroupsize, original[0].mygroupsize,tokenDecoded.data,false,original[0].coursename,original[0].semester]);
+                let cont = true;
+                if(exec && exec.length > 0)
+                {
+                    
+                    if(cont)
+                    {
+                        try
+                        {
+                        let a =  exec.find(b => !b.matchId || b.matchId == 0)
+                        if(a){
+                            
+                                if(cont)
+                                {
+                                    const queryExec = await match.CheckIfMatchOnAirPartner(a.id)
+                                    if((!queryExec || queryExec.length == 0))
+                                    {
+                                        cont = false;
+                                        let matchForId = await match.InsertMatchPartner(a.id,id,a.user,tokenDecoded.data)
+                                        if(matchForId)
+                                        {
+                                            UpterPartnerReqStatus(a.id,'נמצאה התאמה', matchForId.insertId)
+                                            UpterPartnerReqStatus(id,'נמצאה התאמה', matchForId.insertId)
+                                            email.SendMatchEmail(a.user,tokenDecoded.data)
+                                        }
+                                        
+                                        
+        
+                                    }
+                                }
+                            
+
+                                
+                            }
+                            
+                            
+                        }
+                        catch (e)
+                            {
+                                let o =e;
+                            }
+                    }
+                
+
+                }
+            }
+            catch(e)
+            {
+                let o =e;
+            }
+
+
+
+    }
+}
+
+
+const CheckForCourseMatch = async (id,tokenDecoded) => {
+    if(id > 0)
+        {
+            
+            try
+            {
+
+                let original =  await mysqlConnection("select * from partnertau.course_request where id = ?", [id]);
+                let exec  = await mysqlConnection("select * from partnertau.course_request where id != ? and reqcoursename = ? and offeredcoursename = ? and user != ? and done = ? and semester = ?"
+                , [id, original[0].offeredcoursename, original[0].reqcoursename,tokenDecoded.data,false,original[0].semester]);
+                let cont = true;
+                if(exec && exec.length > 0)
+                {
+                    
+                    if(cont)
+                    {
+                        try
+                        {
+                        let a =  exec.find(b => !b.matchId || b.matchId == 0)
+                        if(a){
+                            
+                                if(cont)
+                                {
+                                    const queryExec = await match.CheckIfMatchOnAirCourse(a.id)
+                                    if((!queryExec || queryExec.length == 0))
+                                    {
+                                        cont = false;
+                                        let matchForId = await match.InsertMatchCourse(a.id,id,a.user,tokenDecoded.data)
+                                        if(matchForId)
+                                        {
+                                            UpterCourseReqStatus(a.id,'נמצאה התאמה', matchForId.insertId)
+                                            UpterCourseReqStatus(id,'נמצאה התאמה', matchForId.insertId)
+                                            email.SendMatchEmail(a.user,tokenDecoded.data)
+                                        }
+                                        
+                                        
+        
+                                    }
+                                }
+                            
+
+                                
+                            }
+                            
+                            
+                        }
+                        catch (e)
+                            {
+                                let o =e;
+                            }
+                    }
+                
+
+                }
+            }
+            catch(e)
+            {
+                let o =e;
+            }
+
+
+
+    }
+}
+
+
+
+const UpterGroupReqStatus = async (id,status,matchId) =>{
+    try{
+        await  mysqlConnection("update partnertau.group_request set status = ?, matchId = ? where id = ?"
+        , [status,matchId,id]);
+    }
+    catch(e){
+        let x =e;
+    }
+   
+}
+
+const UpterPartnerReqStatus = async (id,status,matchId) =>{
+    try{
+        await  mysqlConnection("update partnertau.partner_request set status = ?, matchId = ? where id = ?"
+        , [status,matchId,id]);
+    }
+    catch(e){
+        let x =e;
+    }
+   
+}
+
+const UpterCourseReqStatus = async (id,status,matchId) =>{
+    try{
+        await  mysqlConnection("update partnertau.course_request set status = ?, matchId = ? where id = ?"
+        , [status,matchId,id]);
+    }
+    catch(e){
+        let x =e;
+    }
+   
 }
 
 const parseStatus =(done) =>{
@@ -181,14 +395,14 @@ const GetCourseListAutoComnplete = async (text) =>{
     try{
         //An example how to call sql query
         //you must create async finction and use await, otherwise,  you'll get null as an answer
-        var exec  = await mysqlConnection("select * from  courseautocomplete where name like ? limit 5"
+        var exec  = await mysqlConnection("select * from  courses where name like ? group by name limit 0,5"
         ,  ['%' + text + '%']);
 
         let answer =[];
        
         if(exec.length == 0)
         {
-            var exec  = await mysqlConnection("select * from  courseautocomplete where number like ? limit 5"
+            var exec  = await mysqlConnection("select * from  courses where number like ? group by number  limit 0,5"
             ,  ['%' + text + '%']);
         }
 
@@ -220,45 +434,193 @@ const GetCourseListAutoComnplete = async (text) =>{
 
 }
 
+
+const GetCourseGroupBySemeserAndGroup = async (body) =>{
+    try{
+        //An example how to call sql query
+        //you must create async finction and use await, otherwise,  you'll get null as an answer
+        var exec  = await mysqlConnection("select * from  courses where name = ? and semester = ?"
+        ,  [body.name,body.semester]);
+
+        let answer =[];
+       
+
+        if(exec.length > 0 )
+        {
+           
+                exec.forEach(a => {
+
+                   
+                    answer.push({
+                        group : a.group,
+                    })
+
+
+
+                })
+
+        }
+       
+        return answer;
+    }
+    catch(e){
+        return null;
+    }
+   
+
+
+}
+
+const RemoveRequestGroup = async (body) =>{
+    try{
+        //An example how to call sql query
+        //you must create async finction and use await, otherwise,  you'll get null as an answer
+        var exec  = await mysqlConnection("update partnertau.group_request set done = ? where id = ?"
+        ,  [true,body.id]);
+
+       
+
+        if(exec.affectedRows > 0 )
+        {
+           
+            exec  = await mysqlConnection("select * from partnertau.group_request where id = ?"
+            ,  [body.id]);
+
+            if(exec[0].matchId && exec[0].matchId > 0){
+                match.UpdateMatchGroup(exec[0].matchId,exec[0].user,exec[0].coursename)
+            }
+
+
+        }
+       
+        return true;
+    }
+    catch(e){
+        return false;
+    }
+   
+
+
+}
+
+
+
+
+const RemoveRequestPartner = async (body) =>{
+    try{
+        //An example how to call sql query
+        //you must create async finction and use await, otherwise,  you'll get null as an answer
+        var exec  = await mysqlConnection("update partnertau.partner_request set done = ? where id = ?"
+        ,  [true,body.id]);
+
+       
+
+        if(exec.affectedRows > 0 )
+        {
+           
+            exec  = await mysqlConnection("select * from partnertau.partner_request where id = ?"
+            ,  [body.id]);
+
+            if(exec[0].matchId && exec[0].matchId > 0){
+                match.UpdateMatchPartner(exec[0].matchId,exec[0].user,exec[0].coursename)
+            }
+
+
+        }
+       
+        return true;
+    }
+    catch(e){
+        return false;
+    }
+   
+
+
+}
+
+
+
+const RemoveRequestCourse = async (body) =>{
+    try{
+        //An example how to call sql query
+        //you must create async finction and use await, otherwise,  you'll get null as an answer
+        var exec  = await mysqlConnection("update partnertau.course_request set done = ? where id = ?"
+        ,  [true,body.id]);
+
+       
+
+        if(exec.affectedRows > 0 )
+        {
+           
+            exec  = await mysqlConnection("select * from partnertau.course_request where id = ?"
+            ,  [body.id]);
+
+            if(exec[0].matchId && exec[0].matchId > 0){
+                match.UpdateMatchCourse(exec[0].matchId,exec[0].user,exec[0].coursename)
+            }
+
+
+        }
+       
+        return true;
+    }
+    catch(e){
+        return false;
+    }
+   
+
+
+}
+
+
 const GetAllRequests = async (tokenDecoded) =>{
     try{
-        var exec  = await mysqlConnection("select * from partnertau.partner_request where userID=?"
-        , [tokenDecoded.data]);
         let requests =  [];
+        var exec  = await mysqlConnection("select * from partnertau.partner_request where user=? and done = ?"
+        , [tokenDecoded.data,false]);
         if(exec.length > 0){
             exec.forEach(a => {
                 requests.push({
+                    id : a.id,
                     courseNum: a.courseid,
                     courseName: a.coursename,
                     semester: parseSemester(a.semester),
                     requestType: "מציאת שותפים",
-                    status: parseStatus(a.done)
+                    type : 'partner',
+                    status: a.status,
+                    matchId : a.matchId
                 })
             })
         }
-        var exec2  = await mysqlConnection("select * from partnertau.group_request where userID=?"
-        , [tokenDecoded.data]);
+        var exec2  = await mysqlConnection("select * from partnertau.group_request where user=? and done = ?"
+        , [tokenDecoded.data,false]);
         if(exec2.length > 0){
             exec2.forEach(a => {
                 requests.push({
+                    id: a.id,
                     courseNum: a.courseid,
                     courseName: a.coursename,
                     semester: parseSemester(a.semester),
                     requestType: "החלפת קבוצה",
-                    status: parseStatus(a.done)
+                    type : 'group',
+                    status: a.status,
+                    matchId : a.matchId,
                 })
             })
         }
-        var exec1  = await mysqlConnection("select * from partnertau.course_request where userID=?"
-        , [tokenDecoded.data]);
+        var exec1  = await mysqlConnection("select * from partnertau.course_request where user=? and done = ?"
+        , [tokenDecoded.data, false]);
         if(exec1.length > 0){
             exec1.forEach(a => {
                 requests.push({
-                    courseNum: a.courseid,
-                    courseName: a.coursename,
+                    id: a.id,
+                    courseNum: a.offeredcoursenumber,
+                    courseName: a.offeredcoursename,
                     semester: parseSemester(a.semester),
                     requestType: "החלפת קורס",
-                    status: parseStatus(a.done)
+                    type : 'course',
+                    status: a.status,
+                    matchId : a.matchId,
                 })
             })
         }
@@ -278,5 +640,13 @@ module.exports ={
     GetActiveRequestedByUserId : GetActiveRequestedByUserId,
     MarkRequestAsResolved : MarkRequestAsResolved,
     GetCourseListAutoComnplete : GetCourseListAutoComnplete,
-    GetAllRequests: GetAllRequests
+    GetAllRequests: GetAllRequests,
+    GetCourseGroupBySemeserAndGroup : GetCourseGroupBySemeserAndGroup,
+    RemoveRequestGroup: RemoveRequestGroup,
+    UpterGroupReqStatus: UpterGroupReqStatus,
+    UpterPartnerReqStatus : UpterPartnerReqStatus,
+    CheckForPartnerMatch : CheckForPartnerMatch,
+    RemoveRequestPartner : RemoveRequestPartner,
+    CheckForCourseMatch : CheckForCourseMatch,
+    RemoveRequestCourse : RemoveRequestCourse
 }

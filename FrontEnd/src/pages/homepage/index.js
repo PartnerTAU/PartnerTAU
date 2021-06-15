@@ -4,9 +4,49 @@ import {Route, Redirect, useHistory} from 'react-router-dom';
 import { loginConfirmed } from "../../utils/subjects/loginSubject/loginSubject";
 import { GetCourseAutoComplete } from "../../functions/serverfunction";
 import swal from 'sweetalert';
+import { makeStyles } from '@material-ui/core/styles';
+
 
 
 function Home() {
+
+  const useStyles = makeStyles((theme) => ({
+    listbox: {
+      width: 300,
+      margin: 0,
+      padding: 0,
+      // zIndex: 1,
+      fontSize: '20px',
+      position: 'absolute',
+      listStyle: 'none',
+      backgroundColor: theme.palette.background.paper,
+      overflow: 'auto',
+      maxHeight: 70,
+      border: '1px solid rgba(0,0,0,.25)',
+      '& li[data-focus="true"]': {
+        backgroundColor: '#4a8df6',
+        color: 'white',
+        cursor: 'pointer',
+      },
+      '& li:active': {
+        backgroundColor: '#2977f5',
+        color: 'white',
+      },
+      [theme.breakpoints.down(740)]:{
+        fontSize: '18px',
+      },
+      [theme.breakpoints.down(560)]:{
+        fontSize: '15px',
+        width: 210,
+      },
+      [theme.breakpoints.down(415)]:{
+        fontSize: '12px',
+        width: 200,
+      },
+    },
+  }));
+
+  const classes = useStyles();
 
   const [coursename,SetNameCourse] = useState("");
   const [coursenumber,SetnumberCourse] = useState("");
@@ -74,7 +114,7 @@ function Home() {
     localStorage.setItem("coursenumber", coursenumber);
     localStorage.setItem("semester", semester);*/
 
-    if (coursename === "" && coursenumber == "") {
+    if (coursename === "" || coursenumber == "") {
       swal({
         title: "שגיאה",
         text: "הכנס מספר קורס או שם קורס",
@@ -104,19 +144,18 @@ function Home() {
 
   return (
     <div className="Home">
-
-        <p style={{ fontSize: "45px", fontWeight:"bold" }}>PartnerTAU ברוכים הבאים לאתר</p>
+        <p className="websiteTitle">PartnerTAU ברוכים הבאים לאתר</p>
         <div className="col">
           <div className="line">
             <div className="col">
               <div>
-                <input className="inputclass" onChange={(e) => {getCoursesByTerm(e, "שם");}} value={coursename} type="text"></input>
+                <input className="inputclass" placeholder="דוגמה: סדנה גוגל" onChange={(e) => {getCoursesByTerm(e, "שם");}} value={coursename} type="text"></input>
                 שם קורס
               </div>
               <div>
                 {coursesAutoComplete.length > 0 && (
-                  <div>
-                    <ul class="autoCompleteUl">
+                  <div className="AutolistStyle">
+                    <ul className={classes.listbox}>
                       {coursesAutoComplete.map((item, k) => (
                         <li
                           id={"CourseName" + k}
@@ -134,10 +173,10 @@ function Home() {
               </div>
             </div>
 
-            <div style={{ marginLeft: "25px" }}>או</div>
+            <div style={{ marginLeft: "25px"}}>או</div>
             <div className="col">
               <div>
-                <input className="inputclass" onChange={(e) => {getCoursesByTerm(e, "מספר");}} 
+                <input className="inputclass" placeholder="דוגמה: 0368-3502" onChange={(e) => {getCoursesByTerm(e, "מספר");}} 
                   value={coursenumber}
                   type="text"
                   maxlength="9" 
@@ -150,10 +189,11 @@ function Home() {
                 ></input>
                 מספר קורס
               </div>
-              <div>
+
+              <div >
                 {coursesAutoComplete.length > 0 && (
-                  <div>
-                    <ul class="autoCompleteUl">
+                  <div className="AutolistStyle">
+                    <ul className={classes.listbox}>
                       {coursesAutoComplete.map((item, k) => (
                         <li
                           id={"CourseNumber" + k}
@@ -180,13 +220,15 @@ function Home() {
               <option value="A">סמסטר א</option>
               <option value="B">סמסטר ב</option>
             </select>
-            <label for="Semester" style={{ marginLeft: "20px" }}>
+            <label for="Semester" style={{ marginLeft: "20px"}}>
               סמסטר
             </label>
           </div>
         </div>
         <br></br>
-        <button onClick={() => {Redirect("Courses");}} className="button button1" style={{fontSize: "30px"}}>
+        <button onClick={() => {Redirect("Courses");}} className="button button1" 
+        // style={{fontSize: "30px"}}
+        >
           חפש
         </button>
     </div>

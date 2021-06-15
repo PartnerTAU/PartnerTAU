@@ -174,7 +174,7 @@ function SignUpPre() {
   return (
     <div className="Home">
       <div className="login" >
-        <p staly={{marginBottom: '30px'}}>PartnerTAU ברוכים הבאים להרשמה לאתר</p>
+        <p className="websiteTitle">PartnerTAU ברוכים הבאים להרשמה לאתר</p>
         <div className="col" >
         <form onSubmit={handleSubmit(onSubmit)} >
             <div className="row" style={{width: '100%' }} >
@@ -195,7 +195,7 @@ function SignUpPre() {
                   ></Input>
                 <FormHelperText style={{textAlign:"center"}}>שם המשתמש שיוצג באתר</FormHelperText>
             </FormControl>
-            <div>שם משתמש</div>
+            <div className="Home">שם משתמש</div>
             </div>
             <div className="row" style={{width: '100%' }} >
             <FormControl >
@@ -215,7 +215,7 @@ function SignUpPre() {
                 ></Input>
                     <FormHelperText style={{textAlign:"center"}}>כתובת מייל אוניברסיטאית</FormHelperText>
             </FormControl>
-            <div>מייל</div>
+            <div className="Home">מייל</div>
             </div>
             <div className="row" style={{width: '100%' }} >
             <FormControl >
@@ -242,7 +242,7 @@ function SignUpPre() {
                 }
                 ></Input>
             </FormControl >
-            <div>סיסמא</div>
+            <div className="Home">סיסמא</div>
             </div>
             <div className="row" style={{width: '100%' }} >
             <FormControl >
@@ -270,7 +270,7 @@ function SignUpPre() {
                 ></Input>
                     <FormHelperText style={{textAlign:"center"}}>הקלד פעם נוספת את הסיסמא</FormHelperText>
             </FormControl >
-            <div>אימות סיסמא</div>
+            <div className="Home">אימות סיסמא</div>
             </div>
             <div style={{display: 'flex', justifyContent: 'center', marginTop: '30px'}}>
               <button type="submit" className="button button1">הירשם</button>
