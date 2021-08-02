@@ -11,7 +11,7 @@ import swal from 'sweetalert';
 function Login({props}) {
 
   var userName = "";
-  var i =0;
+
   const { register, handleSubmit } = useForm();
   // const onSubmit = async (data) => {
   //   var reponse = await checkemail(data);

@@ -1,5 +1,6 @@
 import logo from "../../images/logo.png";
 import { React, useEffect, useState } from "react";
+import emailjs from "emailjs-com";
 import Tooltip from '@material-ui/core/Tooltip';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 
@@ -8,26 +9,33 @@ import { Route, Redirect, useHistory } from "react-router-dom";
 import Login from "../loginpage";
 import { loginConfirmed } from "../../utils/subjects/loginSubject/loginSubject";
 import { useForm } from "react-hook-form";
-import {SignOut } from "../../functions/users";
+// import {SignOut } from "../../functions/users";
 
-import InfoIcon from '@material-ui/icons/Info';
 import IconButton from '@material-ui/core/IconButton';
 import { grey } from '@material-ui/core/colors';
 
+import InfoIcon from '@material-ui/icons/Info';
+import { LocalDiningOutlined } from "@material-ui/icons";
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
 import ListIcon from '@material-ui/icons/List';
 import PersonOutlineOutlinedIcon from '@material-ui/icons/PersonOutlineOutlined';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import MailOutlineRoundedIcon from '@material-ui/icons/MailOutlineRounded';
+
+// import EmailOutlinedIcon from '@material-ui/icons/EmailOutlined';
+// import FacebookIcon from '@material-ui/icons/Facebook';
+// import WhatsAppIcon from "@material-ui/icons/WhatsApp";
+
 import Grid from '@material-ui/core/Grid';
+import swal from 'sweetalert';
+
+
+
 
 import Modal from "react-modal";
 import { merge } from "rxjs";
-
-
-import emailjs from "emailjs-com";
-import swal from 'sweetalert';
+import { CenterFocusStrong } from "@material-ui/icons";
 
 const SignInStyle = {
   content: {
@@ -73,6 +81,7 @@ const ContactStyle = {
 };
 
 function NavBar() {
+  
   useEffect(() => {
     const subscriptionCC = loginConfirmed
       .onSubjectTrigged()
@@ -94,11 +103,12 @@ function NavBar() {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modal1IsOpen, setIsOpen1] = useState(false);
   const [modal2IsOpen, setIsOpen2] = useState(false);
-  const [modallogout, setModallogout] = useState(false);
+
   const [buttonString, setButtonString] = useState("");
   const [username, setUsername] = useState("");
 
   const { register, handleSubmit } = useForm();
+  const [modallogout, setModallogout] = useState(false);
 
 
   function openModal() {
@@ -125,14 +135,12 @@ function NavBar() {
     setIsOpen2(false);
   }
 
-  function openModallogout(){
+  function openModallogout(){	
     setModallogout(true);
   }
-
   function closeModallogout(){
     setModallogout(false);
   }
-
   function closeModalandlogout(){
     setModallogout(false);
     signOut();
@@ -162,6 +170,7 @@ function NavBar() {
       localStorage.removeItem("token");
       setUsername("");
       Redirect("Home");
+      
     }
   }
   const LightTooltip = withStyles((theme) => ({
@@ -426,7 +435,6 @@ function NavBar() {
           style={ContactStyle}
           contentLabel="Example Modal"
         >
-  
           <p className="abouttitle">צור קשר</p>
           <p className="aboutExplanation">
           אם מצאת טעות/תקלה, או שברצונך ליצור עמנו קשר, ניתן לפנות אלינו ישירות דרך כתובת המייל
@@ -508,12 +516,13 @@ function NavBar() {
 
         </div> 
         </Modal>
+
         <Modal
         isOpen={modallogout}
         onRequestClose={closeModallogout}
         style={ContactStyle}
         contentLabel="Example Modal"
-        >
+      >
           <div>?האם אתה בטוח שברצונך להתנתק</div>
           <div style={{ marginBottom: "15px" }}></div>
           <button className="button button1" onClick={() => closeModallogout()}>
@@ -524,6 +533,7 @@ function NavBar() {
           </button>
         
       </Modal>
+
     </div>
   );
 }
