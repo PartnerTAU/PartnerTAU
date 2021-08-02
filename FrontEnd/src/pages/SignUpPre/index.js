@@ -83,8 +83,11 @@ function SignUpPre() {
 
     const onSubmit = async (data) => {
       var endEmail = userEmail.split("@")[1];
-      var correctMail= "mail.tau.ac.il";
-      if (endEmail.localeCompare(correctMail) == 0){
+      var correctMail_1= "mail.tau.ac.il";
+      var correctMail_2 = "tauex.tau.ac.il";
+      var correctMail_3 = "eng.tau.ac.il";
+      if ((endEmail.localeCompare(correctMail_1) == 0) || (endEmail.localeCompare(correctMail_2) == 0) 
+      || (endEmail.localeCompare(correctMail_3) == 0)){
         // setCorrectMail(true);
         worngEmailModalIsOpen = false;
         // correctMail = true;

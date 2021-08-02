@@ -39,10 +39,26 @@ function List() {
       bottom: "auto",
       marginRight: "-50%",
       transform: "translate(-50%, -50%)",
-      backgroundColor: "#d3f1ef",
-      minWidth: "80%",
+      // backgroundColor: "#f5fdfd",
+      backgroundColor: "#f7fcfc",
+      minWidth: "30%",
       height: "350px",
       margin: "30px auto",
+    },
+  };
+  const RequestAcceptedStyleDelete = {
+    content: {
+      top: "30%",
+      left: "30%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-30%, -30%)",
+      //backgroundColor: "#f5fdfd",
+      backgroundColor: "#f7fcfc",
+      minWidth: "30%",
+      height: "200px",
+      // margin: "30px auto",
     },
   };
 
@@ -61,9 +77,25 @@ function List() {
   const [chatText, setChatText] = useState("");
   const [courseName, setCourseName] = useState("");
   const [typeOfRequest, setTypeOfRequest] = useState("");
+  const [itemid, setItemid] = useState("");
+  const [itemtype, setItemtype] = useState("");
   const [matchIdBySet, setMatchId] = useState(-1);
   const [modalChat, setModalChat] = useState(false);
+  const [modalDelete, setModalDelete] = useState(false);
+  const [cancelRequest, setcancelRequest] = useState(false);
   const [chats, setChats] = useState([]);
+  
+    function Redirect(page) {
+    history.push("/" + page);
+    return (
+      <Redirect
+        to={{
+          pathname: "/" + page,
+        }}
+      />
+    );
+  }
+  
   useEffect(async () => {
     setRequest((prevArray) => []);
     let x = await GetAllRequests();
@@ -79,6 +111,7 @@ function List() {
           className: "button1",
         },
       });
+	  Redirect("Home");
     } else {
       x.map((item, k) => setRequest((oldArray) => [...oldArray, item]));
 
@@ -87,16 +120,6 @@ function List() {
   }, []);
 
   const history = useHistory();
-  function Redirect(page) {
-    history.push("/" + page);
-    return (
-      <Redirect
-        to={{
-          pathname: "/" + page,
-        }}
-      />
-    );
-  }
 
   function closeModal() {
     setModalChat(false);
@@ -105,8 +128,23 @@ function List() {
     setCourseName("")
   }
 
-  async function RemoveRequest(id,type){
+  function openModalDelete(itemidvalue, itemtypevalue){
+    setModalDelete(true);
+    setItemid(itemidvalue);
+    setItemtype(itemtypevalue);
+  }
 
+  function closeModalDeleteCancel() {
+    setModalDelete(false);
+    setcancelRequest(true);
+  }
+
+  function closeModalDelete() {
+    setModalDelete(false);
+  }
+
+  async function RemoveRequest(id,type){
+    setcancelRequest(false);
     let req = {
       id : id
     }
@@ -142,6 +180,8 @@ function List() {
           x.map((item, k) => setRequest((oldArray) => [...oldArray, item]));
         }
     }
+    setItemid("");
+    setItemtype("");
   }
 
   async function FindNewMatch(id,type){
@@ -304,7 +344,8 @@ function List() {
           {requests.map((item, k) => (
             <tr>
               <td>
-                <button onClick={() => RemoveRequest(item.id,item.type)} className="buttonclose button1">הסר</button>
+                <button onClick={() => openModalDelete(item.id, item.type)} className="buttonclose button1" >הסר</button>
+                {cancelRequest ? RemoveRequest(itemid, itemtype):""}
                 {item.status === 'ממתין לפעולתך' ? <button onClick={() => FindNewMatch(item.id,item.type)} className="buttonclose button1">התאמה חדשה</button> : ""}
               </td>
               {/* <td onClick={() => GetChats(item.matchId,item.type,item.courseName)}>צ'אט</td> */}
@@ -344,37 +385,44 @@ function List() {
       <Modal
         isOpen={modalChat}
         onRequestClose={closeModal}
-        style={RequestAcceptedStyle}
+        style={RequestAcceptedStyleDelete}
         contentLabel="Example Modal"
       >
         
-        <div style={{position:'relative'}} className="">
-        <button onClick={closeModal} className="buttonclose button1">X</button>
+        <div style={{position:'relative'}} >
+        <div>
+         <button onClick={closeModal} className="buttonclose button1">X</button> 
+        </div>
+        <div>
           {chats &&
             chats.map((item, k) => (
               <div>
                 {item.isMe ? (
-                  <div style={{ textAlign: "right" }}>
-                    <div style={{ fontSize: "18px" }}>{item.message}</div>
-                    <div style={{ fontSize: "12px", color: "gray" }}>
+                  <div style={{ textAlign: "right"}}>
+                    <div  className="chatmassage1">{item.message}</div>
+                    <div className="catedate">
                       {Moment(item.creationDate).format("d MMM HH:mm:ss")}
                     </div>
-                    <div style={{ fontSize: "10px", color: "gray" }}>אני</div>
+                    {/* <div style={{ fontSize: "10px", color: "gray" }}>אני</div> */}
                   </div>
                 ) : (
-                  <div style={{ textAlign: "left" }}>
-                    <div style={{ fontSize: "18px" }}>{item.message}</div>
-                    <div style={{ fontSize: "12px", color: "gray" }}>
+                  <div style={{ textAlign: "left"}}>
+                    <div className="chatmassage2">{item.message}</div>
+                    <div className="catedate">
                       {Moment(item.creationDate).format("d MMM HH:mm:ss")}
                     </div>
                   </div>
                 )}
               </div>
             ))}
+        </div>
+
+
+
 
           <div
             style={{
-              marginTop: "20px",
+              marginTop: "30px",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -382,13 +430,13 @@ function List() {
               textAlign: "right",
             }}
           >
-            <div style={{ fontSize: "18px" }}>
-              <textarea
+            <div style={{ fontSize: "18px", width:"75%" }}>
+              <textarea placeholder="...הקלד הודעה"  rows="3"
                value = {chatText}
                 onChange={(e) => {
                   setChatText(e.target.value);
                 }}
-                style={{ width: "80%" }}
+                style={{ width: "100%" }}
                 class="inputclass"
               />
             </div>
@@ -399,6 +447,23 @@ function List() {
         </div>
       </Modal>
 
+      <Modal
+        isOpen={modalDelete}
+        onRequestClose={closeModalDelete}
+        style={RequestAcceptedStyle}
+        contentLabel="Example Modal"
+      >
+        <div className="ModalReq">
+          <div>?האם אתה בטוח שברצונך להסיר את הבקשה</div>
+          <div style={{ marginBottom: "15px" }}></div>
+          <button className="button button1" onClick={() => closeModalDelete()}>
+            ביטול
+          </button>
+          <button className="button button1" onClick={() => closeModalDeleteCancel()}>
+            אישור
+          </button>
+        </div>
+      </Modal>
     </div>
   );
 }

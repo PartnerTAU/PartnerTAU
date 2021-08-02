@@ -2,7 +2,7 @@ import axios from "axios";
 
 //axios.defaults.headers.common["Authorization"] = "Bearer " + (localStorage.getItem("token") ? localStorage.getItem("token") : "");
 let path = 'https://partnertaubackend.herokuapp.com/'
-//let path = 'http://localhost:3001/'
+// let path = 'http://localhost:3001/'
         
 
 export const CreateGroupRequest = async (

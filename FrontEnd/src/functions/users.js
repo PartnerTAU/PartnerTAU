@@ -1,6 +1,6 @@
 const axios = require('axios');
 let path = 'https://partnertaubackend.herokuapp.com/'
-//let path = 'http://localhost:3001/'
+// let path = 'http://localhost:3001/'
 
 //let path = path+''
 

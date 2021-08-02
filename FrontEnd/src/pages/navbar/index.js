@@ -25,6 +25,10 @@ import Grid from '@material-ui/core/Grid';
 import Modal from "react-modal";
 import { merge } from "rxjs";
 
+
+import emailjs from "emailjs-com";
+import swal from 'sweetalert';
+
 const SignInStyle = {
   content: {
     top: "50%",
@@ -90,7 +94,7 @@ function NavBar() {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modal1IsOpen, setIsOpen1] = useState(false);
   const [modal2IsOpen, setIsOpen2] = useState(false);
-
+  const [modallogout, setModallogout] = useState(false);
   const [buttonString, setButtonString] = useState("");
   const [username, setUsername] = useState("");
 
@@ -119,6 +123,19 @@ function NavBar() {
 
   function closeModal2() {
     setIsOpen2(false);
+  }
+
+  function openModallogout(){
+    setModallogout(true);
+  }
+
+  function closeModallogout(){
+    setModallogout(false);
+  }
+
+  function closeModalandlogout(){
+    setModallogout(false);
+    signOut();
   }
 
   function Redirect(page) {
@@ -286,6 +303,37 @@ function NavBar() {
 
   const classes = useStyles();
 
+  function sendEmail(e) {
+    e.preventDefault();
+    emailjs.sendForm('service_leaz9gv', 'template_pkckr9t', e.target, 'user_EM3d6JcWS54O7PAXZk6G6')
+      .then((result) => {
+          console.log(result.text);
+          swal({
+            title:"ההודעה נשלחה בהצלחה",
+            dangerMode: false,
+            className: "bodyAlert",
+            button:{
+              text: "close",
+              className: "button1"
+            }
+          })
+          closeModal1();
+      }, (error) => {
+          console.log(error.text);
+          swal({
+            title: "שגיאה",
+            text: "אירעה שגיאה בעת שליחת המייל. אנא נס במועד מ אוחר יותר, או פנה אלינו ישירות באמצעות כתובת המייל",
+            icon: "warning",
+            dangerMode: true,
+            className: "bodyAlert",
+            button:{
+              text: "close",
+              className: "button1"
+            }
+          })
+          closeModal1();
+      });
+  }
 
   return (
     <div className="Home">
@@ -298,7 +346,7 @@ function NavBar() {
       >
         {username && username != "" ? (
           <LightTooltip title="התנתק" placement="bottom">
-            <IconButton onClick={signOut} >
+            <IconButton onClick={openModallogout} >
               <PowerSettingsNewIcon className={classes.button_LoginOut}>
               </PowerSettingsNewIcon>
             </IconButton>
@@ -379,33 +427,39 @@ function NavBar() {
           contentLabel="Example Modal"
         >
   
-          <form>
-            <p className="abouttitle">צור קשר</p>
-            <br></br>
+          <p className="abouttitle">צור קשר</p>
+          <p className="aboutExplanation">
+          אם מצאת טעות/תקלה, או שברצונך ליצור עמנו קשר, ניתן לפנות אלינו ישירות דרך כתובת המייל
+          </p>
+          <p className="aboutExplanation">
+          partnertau@gmail.com
+          </p>
+          <p className="aboutExplanation">
+          או שניתן למלא את הטופס הבא
+          </p>
+          <form onSubmit={sendEmail}>
             <div className="row" style={{width: '100%'}}>
-              <input className="ContactInput" type ="text" style={{width: '50%'}}></input>
+              <input className="ContactInput" type ="text" required="true" style={{width: '50%'}} name="from_name"></input>
               <p className="abouttext">שם מלא</p>
             </div>
             <div className="row" style={{width: '100%'}}>
-              <input className="ContactInput" type ="text" style={{width: '50%'}}></input>
+              <input className="ContactInput" type ="text" type="email" required="true" style={{width: '50%'}} name="from_mail"></input>
               <p className="abouttext">כתובת מייל</p>
             </div>
             <div className="row" style={{width: '100%'}} >
-              <input className="ContactInput" type ="text" style={{width: '50%'}}></input>
+              <input className="ContactInput" type ="text"  required="true" style={{width: '50%'}} name="subject"></input>
               <p className="abouttext">נושא</p>
             </div>
             <div className="row" style={{width: '100%'}}>
-              <textarea className="ContactInput" type ="text" style={{width: '50%', height:"40px"}}></textarea>
+              <textarea className="ContactInput" type ="text"  required="true" style={{width: '50%', height:"40px"}} name="message"></textarea>
               <p className="abouttext">גוף ההודעה</p>
             </div>
             <br></br>
-             
             <div className="row" style={{ justifyContent:"center"}}>
-              <button className="button button1" type="submit" onClick={closeModal1}>שלח</button>
+              <button className="button button1" type="submit">שלח</button>
               <button className="button button1" onClick={closeModal1}>סגור</button>
               <button className="button button1" type="reset">אפס</button>
-
-            </div>
+          </div>
           </form>
 
       </Modal>
@@ -454,6 +508,22 @@ function NavBar() {
 
         </div> 
         </Modal>
+        <Modal
+        isOpen={modallogout}
+        onRequestClose={closeModallogout}
+        style={ContactStyle}
+        contentLabel="Example Modal"
+        >
+          <div>?האם אתה בטוח שברצונך להתנתק</div>
+          <div style={{ marginBottom: "15px" }}></div>
+          <button className="button button1" onClick={() => closeModallogout()}>
+            ביטול
+          </button>
+          <button className="button button1" onClick={() => closeModalandlogout()}>
+            אישור
+          </button>
+        
+      </Modal>
     </div>
   );
 }
