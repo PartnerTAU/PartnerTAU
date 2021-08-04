@@ -9,11 +9,14 @@ users can create request of 3 types.
 ![image](https://user-images.githubusercontent.com/80216162/128200969-8ef535da-dac1-4cbd-89cc-520f9a7d8633.png)
 
 -	Personal requests list
+
 users can watch the status of their requests in the personal requests list, they can open the chat and cancel a request.
 ![image](https://user-images.githubusercontent.com/80216162/128200751-fa27cf80-121b-4693-96fe-0febafeb254b.png)
 
 -	Chat
+
 users can message each other via chat once a match is found.
+
 ![image](https://user-images.githubusercontent.com/80216162/128200847-50073f6b-17c6-48ef-8270-7a7464f14b5a.png)
 
 The PartnerTAU website requires users to be registered to create requests, we highly recommend that you create your own users. The website sends emails notifying of matches and chat messages, so to have a full experience we recommend you to be using your own users. 
