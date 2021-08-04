@@ -1,4 +1,5 @@
 //Engine of server
+
 const express = require("express");
 const bodyParser = require("body-parser");
 var cors = require("cors");
@@ -14,6 +15,9 @@ var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
+
+
+
 
 function authLogic(req, res, next) {
   try {
@@ -34,7 +38,7 @@ function authLogic(req, res, next) {
   }
 }
 
-//option 2 for async/await handling, add async to function and we using await
+
 app.post("/Home", async (req, res) => {
   if (req.body && req.body.username && req.body.password) {
     const user = await auth.signInWithEmailAndPassword(
@@ -43,22 +47,17 @@ app.post("/Home", async (req, res) => {
     )
 
     .then( user => {
-      // if(user){
         if (user.user && user.user.emailVerified) {
         //User exists and pasword is correrct
           const token = security.sign(user.user.uid);
-          // res.send({Token: token, Name: user.user.displayName});
           res.send({Token: token, Name: user.user.displayName});
-          // res.send(token);
         } 
         else if (user.user  && !user.user.emailVerified){
           res.send(user.user.emailVerified);
         }
         else {
-        // res.send(user.user.emailVerified);
          res.send(400);
         }
-      // }
     }
     )
     .catch( error => {
@@ -77,7 +76,6 @@ app.post("/Home", async (req, res) => {
   }
 });
 
-//option 2 for async/await handling, add async to function and we using await
 app.post("/Password", async (req, res) => {
   if (req.body && req.body.mail) {
     auth
@@ -97,7 +95,6 @@ app.post("/Password", async (req, res) => {
 
 
 
-//authLogic is middlware, we use authlogic for funtions that only auth users can use
 app.post("/maekAsResolved", authLogic, async (req, res) => {
   
     const reps = await courseRepository.MarkRequestAsResolved(req.body.id, req.decodedToken)
@@ -115,7 +112,6 @@ app.post("/maekAsResolved", authLogic, async (req, res) => {
 });
 
 app.post("/Signup", (req, res) => {
-  //option 1 for async/await handling
   if (req.body && req.body.username && req.body.password) {
     auth
       .createUserWithEmailAndPassword(req.body.username, req.body.password)
@@ -150,7 +146,6 @@ app.post("/Signup", (req, res) => {
 });
 
 
-//authLogic is middlware, we use authlogic for funtions that only auth users can use
 app.get("/getCourses", authLogic, async (req, res) => {
   var x = await courseRepository.GetCourseList(req.decodedToken);
   if (x) {
@@ -160,7 +155,6 @@ app.get("/getCourses", authLogic, async (req, res) => {
   }
 });
 
-//authLogic is middlware, we use authlogic for funtions that only auth users can use
 app.post("/CreateRequest", authLogic, async (req, res) => {
   var x = await courseRepository.CreateRequest(req.body, req.decodedToken);
   if (x) {
@@ -170,7 +164,6 @@ app.post("/CreateRequest", authLogic, async (req, res) => {
   }
 });
 
-//authLogic is middlware, we use authlogic for funtions that only auth users can use
 app.get("/GetActiveRequestedByUserId",authLogic, async (req, res) => {
   var x = await courseRepository.GetActiveRequestedByUserId(req.decodedToken.data);
   if (x) {
@@ -180,7 +173,6 @@ app.get("/GetActiveRequestedByUserId",authLogic, async (req, res) => {
   }
 });
 
-//option 2 for async/await handling, add async to function and we using await
 app.post("/PartnerRequest", authLogic, async (req, res) => {
   const response = await courseRepository.CreatePartnerRequest(req, req.decodedToken)
   if (response){
@@ -202,17 +194,33 @@ app.post("/CourseRequest", authLogic, async (req, res) => {
 });
 
 
-
-
-
-
 app.get("/GetCourseAutoComplete", async (req, res) => {
-  const response = await courseRepository.GetCourseListAutoComnplete(req.query.text)
-  if (response){
-    res.send(response);
+  if (req.query.semester == "A"){
+    const response = await courseRepository.GetCourseListAutoComnpleteTypeA(req.query.text)
+    if (response){
+      res.send(response);
+    }
+    else{
+      res.send(404);
+    }
   }
-  else{
-    res.send(404);
+  else if(req.query.semester == "B"){
+    const response = await courseRepository.GetCourseListAutoComnpleteTypeB(req.query.text)
+    if (response){
+      res.send(response);
+    }
+    else{
+      res.send(404);
+    }
+  }
+  else if(req.query.semester == "C"){
+    const response = await courseRepository.GetCourseListAutoComnpleteTypeC(req.query.text)
+    if (response){
+      res.send(response);
+    }
+    else{
+      res.send(404);
+    }
   }
 });
 
@@ -292,7 +300,6 @@ app.post("/CheckForNewMatchGroup", authLogic, async (req, res) => {
 
 
 
-//////////////////////////////////////////////Group Requests section////////////////////////////////////////////////////
 
 
 

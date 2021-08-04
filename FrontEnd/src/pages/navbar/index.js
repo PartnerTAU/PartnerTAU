@@ -1,6 +1,5 @@
 import logo from "../../images/logo.png";
 import { React, useEffect, useState } from "react";
-import emailjs from "emailjs-com";
 import Tooltip from '@material-ui/core/Tooltip';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 
@@ -9,33 +8,25 @@ import { Route, Redirect, useHistory } from "react-router-dom";
 import Login from "../loginpage";
 import { loginConfirmed } from "../../utils/subjects/loginSubject/loginSubject";
 import { useForm } from "react-hook-form";
-// import {SignOut } from "../../functions/users";
 
 import IconButton from '@material-ui/core/IconButton';
 import { grey } from '@material-ui/core/colors';
 
-import InfoIcon from '@material-ui/icons/Info';
-import { LocalDiningOutlined } from "@material-ui/icons";
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
 import ListIcon from '@material-ui/icons/List';
 import PersonOutlineOutlinedIcon from '@material-ui/icons/PersonOutlineOutlined';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import MailOutlineRoundedIcon from '@material-ui/icons/MailOutlineRounded';
-
-// import EmailOutlinedIcon from '@material-ui/icons/EmailOutlined';
-// import FacebookIcon from '@material-ui/icons/Facebook';
-// import WhatsAppIcon from "@material-ui/icons/WhatsApp";
-
 import Grid from '@material-ui/core/Grid';
-import swal from 'sweetalert';
-
-
-
 
 import Modal from "react-modal";
-import { merge } from "rxjs";
-import { CenterFocusStrong } from "@material-ui/icons";
+
+import emailjs from "emailjs-com";
+import swal from 'sweetalert';
+
+import ShowMore from 'react-show-more-button';
+
 
 const SignInStyle = {
   content: {
@@ -61,7 +52,7 @@ const AboutStyle = {
     transform: "translate(-50%, -50%)",
     backgroundColor: "#d3f1ef",
     width: "70%",
-    height: "70%"
+    height: "55%"
   },
 };
 
@@ -75,13 +66,25 @@ const ContactStyle = {
     position: "fixed",
     transform: "translate(-50%, -50%)",
     backgroundColor: "#d3f1ef",
-    width: "50%",
-    // height: "45%",
+    width: "auto%",
+  },
+};
+
+const LogOutStyle = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    position: "fixed",
+    transform: "translate(-50%, -50%)",
+    backgroundColor: "#d3f1ef",
+    width: "auto%",
   },
 };
 
 function NavBar() {
-  
   useEffect(() => {
     const subscriptionCC = loginConfirmed
       .onSubjectTrigged()
@@ -103,12 +106,11 @@ function NavBar() {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modal1IsOpen, setIsOpen1] = useState(false);
   const [modal2IsOpen, setIsOpen2] = useState(false);
-
+  const [modallogout, setModallogout] = useState(false);
   const [buttonString, setButtonString] = useState("");
   const [username, setUsername] = useState("");
 
   const { register, handleSubmit } = useForm();
-  const [modallogout, setModallogout] = useState(false);
 
 
   function openModal() {
@@ -135,12 +137,14 @@ function NavBar() {
     setIsOpen2(false);
   }
 
-  function openModallogout(){	
+  function openModallogout(){
     setModallogout(true);
   }
+
   function closeModallogout(){
     setModallogout(false);
   }
+
   function closeModalandlogout(){
     setModallogout(false);
     signOut();
@@ -157,11 +161,6 @@ function NavBar() {
     );
   }
 
-  // const onSubmit = async (data) => {
-  //   var reponse = await SignOut();
-  //   console.log(reponse);
-  //   signOut();
-  // };
 
   function signOut() {
     if (localStorage.getItem("user")) {
@@ -170,7 +169,6 @@ function NavBar() {
       localStorage.removeItem("token");
       setUsername("");
       Redirect("Home");
-      
     }
   }
   const LightTooltip = withStyles((theme) => ({
@@ -435,15 +433,16 @@ function NavBar() {
           style={ContactStyle}
           contentLabel="Example Modal"
         >
+  
           <p className="abouttitle">צור קשר</p>
-          <p className="aboutExplanation">
-          אם מצאת טעות/תקלה, או שברצונך ליצור עמנו קשר, ניתן לפנות אלינו ישירות דרך כתובת המייל
+          <p className="ContactExplanation">
+         אם מצאת טעות/תקלה, או שברצונך ליצור עמנו קשר, ניתן לפנות אלינו ישירות דרך כתובת המייל
           </p>
-          <p className="aboutExplanation">
+          <p className="ContactExplanation" style={{textAlign:"center"}}>
           partnertau@gmail.com
           </p>
-          <p className="aboutExplanation">
-          או שניתן למלא את הטופס הבא
+          <p className="ContactExplanation">
+          :או שניתן למלא את הטופס הבא
           </p>
           <form onSubmit={sendEmail}>
             <div className="row" style={{width: '100%'}}>
@@ -477,30 +476,13 @@ function NavBar() {
           style={AboutStyle}
           contentLabel="Example Modal"
         >
+
         <div>
             <p  className="abouttitle">
               <span> PartnerTau </span>
               <br></br>
               הוא כלי עזר להחלפת קורסים, קבוצות בקורסים, מציאת שותפים לתרגילי בית וגישה לקבוצות ווצאפ של הקורסים 
             </p>
-
-            <p className="abouttext" >?אז איך מוצאים התאמה</p>
-
-
-            <p className="abouttext" >
-              .א. יש לחפש את הקורס אליו אתם רשומים באמצעות שם או מספר הקורס
-              <br></br><br></br>
-              .אם יש כזו וכן אופציות להגיש בקשה למציאת שותפים, החלפת קבוצה והחלפת קורס whatsapp-ב. בעמוד הקורס תוכלו למצוא קישור לקבוצת ה
-              <br></br><br></br>
-              .ג. הגישו את הבקשה בה אתם מעוניינים (לאחר שהתחברתם למערכת)
-              <br></br><br></br>
-              .ד. כעת תורנו לעבוד על למצוא התאמה עבורכם
-              .ברגע שתמצא התאמה יישלח אליכם מייל המציין זאת ואופציית הצ׳אט תפתח
-              <br></br><br></br>
-              .ה. במידה וההתאמה מוצלחת תוכלו לסגור את הטיפול בבקשה
-            </p>
-
-            <p className="goodlack">!בהצלחה</p>
             <p className="abouttext">
               <span style={{fontWeight:"bold", color:"#1b3d3c" }}>
 
@@ -511,29 +493,48 @@ function NavBar() {
             <br></br>
             .כל פעולה אל מול האוניברסיטה מתבצעת בכלים שהיא מספקת ואין לה קשר לאתר זה
             </p>
-            
+
+            <ShowMore maxHeight={70} backgroundColor={"#d3f1ef"} classNameButton="buttonShowMore" name="ccc">
+              <p>
+              <p className="abouttext" >? איך מוצאים התאמה</p>
+              <p className="abouttextExplanation" >
+                .א. יש לחפש את הקורס אליו אתם רשומים באמצעות שם או מספר הקורס
+                <br></br><br></br>
+                .אם יש כזו וכן אופציות להגיש בקשה למציאת שותפים, החלפת קבוצה והחלפת קורס whatsapp-ב. בעמוד הקורס תוכלו למצוא קישור לקבוצת ה
+                <br></br><br></br>
+                .ג. הגישו את הבקשה בה אתם מעוניינים (לאחר שהתחברתם למערכת)
+                <br></br><br></br>
+                .ד. כעת תורנו לעבוד על למצוא התאמה עבורכם
+                .ברגע שתמצא התאמה יישלח אליכם מייל המציין זאת ואופציית הצ׳אט תפתח
+                <br></br><br></br>
+                .ה. במידה וההתאמה מוצלחת תוכלו לסגור את הטיפול בבקשה
+              </p>
+
+              <p className="goodlack">!בהצלחה</p>
+              </p>
+            </ShowMore>
+
             <button style={{display:"flex", justifyContent:"flex-start"}} className="button button1" onClick={closeModal2}>סגור</button>
 
         </div> 
         </Modal>
-
         <Modal
         isOpen={modallogout}
         onRequestClose={closeModallogout}
-        style={ContactStyle}
+        style={LogOutStyle}
         contentLabel="Example Modal"
-      >
-          <div>?האם אתה בטוח שברצונך להתנתק</div>
-          <div style={{ marginBottom: "15px" }}></div>
+        >
+          <p className="abouttext" style={{ marginBottom: "15px" }}>?האם אתה בטוח שברצונך להתנתק</p>
+          <p className="abouttext">
+          {/* <div style={{ marginBottom: "15px" }}></div> */}
           <button className="button button1" onClick={() => closeModallogout()}>
             ביטול
           </button>
           <button className="button button1" onClick={() => closeModalandlogout()}>
             אישור
           </button>
-        
+        </p>
       </Modal>
-
     </div>
   );
 }

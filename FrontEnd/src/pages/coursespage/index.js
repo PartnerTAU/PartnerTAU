@@ -28,14 +28,10 @@ const RequestAcceptedStyle = {
   content: {
     top: "50%",
     left: "50%",
-    // right: "auto",
-    // bottom: "auto",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
     backgroundColor: "#d3f1ef",
     width: "60%",
-    // height: "130px",
-    // margin: "30px auto",
   },
 };
 
@@ -44,20 +40,16 @@ const WhatsappStyle = {
     top: "50%",
     left: "50%",
     right: "auto",
-    // bottom: "auto",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
     backgroundColor: "#d3f1ef",
     width: "50%",
-    // height: "200px",
     margin: "40px auto",
   },
 };
 
 function Courses() {
   const [semester, SetSemester] = useState("");
-  //const [course, SetCourse] = useState("");
-
   const location = useLocation();
 
   const [coursename, SetNameCourse] = useState("");
@@ -120,26 +112,35 @@ function Courses() {
 
 
 
-
-
   async function getCoursesByTerm(text, type) {
-    if (type === "שם") {
-      SetNameCourseAutoComplete(text.target.value);
-      SetNumberCourseAutoComplete("")
-    } else {
-      SetNumberCourseAutoComplete(text.target.value);
-      SetNameCourseAutoComplete("")
+    if (text.target.value.length != 0){
+      if (type === "שם") {
+        SetNameCourseAutoComplete(text.target.value);
+        SetNumberCourseAutoComplete("")
+      }
+      else{
+        SetNumberCourseAutoComplete(text.target.value);
+        SetNameCourseAutoComplete("")
+      } 
+    }
+    else{
+      SetNumberCourseAutoComplete("");
+      SetNameCourseAutoComplete("");
+      setCoursesAutoComplete([]);
     }
     SetItemSelectedAuoComplete({})
 
     if (text.target.value.length > 2) {
-      var ret = await GetCourseAutoComplete(text.target.value);
+      var ret = await GetCourseAutoComplete(text.target.value,semester);
       setCoursesAutoComplete((prevArray) => []);
       if (ret && ret.length > 0) {
         ret.map((item, k) =>
           setCoursesAutoComplete((oldArray) => [...oldArray, item])
         );
       }
+    }
+    else{
+      setCoursesAutoComplete([]);
     }
   }
 
@@ -177,7 +178,6 @@ function Courses() {
 
   async function OnClickEditWhatsapp(id) {
     let body = {id:id, link:newWhatsappLink};
-    //lets oprate function from function page
     let response = await UpdateWhatsapp(body);
     if (response.errormsg) {
       swal({
@@ -200,7 +200,6 @@ function Courses() {
 
   async function OnClickAddWhatsapp() {
     let body = {coursenumber:coursenumber, semester:semester, link:newWhatsappLink};
-    //lets oprate function from function page
     let response = await InsertWhatsapp(body);
     if (response.errormsg) {
       swal({
@@ -233,7 +232,6 @@ function Courses() {
 
 
   async function OnClickPartner() {
-    //lets oprate function from function page
     let response = await CreatePartnerRequest(
       grpcount,
       reqgrpcount,
@@ -243,7 +241,6 @@ function Courses() {
       semester
     );
     if (response.errormsg) {
-      //alert(response.errormsg);
       swal({
         title: "שגיאה",
         text: "יש להתחבר למערכת טרם יצירת בקשה חדשה",
@@ -276,7 +273,6 @@ function Courses() {
   }
 
   async function OnClickCourse() {
-    //lets oprate function from function page
     let response = await CreateCourseRequest(
       coursenumber,
       coursename,
@@ -317,7 +313,17 @@ function Courses() {
   }
 
   async function OnClickGroup() {
-    //lets oprate function from function page
+    if (grp === reqgrp){
+        Setgroupresponse(
+        <div>
+        <div className="abouttext">טעות בהזנת הבקשה</div>
+        <br></br>
+        <div className="abouttext">לא ניתן לבצע החלפה עם אותה הקבוצה</div>
+        </div>
+        );
+        groupsetIsOpen(true);
+        return;
+    }
     let response = await CreateGroupRequest(
       grp,
       reqgrp,
@@ -338,8 +344,7 @@ function Courses() {
         },
       });
     } else {
-
-      if (response && response == true) {
+      if (response && response == true && grp != reqgrp) {
         Setgroupresponse(
           <div> 
             <div className="abouttitle"> בקשתך הוגשה בהצלחה </div>
@@ -349,25 +354,23 @@ function Courses() {
           </div>
 
         );
-      } else {
+      }
+      else if (response && response == true && grp == reqgrp){
+        Setgroupresponse(
+        <div>
+        <div className="abouttext">טעות בהזנת הבקשה</div>
+        <br></br>
+        <div className="abouttext">לא ניתן לבצע החלפה עם אותה הקבוצה</div>
+        </div>
+        );
+      }
+      else {
         Setgroupresponse(
           <div className="abouttext">טעות בהזנת הבקשה. אנא נסה שנית</div>
           );
       }
       groupsetIsOpen(true);
     }
-  }
-
-  function openpartnerModal() {
-    partnersetIsOpen(true);
-  }
-
-  function opencourseModal() {
-    coursesetIsOpen(true);
-  }
-
-  function opengroupModal() {
-    groupsetIsOpen(true);
   }
 
   async function openModal1() {
@@ -469,9 +472,6 @@ function Courses() {
         </div>
       </div>
       <div className="line" style={{ width: "90%" }}>
-        {/* <div>
-           <button onClick={() => {openModal1()}} className="whatsappbutton"><img className="whatsapp" alt="whatsapp" src={whatsapp}  /></button>
-         </div> */}
         <div>
           <IconButton
             onClick={() => {
@@ -491,7 +491,7 @@ function Courses() {
               <SyncOutlinedIcon className={classes.Other_Icon}>
               </SyncOutlinedIcon>
             </div>
-            <div className="websiteTitle">
+            <div className="RequestTitle">
             החלפת קורס
             </div>
           </div>
@@ -500,7 +500,6 @@ function Courses() {
             <input
              onChange={(e) => {getCoursesByTerm(e, "מספר");}} 
               className="inputclass"
-              // style = {{width: "50px"}}
               value={coursenumberautocomplete}
 
               type="text"
@@ -535,7 +534,6 @@ function Courses() {
           <div>או</div>
           <div>
             <input value={coursenameautocomplete} onChange={(e) => {getCoursesByTerm(e, "שם");}} className="inputclass" 
-            // style = {{width: "50px"}} 
             type="text"></input> שם קורס מבוקש
           </div>
           <div>
@@ -567,14 +565,13 @@ function Courses() {
             <GroupAddIcon className={classes.Other_Icon}>
             </GroupAddIcon>
             </div>
-            <div className="websiteTitle">
+            <div className="RequestTitle">
             מציאת שותפים
             </div>
           </div>
           <div>
             <input
               className="inputclass"
-              // style = {{width: "50px"}}
               value={reqgrpcount}
               type="text"
               onKeyPress={(event) => {
@@ -591,7 +588,6 @@ function Courses() {
           <div>
             <input
               className="inputclass"
-              // style = {{width: "50px"}}
               value={grpcount}
               type="text"
               onKeyPress={(event) => {
@@ -632,7 +628,7 @@ function Courses() {
             <ScheduleIcon className={classes.Other_Icon}>
             </ScheduleIcon>
             </div>
-            <div className="websiteTitle">
+            <div className="RequestTitle">
             החלפת קבוצה
             </div>
           </div>
@@ -667,7 +663,6 @@ function Courses() {
           <button onClick={() => OnClickGroup()} className="button button1">
             הגש בקשה
           </button>
-          {/* <div style={{fontSize: "14px"}}>כולל 0 בהתחלה (אם קיים) *</div> */}
         </div>
       </div>
       <Modal
@@ -740,7 +735,6 @@ function Courses() {
           </div>:<div>{!newWhatsappLinkMode ? <div className="abouttext">אנא הוסף קישור לקבוצה של הקורס</div>:""}{newWhatsappLinkMode ? <div><input type ="text" value = {newWhatsappLink} onChange ={(e) => {SetNewWhatsappLink(e.target.value);}}> 
             </input>  </div>:""}</div>}
          
-          {/* <div> onClick="https://chat.whatsapp.com/H5B0nQWQ3DE7FTeDRIPB2h"</div> */}
           <div className="row" style={{ marginTop: "15px" }}>   
             <button className="button button1" onClick={closeModal1}>
               סגור

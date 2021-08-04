@@ -16,18 +16,11 @@ const GetCourseList = async (userId) =>{
     catch(e){
         return null;
     }
-   
-
-
 }
 
 
 const CreatePartnerRequest = async (request, tokenDecoded) =>{
     try{
-        //An example how to call sql query
-        //you must create async finction and use await, otherwise,  you'll get null as an answer
-        /*var exec  = await mysqlConnection("insert into partner_request (user,courseid,semester,group,count,done) values (?,?,?,?,?,?)"
-        , [tokenDecoded.data, request.courseId, ,request.requestedCourseId,false]);*/
         var exec  = await mysqlConnection("insert into partnertau.partner_request (user,courseid,coursename,semester,grp,neededgroupsize,mygroupsize,done,status) values (?,?,?,?,?,?,?,?,?)"
         , [tokenDecoded.data, request.body.coursenumber, request.body.coursename, request.body.semester, request.body.grpnum, request.body.reqgrpcount - request.body.grpcount, request.body.grpcount, false,'בחיפוש התאמה']);
         let courses =  [];
@@ -63,10 +56,6 @@ const CreateCourseRequest = async (request, tokenDecoded) =>{
 
 const CreateGroupRequest = async (request, tokenDecoded) =>{
     try{
-        //An example how to call sql query
-        //you must create async finction and use await, otherwise,  you'll get null as an answer
-        /*var exec  = await mysqlConnection("insert into partner_request (user,courseid,semester,group,count,done) values (?,?,?,?,?,?)"
-        , [tokenDecoded.data, request.courseId, ,request.requestedCourseId,false]);*/
         var exec  = await mysqlConnection("insert into partnertau.group_request (user,courseid,coursename,semester,grp,req_grp,done,status) values (?,?,?,?,?,?,?,?)"
         , [tokenDecoded.data, request.body.coursenumber, request.body.coursename, request.body.semester, request.body.grp, request.body.reqgrp, false,'בחיפוש התאמה']);
         let courses =  [];
@@ -77,12 +66,9 @@ const CreateGroupRequest = async (request, tokenDecoded) =>{
             , [id, request.body.grp, request.body.reqgrp,tokenDecoded.data,false,request.body.coursename,request.body.semester]);
             let cont = true;
             if(exec && exec.length > 0)
-            {
-                
+            { 
                 if(cont)
                 {
-
-
                     try
                     {
 
@@ -101,10 +87,7 @@ const CreateGroupRequest = async (request, tokenDecoded) =>{
                                          UpterGroupReqStatus(a.id,'נמצאה התאמה', matchForId.insertId)
                                          UpterGroupReqStatus(id,'נמצאה התאמה', matchForId.insertId)
                                         email.SendMatchEmail(a.user,tokenDecoded.data)
-                                    }
-                                    
-                                    
-    
+                                    }                                   
                                 }
                             }
                         }
@@ -113,14 +96,11 @@ const CreateGroupRequest = async (request, tokenDecoded) =>{
                     catch(e)
                     {
 
-                    }
-                   
-                    
+                    }                                    
                 }
                
 
             }
-
             return true
         }
        
@@ -146,8 +126,7 @@ const parseSemester =(semester) =>{
 
 const CheckForPartnerMatch = async (id,tokenDecoded) => {
     if(id > 0)
-        {
-            
+        { 
             try
             {
 
@@ -178,25 +157,17 @@ const CheckForPartnerMatch = async (id,tokenDecoded) => {
                                             UpterPartnerReqStatus(id,'נמצאה התאמה', matchForId.insertId)
                                             email.SendMatchEmail(a.user,tokenDecoded.data)
                                         }
-                                        
-                                        
-        
-                                    }
-                                }
-                            
 
-                                
+                                    }
+                                }                               
                             }
-                            
-                            
+
                         }
                         catch (e)
                             {
                                 let o =e;
                             }
                     }
-                
-
                 }
             }
             catch(e)
@@ -213,7 +184,6 @@ const CheckForPartnerMatch = async (id,tokenDecoded) => {
 const CheckForCourseMatch = async (id,tokenDecoded) => {
     if(id > 0)
         {
-            
             try
             {
 
@@ -244,14 +214,8 @@ const CheckForCourseMatch = async (id,tokenDecoded) => {
                                             UpterCourseReqStatus(id,'נמצאה התאמה', matchForId.insertId)
                                             email.SendMatchEmail(a.user,tokenDecoded.data)
                                         }
-                                        
-                                        
-        
                                     }
                                 }
-                            
-
-                                
                             }
                             
                             
@@ -269,9 +233,6 @@ const CheckForCourseMatch = async (id,tokenDecoded) => {
             {
                 let o =e;
             }
-
-
-
     }
 }
 
@@ -321,8 +282,6 @@ const parseStatus =(done) =>{
 
 const MarkRequestAsResolved = async (request,tokenDecoded) =>{
     try{
-        //An example how to call sql query
-        //you must create async finction and use await, otherwise,  you'll get null as an answer
         var exec  = await mysqlConnection("update courserequest set resolved = ? where id = ? and userId = ?"
         , [true, request,tokenDecoded.data]);
         let courses =  [];
@@ -341,16 +300,11 @@ const MarkRequestAsResolved = async (request,tokenDecoded) =>{
     catch(e){
         return false;
     }
-   
-
-
 }
 
 
 const GetActiveRequestedByUserId = async (id) =>{
     try{
-        //An example how to call sql query
-        //you must create async finction and use await, otherwise,  you'll get null as an answer
         var exec  = await mysqlConnection("select * from  courserequest where userId = ? and resolved = ?"
         , [id,false]);
 
@@ -370,14 +324,8 @@ const GetActiveRequestedByUserId = async (id) =>{
                         requested : nameRequest && nameRequest.length > 0 ? nameRequest[0].courseName : a.requestedCourseId,
                         nameOffer : nameOffer && nameOffer.length > 0 ? nameOffer[0].courseName : a.offeredCourseId,
                     })
-
-
-
                 })
             }
-
-
-
         }
        
         return answer;
@@ -385,60 +333,87 @@ const GetActiveRequestedByUserId = async (id) =>{
     catch(e){
         return null;
     }
-   
-
-
 }
 
 
-const GetCourseListAutoComnplete = async (text) =>{
+const GetCourseListAutoComnpleteTypeA = async (text) =>{
     try{
-        //An example how to call sql query
-        //you must create async finction and use await, otherwise,  you'll get null as an answer
-        var exec  = await mysqlConnection("select * from  courses where name like ? group by name limit 0,5"
-        ,  ['%' + text + '%']);
-
-        let answer =[];
-       
-        if(exec.length == 0)
-        {
-            var exec  = await mysqlConnection("select * from  courses where number like ? group by number  limit 0,5"
-            ,  ['%' + text + '%']);
+        var exec  = await mysqlConnection("select * from  courses where semester = ? and name like ? group by name limit 0,5"
+        ,  ["A", '%' + text + '%']);
+        let answer =[];    
+        if(exec.length == 0){
+            var exec  = await mysqlConnection("select * from  courses where semester = ? and number like ? group by number  limit 0,5"
+            ,  ["A", '%' + text + '%']);
         }
-
-        if(exec.length > 0 )
-        {
-           
-                exec.forEach(a => {
-
-                   
+        if(exec.length > 0 ){       
+                exec.forEach(a => {                
                     answer.push({
                         id : a.id,
                         course : a.name,
                         number : a.number,
                     })
-
-
-
                 })
-
         }
-       
         return answer;
     }
     catch(e){
         return null;
     }
-   
+}
 
+const GetCourseListAutoComnpleteTypeB = async (text) =>{
+    try{
+        var exec  = await mysqlConnection("select * from  courses where semester = ? and name like ? group by name limit 0,5"
+        ,  ["B", '%' + text + '%']);
+        let answer =[];    
+        if(exec.length == 0){
+            var exec  = await mysqlConnection("select * from  courses where semester = ? and number like ? group by number  limit 0,5"
+            ,  ["B", '%' + text + '%']);
+        }
+        if(exec.length > 0 ){       
+                exec.forEach(a => {                
+                    answer.push({
+                        id : a.id,
+                        course : a.name,
+                        number : a.number,
+                    })
+                })
+        }
+        return answer;
+    }
+    catch(e){
+        return null;
+    }
+}
 
+const GetCourseListAutoComnpleteTypeC = async (text) =>{
+    try{
+        var exec  = await mysqlConnection("select * from  courses where semester = ? and name like ? group by name limit 0,5"
+        ,  ["C", '%' + text + '%']);
+        let answer =[];    
+        if(exec.length == 0){
+            var exec  = await mysqlConnection("select * from  courses where semester = ? and number like ? group by number  limit 0,5"
+            ,  ["C", '%' + text + '%']);
+        }
+        if(exec.length > 0 ){       
+                exec.forEach(a => {                
+                    answer.push({
+                        id : a.id,
+                        course : a.name,
+                        number : a.number,
+                    })
+                })
+        }
+        return answer;
+    }
+    catch(e){
+        return null;
+    }
 }
 
 
 const GetCourseGroupBySemeserAndGroup = async (body) =>{
     try{
-        //An example how to call sql query
-        //you must create async finction and use await, otherwise,  you'll get null as an answer
         var exec  = await mysqlConnection("select * from  courses where name = ? and semester = ?"
         ,  [body.name,body.semester]);
 
@@ -446,17 +421,11 @@ const GetCourseGroupBySemeserAndGroup = async (body) =>{
        
 
         if(exec.length > 0 )
-        {
-           
-                exec.forEach(a => {
-
-                   
+        {          
+                exec.forEach(a => {                   
                     answer.push({
                         group : a.group,
                     })
-
-
-
                 })
 
         }
@@ -473,8 +442,6 @@ const GetCourseGroupBySemeserAndGroup = async (body) =>{
 
 const RemoveRequestGroup = async (body) =>{
     try{
-        //An example how to call sql query
-        //you must create async finction and use await, otherwise,  you'll get null as an answer
         var exec  = await mysqlConnection("update partnertau.group_request set done = ? where id = ?"
         ,  [true,body.id]);
 
@@ -508,16 +475,10 @@ const RemoveRequestGroup = async (body) =>{
 
 const RemoveRequestPartner = async (body) =>{
     try{
-        //An example how to call sql query
-        //you must create async finction and use await, otherwise,  you'll get null as an answer
         var exec  = await mysqlConnection("update partnertau.partner_request set done = ? where id = ?"
         ,  [true,body.id]);
-
-       
-
         if(exec.affectedRows > 0 )
         {
-           
             exec  = await mysqlConnection("select * from partnertau.partner_request where id = ?"
             ,  [body.id]);
 
@@ -542,8 +503,6 @@ const RemoveRequestPartner = async (body) =>{
 
 const RemoveRequestCourse = async (body) =>{
     try{
-        //An example how to call sql query
-        //you must create async finction and use await, otherwise,  you'll get null as an answer
         var exec  = await mysqlConnection("update partnertau.course_request set done = ? where id = ?"
         ,  [true,body.id]);
 
@@ -588,7 +547,10 @@ const GetAllRequests = async (tokenDecoded) =>{
                     requestType: "מציאת שותפים",
                     type : 'partner',
                     status: a.status,
-                    matchId : a.matchId
+                    matchId : a.matchId,
+                    NeededSize: a.neededgroupsize,
+                    MySize: a.mygroupsize,
+                    grp: a.grp,
                 })
             })
         }
@@ -605,6 +567,8 @@ const GetAllRequests = async (tokenDecoded) =>{
                     type : 'group',
                     status: a.status,
                     matchId : a.matchId,
+                    grp: a.grp,
+                    reqgrp: a.req_grp,
                 })
             })
         }
@@ -621,6 +585,7 @@ const GetAllRequests = async (tokenDecoded) =>{
                     type : 'course',
                     status: a.status,
                     matchId : a.matchId,
+                    reqcourse: a.reqcoursenumber,
                 })
             })
         }
@@ -639,7 +604,9 @@ module.exports ={
     CreateGroupRequest : CreateGroupRequest,
     GetActiveRequestedByUserId : GetActiveRequestedByUserId,
     MarkRequestAsResolved : MarkRequestAsResolved,
-    GetCourseListAutoComnplete : GetCourseListAutoComnplete,
+    GetCourseListAutoComnpleteTypeA : GetCourseListAutoComnpleteTypeA,
+    GetCourseListAutoComnpleteTypeB : GetCourseListAutoComnpleteTypeB,
+    GetCourseListAutoComnpleteTypeC : GetCourseListAutoComnpleteTypeC,
     GetAllRequests: GetAllRequests,
     GetCourseGroupBySemeserAndGroup : GetCourseGroupBySemeserAndGroup,
     RemoveRequestGroup: RemoveRequestGroup,

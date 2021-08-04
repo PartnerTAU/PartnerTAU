@@ -3,37 +3,20 @@ import "../../App.css";
 import { Route, Redirect, useHistory, withRouter } from "react-router-dom";
 import { loginConfirmed } from "../../utils/subjects/loginSubject/loginSubject";
 import { useForm } from "react-hook-form";
-import { login, createUser } from "../../functions/users";
+import { login, createUser} from "../../functions/users";
 import swal from 'sweetalert';
-// import swal from '@sweetalert/with-react'
+
 
 
 function Login({props}) {
 
   var userName = "";
-
+  var i =0;
   const { register, handleSubmit } = useForm();
-  // const onSubmit = async (data) => {
-  //   var reponse = await checkemail(data);
-  //   if (!reponse){
-  //     var loginreponse = await login(data);
-  //     console.log(loginreponse);
-  //     Log();
-  //   }
-  //   else{
-  //     alert("מייל לא אושר");
-  //   }
-  //   console.log(reponse);
-    
-  // };
 
   const onSubmit = async (data) => {
     var reponse = await login(data);
-    // console.log(reponse);
-    // console.log(reponse.data);
-   // console.log(reponse.data.Name);
     if (reponse.data == "WrongPass"){
-      // swal("Wrong Password!", "Close");
       swal({
         title: "שגיאה",
         text: "סיסמא/ שם משתמש שגויים",
@@ -45,7 +28,6 @@ function Login({props}) {
           className: "button1"
         }
       })
-      // alert("Wrong Password!");
     }
     else if(reponse.data == "NoUser"){
       swal({
@@ -59,7 +41,6 @@ function Login({props}) {
           className: "button1"
         }
       })
-      // alert("User not Found!");
     }
     else{
       if (reponse.data != false){
@@ -80,31 +61,8 @@ function Login({props}) {
             className: "button1"
           }
         })
-        // alert("Please Verify Your Email!");
       }
     }
-    // if (reponse.data != "WrongPass"){
-    //   if (reponse.data != false){
-    //     Log();
-    //   }
-    //   else{
-    //     alert("Please Verify Your Email!");
-    //   }
-    // }
-    // else{
-    //   alert("Wrong Password!");
-    // }
-    // if (reponse.data != false){
-    //   if (reponse.data != "WrongPass"){
-    //     Log();
-    //   }
-    //   else{
-    //     alert("Wrong Password!");
-    //   }
-    // }
-    // else{
-    //   alert("Please Verify Your Email!");
-    // }
   };
 
   const [usernameInput,setUsernameInput] = useState("");
@@ -138,6 +96,7 @@ function Login({props}) {
 
   }
 
+
   return (
     <div className="Home" >
         <p className="websiteTitle">PartnerTAU ברוכים הבאים לאתר</p>
@@ -151,13 +110,13 @@ function Login({props}) {
           <div>סיסמה</div>
         </div>
         <br></br>
-        {/* <button type="submit" className="button button1" onClick={Log}>submit</button> */}
         <div className="row">
           <button type="submit" className="button button1">התחבר</button>
           <button className="button button1" onClick={()=>{Redirect('Password')}} style={{marginLeft:'10px'}}>שכחתי סיסמה</button>
           <button className="button button1" onClick={()=>{Redirect('Signup')}} style={{marginLeft:'10px'}}>הירשם</button>
         </div>
         </form>
+
         
       </div>
   );

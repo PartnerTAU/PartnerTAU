@@ -1,6 +1,5 @@
 import axios from "axios";
 
-//axios.defaults.headers.common["Authorization"] = "Bearer " + (localStorage.getItem("token") ? localStorage.getItem("token") : "");
 let path = 'https://partnertaubackend.herokuapp.com/'
 // let path = 'http://localhost:3001/'
         
@@ -23,7 +22,6 @@ export const CreateGroupRequest = async (
     if(grp=="" || reqgrp==""){
       return 0;
     }
-    //axios.defaults.headers.common["Authorization"] = "Bearer " + (localStorage.getItem("token") ? localStorage.getItem("token") : "");
     return axios
       .post(path+"GroupRequest", data)
       .then(function (response) {
@@ -37,12 +35,12 @@ export const CreateGroupRequest = async (
   }
 };
 
-export const GetCourseAutoComplete = async (text) => {
-    //axios.defaults.headers.common["Authorization"] = "Bearer " + (localStorage.getItem("token") ? localStorage.getItem("token") : "");
+export const GetCourseAutoComplete = async (text,semester) => {
     return axios
       .get(path+"GetCourseAutoComplete", {
         params: {
           text: text,
+          semester: semester, 
         },
       })
       .then(function (response) {
@@ -69,7 +67,6 @@ export const GetAllRequests = async () => {
   }
 };
 
-///////////////////////////////////////Group Section////////////////////////
 export const GetCourseGroupByNameAndSemester = async (req) => {
     return axios
       .post(path+"GetCourseGroupByNameAndSemester", req)
@@ -145,7 +142,6 @@ export const CheckForNewMatchGroup = async (req) => {
   }
 };
 
-///////////////////////////////////////Group Section////////////////////////
 
 export const CreatePartnerRequest = async (
   grpcount,
@@ -167,7 +163,6 @@ export const CreatePartnerRequest = async (
     if(grpcount=="" || reqgrpcount==""){
       return 0;
     }
-    //axios.defaults.headers.common["Authorization"] = "Bearer " + (localStorage.getItem("token") ? localStorage.getItem("token") : "");
     return axios
       .post(path+"PartnerRequest", data)
       .then(function (response) {
@@ -245,7 +240,6 @@ export const InsertChatOnMatchPartner = async (req) => {
   }
 };
 
-//////////////////////////////////////////////////////////////
 
 export const CreateCourseRequest = async (
   coursenumber,
@@ -265,7 +259,6 @@ export const CreateCourseRequest = async (
     if(coursenameautocomplete=="" && coursenumberautocomplete==""){
       return 0;
     }
-    //axios.defaults.headers.common["Authorization"] = "Bearer " + (localStorage.getItem("token") ? localStorage.getItem("token") : "");
     return axios
       .post(path+"CourseRequest", data)
       .then(function (response) {

@@ -6,7 +6,6 @@ import MailOutlineRoundedIcon from '@material-ui/icons/MailOutlineRounded';
 import IconButton from '@material-ui/core/IconButton';
 import { grey } from '@material-ui/core/colors';
 import ChatIcon from '@material-ui/icons/Chat';
-
 import "../../App.css";
 import { Route, Redirect, useHistory } from "react-router-dom";
 import {
@@ -30,6 +29,21 @@ import Moment from "moment";
 
 import swal from "sweetalert";
 
+const DeleteStyle = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    position: "fixed",
+    transform: "translate(-50%, -50%)",
+    backgroundColor: "#d3f1ef",
+    width: "auto%",
+  },
+};
+
+
 function List() {
   const RequestAcceptedStyle = {
     content: {
@@ -39,7 +53,6 @@ function List() {
       bottom: "auto",
       marginRight: "-50%",
       transform: "translate(-50%, -50%)",
-      // backgroundColor: "#f5fdfd",
       backgroundColor: "#f7fcfc",
       minWidth: "30%",
       height: "350px",
@@ -54,11 +67,9 @@ function List() {
       bottom: "auto",
       marginRight: "-50%",
       transform: "translate(-30%, -30%)",
-      //backgroundColor: "#f5fdfd",
       backgroundColor: "#f7fcfc",
       minWidth: "30%",
       height: "200px",
-      // margin: "30px auto",
     },
   };
 
@@ -114,8 +125,6 @@ function List() {
 	  Redirect("Home");
     } else {
       x.map((item, k) => setRequest((oldArray) => [...oldArray, item]));
-
-      //x.map( a =>  setRequest((oldArray) => [...oldArray, a]));
     }
   }, []);
 
@@ -185,59 +194,40 @@ function List() {
   }
 
   async function FindNewMatch(id,type){
-
     let req = {
       id : id
     }
-    if(type === 'group')
-    {
-      
+    if(type === 'group'){
         let rem = await CheckForNewMatchGroup(req)
-       
-
     }
-    else if(type === 'partner')
-    {
-      
+    else if(type === 'partner'){  
         let rem = await CheckForNewMatchPartner(req)
-       
-
     }
-    else if(type === 'course')
-    {
-      
+    else if(type === 'course'){   
         let rem = await CheckForNewMatchCourse(req)
-       
-
     }
-
-
     let x = await GetAllRequests();
     setRequest((prevArray) => []);
     x.map((item, k) => setRequest((oldArray) => [...oldArray, item]));
-
   }
 
   async function GetChats(matchId,type,coursename) {
     setChats((prevArray) => []);
     setCourseName(coursename)
     if (matchId && matchId > 0) {
-      if(type === 'group')
-      {
+      if(type === 'group'){
         setTypeOfRequest('group')
         setMatchId(matchId)
         let x = await GetMatchChatGroup(matchId);
         x.map((item, k) => setChats((oldArray) => [...oldArray, item]));
       }
-      else if(type === 'partner')
-      {
+      else if(type === 'partner'){
         setTypeOfRequest('partner')
         setMatchId(matchId)
         let x = await GetMatchChatPartner(matchId);
         x.map((item, k) => setChats((oldArray) => [...oldArray, item]));
       }
-      else if(type === 'course')
-      {
+      else if(type === 'course'){
         setTypeOfRequest('course')
         setMatchId(matchId)
         let x = await GetMatchChatCourse(matchId);
@@ -248,10 +238,8 @@ function List() {
   }
 
   async function AddMessage() {
-
     if(chatText.length > 0)
     {
-
       let req = {
         matchId : matchIdBySet,
         message : chatText,
@@ -336,6 +324,7 @@ function List() {
             <th>סטטוס</th>
             <th>סוג בקשה</th>
             <th>סמסטר</th>
+            <th>מספר קבוצה</th>
             <th>שם קורס</th>
             <th>מספר קורס</th>
           </tr>
@@ -348,7 +337,6 @@ function List() {
                 {cancelRequest ? RemoveRequest(itemid, itemtype):""}
                 {item.status === 'ממתין לפעולתך' ? <button onClick={() => FindNewMatch(item.id,item.type)} className="buttonclose button1">התאמה חדשה</button> : ""}
               </td>
-              {/* <td onClick={() => GetChats(item.matchId,item.type,item.courseName)}>צ'אט</td> */}
               <td>
                 {item.matchId && item.matchId != "" ? (
                 <LightTooltip title="פתח צאט" placement="bottom">
@@ -357,14 +345,6 @@ function List() {
                   </ChatIcon>
                 </IconButton>
                 </LightTooltip>
-                // <IconButton onClick={signOut}>
-                //   <PowerSettingsNewIcon
-                //     style={{color: grey[50], fontSize: 45, marginRight: 5, marginLeft:5}}>
-                //   </PowerSettingsNewIcon>
-                // </IconButton>
-                  // <button onClick={signOut} className="button button1">
-                  //   התנתק
-                  // </button>
                 ) : (
                   <IconButton disabled>
                     <ChatIcon className={classes.Chat_Disable}>
@@ -373,8 +353,16 @@ function List() {
                 )}
               </td>
               <td>{item.status}</td>
-              <td>{item.requestType}</td>
+              <td>
+              {item.requestType == 'החלפת קבוצה' ? <div> <div style={{fontWeight:"bold"}}> החלפת קבוצה</div>
+                לקבוצה {item.reqgrp} </div>: ""}
+              {item.requestType == 'החלפת קורס' ? <div> <div style={{fontWeight:"bold"}}> החלפת קורס</div>
+                לקורס {item.reqcourse} </div>: ""}
+              {item.requestType == 'מציאת שותפים' ? <div> <div> מציאת {item.NeededSize}  שותפים </div>
+                </div>: ""}
+              </td>
               <td>{item.semester}</td>
+              <td>{item.grp && item.grp ? item.grp: "-"}</td>
               <td>{item.courseName}</td>
               <td>{item.courseNum}</td>
             </tr>
@@ -403,7 +391,6 @@ function List() {
                     <div className="catedate">
                       {Moment(item.creationDate).format("d MMM HH:mm:ss")}
                     </div>
-                    {/* <div style={{ fontSize: "10px", color: "gray" }}>אני</div> */}
                   </div>
                 ) : (
                   <div style={{ textAlign: "left"}}>
@@ -416,9 +403,6 @@ function List() {
               </div>
             ))}
         </div>
-
-
-
 
           <div
             style={{
@@ -450,19 +434,18 @@ function List() {
       <Modal
         isOpen={modalDelete}
         onRequestClose={closeModalDelete}
-        style={RequestAcceptedStyle}
+        style={DeleteStyle}
         contentLabel="Example Modal"
       >
-        <div className="ModalReq">
-          <div>?האם אתה בטוח שברצונך להסיר את הבקשה</div>
-          <div style={{ marginBottom: "15px" }}></div>
+          <p className="abouttext" style={{ marginBottom: "15px" }}>?האם אתה בטוח שברצונך להסיר את הבקשה</p>
+          <p className="abouttext">
           <button className="button button1" onClick={() => closeModalDelete()}>
             ביטול
           </button>
           <button className="button button1" onClick={() => closeModalDeleteCancel()}>
             אישור
           </button>
-        </div>
+          </p>
       </Modal>
     </div>
   );

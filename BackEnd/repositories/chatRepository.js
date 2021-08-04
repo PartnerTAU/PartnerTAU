@@ -36,9 +36,7 @@ const InsertMatchChatGroup = async (body,decodedToken) =>{
         {
             let matchQuery = await matchRepository.GetMatchOnAirGroup(body.matchId)
             if(matchQuery && matchQuery.length > 0)
-            {
-
-                
+            {    
                 if(matchQuery[0].requsetOneUserId == decodedToken.data)
                 {
                     email.SendChatEmail(matchQuery[0].requsetTwoUserId,'group',body.coursename)
@@ -70,9 +68,7 @@ const InsertMatchChatPartner = async (body,decodedToken) =>{
         {
             let matchQuery = await matchRepository.GetMatchOnAirPartner(body.matchId)
             if(matchQuery && matchQuery.length > 0)
-            {
-
-                
+            {      
                 if(matchQuery[0].requsetOneUserId == decodedToken.data)
                 {
                     email.SendChatEmail(matchQuery[0].requsetTwoUserId,'partner',body.coursename)
@@ -90,9 +86,6 @@ const InsertMatchChatPartner = async (body,decodedToken) =>{
     catch(e){
         return false;
     }
-   
-
-
 }
 
 const InsertMatchChatCourse = async (body,decodedToken) =>{
@@ -103,9 +96,7 @@ const InsertMatchChatCourse = async (body,decodedToken) =>{
         {
             let matchQuery = await matchRepository.GetMatchOnAirCourse(body.matchId)
             if(matchQuery && matchQuery.length > 0)
-            {
-
-                
+            {      
                 if(matchQuery[0].requsetOneUserId == decodedToken.data)
                 {
                     email.SendChatEmail(matchQuery[0].requsetTwoUserId,'course',body.coursename)
@@ -123,9 +114,6 @@ const InsertMatchChatCourse = async (body,decodedToken) =>{
     catch(e){
         return false;
     }
-   
-
-
 }
 
 
@@ -150,9 +138,6 @@ const GetMatchChatPartner = async (id,decodedToken) =>{
     catch(e){
         return [];
     }
-   
-
-
 }
 
 const GetMatchChatCourse = async (id,decodedToken) =>{
@@ -176,9 +161,6 @@ const GetMatchChatCourse = async (id,decodedToken) =>{
     catch(e){
         return [];
     }
-   
-
-
 }
 
 

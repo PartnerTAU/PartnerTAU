@@ -7,13 +7,6 @@ import { ResetPass } from "../../functions/users";
 import swal from 'sweetalert';
 
 
-import FormControl from '@material-ui/core/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import Input from '@material-ui/core/Input';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
-
 /* Forgot password modal style*/
 const customStyles = {
     content : {
@@ -73,7 +66,6 @@ function Password() {
           className: "button1"
         }
     })
-      //alert("Email not found!");
     }
   };
 
@@ -82,7 +74,7 @@ function Password() {
         <p className="websiteTitle">איפוס סיסמה </p>
         <div className="col" > 
         <form onSubmit={handleSubmit(onSubmit)} >
-          <div><input className="inputclass" {...register("mail")} type ="email" required="true" style={{width: '160px'}}></input>מייל</div>
+          <div><input className="inputclass" {...register("mail")} type ="email" required="true" style={{width: '200px'}}></input>מייל</div>
           <div style={{display:'flex', justifyContent:'center', marginTop:'30px'}}>
           <button type='submit' className="button button1">אפס סיסמא</button>
           </div>

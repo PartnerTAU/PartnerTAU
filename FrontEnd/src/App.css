@@ -124,11 +124,11 @@ bottom: 40px;
 
 .button {
   border: none;
-  color: white;
-  padding: 14px 32px;
+  color: white ;
+  padding: 14px 32px ;
   text-align: center;
   text-decoration: none;
-  display: inline-block;
+  display: inline-block ;
   font-size: 20px;
   margin: 2px 2px;
   transition-duration: 0.4s;
@@ -137,11 +137,25 @@ bottom: 40px;
 }
 
 .button1 {
-  background-color: #30918c; 
+  background-color: #30918c ;
   color: rgb(252, 247, 247); 
-  border: 2px solid #1b3d3c;
-  border-radius: 8px;
-  
+  border: 2px solid #1b3d3c ;
+  border-radius: 8px ;
+}
+
+.buttonShowMore {
+  padding: 7px !important;
+  width: 75px  !important;
+  text-align: center !important;
+  display: inline-block !important;
+  font-size: 10px !important;
+  /* margin: 1px 1px !important; */
+  transition-duration: 0.4s !important;
+  cursor: pointer !important;
+  background-color: #d3f1ef !important;
+  color: #1b3d3c !important; 
+  border: 2px solid #1b3d3c !important;
+  border-radius: 8px !important;
 }
 
 .buttonclose {
@@ -321,10 +335,17 @@ img {
   flex-direction: column;
 
 }
-.websiteTitle{
-  font-size: 45px; 
+
+.RequestTitle{
+  font-size: 40px; 
   font-weight: bold;
 }
+
+.websiteTitle{
+  font-size: 60px; 
+  font-weight: bold;
+}
+
 .Top{
   background-color: #3c6e6c;
   color:#ddd;
@@ -389,6 +410,14 @@ input[type=text] {
   margin-right: 5px;
 }
 
+input[type=text1] {
+  border-bottom:2px solid #1b3d3c;
+  width: 300px;
+  font-size: 16px;
+  margin-left: 30px;
+  margin-right: 5px;
+}
+
 input[type=text]:focus {
   border: 0px solid #555;
   height: 23px;
@@ -397,9 +426,11 @@ input[type=text]:focus {
 
 
 .custom-select {
-  position: relative;
+  /* position: relative; */
   font-family: Calibri;
-  font-size: 22px;
+  font-size: 24px;
+  text-align-last:center;
+  direction: rtl;
 }
 
 .box-select {
@@ -411,24 +442,6 @@ input[type=text]:focus {
 }
 
 
-/* input[type=text] {
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid #2d504e;
-  width: 100px;
-  margin-left: 30px;
-  margin-right: 5px;
-}
-
-input[type=password] {
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid #2d504e;
-  width: 100px;
-  margin-left: 30px;
-  margin-right: 5px;
-} */
-
 .ContactInput{
   border: none;
   border-bottom: 1px solid #2d504e;
@@ -436,39 +449,6 @@ input[type=password] {
   margin-left: 30px;
   margin-right: 5px;
 }
-
-/* input[type=text2] {
-  border: none;
-  border-bottom: 1px solid #2d504e;
-  width: 130px;
-  margin-left: 30px;
-  margin-right: 5px;
-}
-
-textarea[type=text2] {
-  border: none;
-  border-bottom: 1px solid #2d504e;
-  width: 130px;
-  margin-left: 30px;
-  margin-right: 5px;
-} */
-
-
-
-/* .CourseNumber{
-  display:flex;
-  justify-content: center;
-  align-items: center;
-  padding-left: 5px;
-}
-
-.CourseName{
-  display:flex;
-  justify-content: center;
-  align-items: center;
-  padding-left: 5px;
-} */
-
 
 
 .box{
@@ -528,6 +508,7 @@ td {
   height: 20px;  
 }
 
+
 .iconlogout{
   font-size: 10px;
   width: 10px !important;
@@ -548,8 +529,13 @@ td {
   font-size: 20px;
 }
 
+.abouttextExplanation{
+  text-align: right;
+  font-size: 20px;
+}
 
-.aboutExplanation{
+
+.ContactExplanation{
   text-align: end;
   font-size: 20px;
 }
@@ -559,29 +545,73 @@ td {
   font-size: 25px;
 }
 
-/* .tablebutton {
-  color: #60d4d2;
-  font-size: 20px;
-} */
+
 input::placeholder {
   color: grey;
   font-size: 15px;
 } 
-@media only screen and (max-width: 1380px) {
-  input[type=text] {
-    width: 100px;
-    font-size: 16px;
+
+@media only screen and (max-width: 1510px) {
+  .box3{
+    width:62%;
+  }
+  .box3:hover{
+    width:64%;
+  }
+  .box2{
+    width:60%;
+  }
+  .box2:hover{
+    width:60%;
   }
 }
 
+@media only screen and (max-width: 1360px) {
+  .box3{
+    font-size: 20px;
+  }
+  .box3:hover{
+    font-size: 20px;
+  }
+  .box2{
+    font-size: 20px;
+  }
+  .box2:hover{
+    font-size: 20px;
+  }
+  .RequestTitle{
+    font-size: 38px; 
+  }
+}
+
+
 @media only screen and (max-width: 1300px) {
   .websiteTitle{
-    font-size: 38px;
+    font-size: 50px;
   }
   .Home{
     font-size: 28px;
   }
 }
+
+@media only screen and (max-width: 1270px) {
+  .line{
+    flex-direction: column;
+  }
+  .box3{
+    font-size: 22px;
+  }
+  .box3:hover{
+    font-size: 22px;
+  }
+  .box2{
+    font-size: 22px;
+  }
+  .box2:hover{
+    font-size: 22px;
+  }
+}
+
 
 @media only screen and (max-width: 1160px) {
   .autoCompleteUl1 li {
@@ -596,7 +626,6 @@ input::placeholder {
   }
   .box2{
     width:60%;
-    /* font-size: 23px; */
   }
   .box2:hover{
     width:62%;
@@ -616,11 +645,13 @@ input::placeholder {
     font-size: 18px;
     height: 18px;
   }
-  input[type=text] {
-    width: 150px;
+
+  input[type=text1] {
+    width: 270px;
   }
   
 }
+
 
 
 
@@ -640,11 +671,9 @@ input::placeholder {
 }
 
 @media only screen and (max-width: 740px) {
-  /* .Top{
-    flex-direction: column;
-  } */
+
   .websiteTitle{
-    font-size: 35px;
+    font-size: 45px;
   }
   .Home{
     font-size: 20px;
@@ -661,6 +690,7 @@ input::placeholder {
     width: 100px;
     font-size: 16px;
   }
+  
   .abouttitle{
     font-size: 23px;
   }
@@ -669,7 +699,11 @@ input::placeholder {
      font-size: 18px;
   }
 
-  .aboutExplanation{
+  .abouttextExplanation{
+    font-size: 18px;
+  }
+
+  .ContactExplanation{
     font-size: 18px;
  }
   
@@ -740,6 +774,10 @@ input::placeholder {
     width: 85px;
     font-size: 12px;
   }
+  input[type=text1] {
+    width: 200px;
+    font-size: 12px;
+  }
 }
 @media only screen and (max-width: 560px) {
   .box2{
@@ -758,6 +796,9 @@ input::placeholder {
     width:84%;
     font-size: 20px;
   }
+  .RequestTitle{
+    font-size: 34px; 
+  }
   .websiteTitle{
     font-size: 30px;
   }
@@ -772,10 +813,7 @@ input::placeholder {
   .custom-select {
     font-size: 13px;
   }
-  /* input[type=text] {
-    width: 50px;
-    font-size: 12px;
-  } */
+
   .abouttitle{
     font-size: 18px;
   }
@@ -783,8 +821,11 @@ input::placeholder {
   .abouttext{
      font-size: 15px;
   }
+  .abouttextExplanation{
+    font-size: 15px;
+  }
 
-  .aboutExplanation{
+  .ContactExplanation{
     font-size: 15px;
  }
   
@@ -849,6 +890,11 @@ input::placeholder {
     /* height: 400px; */
     font-size: 16px;
   }
+
+  .RequestTitle{
+    font-size: 31px; 
+  }
+
   .websiteTitle{
     font-size: 22px;
   }
@@ -862,8 +908,11 @@ input::placeholder {
   .abouttext{
      font-size: 12px;
   }
+  .abouttextExplanation{
+    font-size: 12px;
+  }
 
-  .aboutExplanation{
+  .ContactExplanation{
     font-size: 12px;
  }
   
@@ -921,6 +970,10 @@ input::placeholder {
   } 
   input[type=text] {
     width: 60px;
+    font-size: 10px;
+  }
+  input[type=text1] {
+    width: 160px;
     font-size: 10px;
   }
 }

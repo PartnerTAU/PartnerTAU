@@ -4,20 +4,13 @@ axios.defaults.headers.common['Authorization'] = "Bearer " + (localStorage.getIt
 
 
 export const  getOpenRequests = () =>{
-
     return axios.get('http://localhost:3001/GetActiveRequestedByUserId')
     .then(function (response) {
-  
-      return response.data
-      
-    
+      return response.data  
     })
-    .catch(function (error) {
-       
+    .catch(function (error) { 
         return error
-    })
-    
-
+    })   
 }
 
 
